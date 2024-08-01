@@ -1,0 +1,8 @@
+@startuml
+
+class Parser{
+    List<Token>
+
+}
+
+@enduml
