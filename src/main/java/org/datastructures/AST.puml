@@ -1,0 +1,18 @@
+@startuml
+
+class AST {
+    String name
+    List<Declaration> children
+    Location location
+}
+
+class Declaration {
+}
+
+class Location {
+    int startLine
+    int startColumn
+    int endLine
+    int endColumn
+}
+@enduml
