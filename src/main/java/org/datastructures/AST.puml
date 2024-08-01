@@ -15,4 +15,5 @@ class Location {
     int endLine
     int endColumn
 }
+
 @enduml
