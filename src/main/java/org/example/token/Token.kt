@@ -1,6 +1,7 @@
-package org.example
+package org.example.token
 
 import org.example.tokenTypes.TokenType
+import org.example.utils.Location
 
 interface Token {
     val type: TokenType

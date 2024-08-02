@@ -1,7 +1,6 @@
-package org.example;
+package org.example
 
-public class Main {
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
-    }
+fun main() {
+    val str : String = "Hello, World!"
+
 }
