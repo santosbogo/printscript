@@ -7,6 +7,7 @@ import java.util.Dictionary
 
 class Lexer {
     // A SEGUIR ...
+
     /*
     val dictionary : Dictionary<String, TokenType> = Dictionary<String, TokenType>()
     val tokens = mutableListOf<Token>()
