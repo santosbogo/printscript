@@ -1,8 +1,10 @@
 package org
 
-interface Location {
-    val startLine: Int
-    val startColumn: Int
-    val endLine: Int
-    val endColumn: Int
+class Location(
+    val line: Int,
+    val column: Int
+) {
+    override fun toString(): String {
+        return "Location(line= $line, column= $column)"
+    }
 }

@@ -9,5 +9,4 @@ class VariableDeclarator(
     private val location: Location,
     private val id: Identifier,
     private val init: Expression
-) {
-}
+)

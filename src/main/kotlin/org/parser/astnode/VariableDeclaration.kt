@@ -7,6 +7,4 @@ class VariableDeclaration(
     private val location: Location,
     private val kind: String,
     private val declarators: ArrayList<VariableDeclarator>
-) : ASTNode {
-
-}
+) : ASTNode
