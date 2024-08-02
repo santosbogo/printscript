@@ -1,4 +1,4 @@
-package org.example
+package org
 
 interface Location {
     val startLine: Int

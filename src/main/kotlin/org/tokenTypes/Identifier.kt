@@ -1,4 +1,4 @@
-package org.example.tokenTypes
+package org.tokenTypes
 
 class Identifier : TokenType {
     override val name = "Identifier"
