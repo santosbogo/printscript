@@ -1,20 +1,8 @@
 package org.lexer
 
 import org.Location
-import org.tokens.Token
 
-class Lexer {
-    private val tokenMap = listOf(
-        "let" to "DeclarationToken",
-        "=" to "AssignationToken",
-        ";" to "SemicolonToken",
-        ":" to "ColonToken",
-        "number" to "NumberTypeToken",
-        "string" to "StringTypeToken",
-        "[0-9]+" to "NumberToken",
-        "\".*\"" to "StringToken",
-        "[a-zA-Z][a-zA-Z0-9]*" to "IdentifierToken"
-    )
+class Lexer(private val lexicon: Lexicon) {
 
     fun tokenize(input: String): List<Token> {
         val tokens = ArrayList<Token>()
@@ -36,7 +24,7 @@ class Lexer {
 
                 val subComponents = splitComponent(component)
                 for (subComponent in subComponents) {
-                    tokens.add(getToken(subComponent, line, column))
+                    tokens.add(lexicon.getToken(subComponent, Location(line, column)))
                     column += subComponent.length
                 }
                 column++
@@ -54,17 +42,5 @@ class Lexer {
     private fun splitComponent(component: String): List<String> {
         val regex = Regex("([a-zA-Z][a-zA-Z0-9]*|:|[0-9]+|\".*\"|\\S)")
         return regex.findAll(component).map { it.value }.toList()
-    }
-
-    private fun getToken(component: String, line: Int, column: Int): Token {
-        val tokenType = tokenMap.firstOrNull { (pattern, _) ->
-            Regex(pattern).matches(component)
-        }?.second ?: "UnknownToken"
-
-        return Token(
-            type = tokenType,
-            value = component,
-            location = Location(line, column)
-        )
     }
 }

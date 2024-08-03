@@ -1,4 +1,4 @@
-package org.tokens
+package org.lexer
 
 import org.Location
 

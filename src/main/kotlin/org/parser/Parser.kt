@@ -1,6 +1,6 @@
 package org.parser
 
-import org.tokens.Token
+import org.lexer.Token
 import org.parser.astnode.ASTNode
 
 class Parser {
