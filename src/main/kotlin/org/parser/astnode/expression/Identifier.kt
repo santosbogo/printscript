@@ -1,6 +1,6 @@
 package org.parser.astnode.expression
 
-import org.Location
+import org.utils.Location
 
 class Identifier(
     override val type: String,

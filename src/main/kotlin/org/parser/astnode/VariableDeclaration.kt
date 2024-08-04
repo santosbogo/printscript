@@ -1,6 +1,6 @@
 package org.parser.astnode
 
-import org.Location
+import org.utils.Location
 
 class VariableDeclaration(
     private val type: String,

@@ -1,7 +1,8 @@
 package org.parser
 
-import org.Token
+import org.token.Token
 import org.parser.astnode.ASTNode
+import org.tokenTypes.SemicolonType
 
 class AST(private val tokens: List<Token>) {
     private val statements = ArrayList<ASTNode>();
@@ -10,7 +11,7 @@ class AST(private val tokens: List<Token>) {
     fun parse(): ArrayList<ASTNode> {
         for (token in tokens) {
             buffer.add(token);
-            if (token.type == "SEMICOLON") {
+            if (token.type == SemicolonType()) {
                 statements.add(getNodes(buffer));
                 buffer.clear();
             }

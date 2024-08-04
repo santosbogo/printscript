@@ -1,6 +1,6 @@
 package org.parser
 
-import org.Token
+import org.token.Token
 
 class Parser {
 

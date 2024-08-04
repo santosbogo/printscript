@@ -1,8 +1,8 @@
 package org.parser.astnode
 
-import org.Location
 import org.parser.astnode.expression.Expression
 import org.parser.astnode.expression.Identifier
+import org.utils.Location
 
 class VariableDeclarator(
     private val type: String,
