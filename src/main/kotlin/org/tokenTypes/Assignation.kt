@@ -1,5 +1,5 @@
 package org.tokenTypes
 
-class Assignation : TokenType {
+class AssignationType : TokenType {
     override val name = "Assignation"
 }
