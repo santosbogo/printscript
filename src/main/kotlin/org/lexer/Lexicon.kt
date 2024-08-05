@@ -30,9 +30,9 @@ class LexiconFactory {
                 "=" to "AssignationToken",
                 ";" to "SemicolonToken",
                 ":" to "ColonToken",
-                "+" to "PlusToken",
-                "-" to "MinusToken",
-                "*" to "ProductToken",
+                "\\+" to "PlusToken",
+                "\\-" to "MinusToken",
+                "\\*" to "ProductToken",
                 "/" to "DivisionToken",
 
                 "number" to "NumberTypeToken",
