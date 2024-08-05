@@ -15,7 +15,7 @@ class Lexer(private val lexicon: Lexicon) {
                 continue
             }
 
-            val components = statement.split(" ")
+            val components = splitIgnoringLiterals(statement)
             for (component in components) {
                 if (component.contains("\n")) {
                     line++
@@ -42,5 +42,10 @@ class Lexer(private val lexicon: Lexicon) {
     private fun splitComponent(component: String): List<String> {
         val regex = Regex("([a-zA-Z][a-zA-Z0-9]*|:|[0-9]+|\".*\"|\\S)")
         return regex.findAll(component).map { it.value }.toList()
+    }
+
+    private fun splitIgnoringLiterals(input: String): List<String> {
+        val regex = Regex("\"[^\"]*\"|'[^']*'|\\S+")
+        return regex.findAll(input).map { it.value }.toList()
     }
 }
