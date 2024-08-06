@@ -29,7 +29,7 @@ class LexerTester {
         val lexiconFactory = LexiconFactory()
         val lexer = Lexer(lexiconFactory.createDefaultLexicon())
         val reader = TestReader()
-        val file = File("src/test/resources/lexer-examples/manylinebreaks.txt")
+        val file = File("src/test/resources/lexer-examples/variabledeclaration.txt")
         val (code, solution) = reader.readTokens(file.path)
         val tokens = lexer.tokenize(code)
 
