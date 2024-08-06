@@ -1,41 +1,61 @@
 package org.lexer
 
-import org.token.Token
-import org.utils.Location
+import org.Location
 
-class Lexer {
-    private val tokens = mutableListOf<Token>()
+class Lexer(private val lexicon: Lexicon) {
 
-    fun lex(input: String, matcher: TokenMatcher): List<Token> {
-        var index = 0
-        var line = 0
-        // Loop a lo largo del input
-        while (index < input.length) {
-            val char = input[index]
-            // Chequeo cada caso y actualizo el index y la línea según corresponda
-            when {
-                char.isWhitespace() -> {
-                    index++
-                }
-                char.isNewLine() -> {
+    fun tokenize(input: String): List<Token> {
+        // Tokenize input string into a list of tokens.
+        // It also keeps track of the line and column of each token for the Location
+        val tokens = ArrayList<Token>()
+        val statements = splitStatements(input)
+        var line = 1
+        var column = 1
+
+        for (statement in statements) {
+            // A statement is a line of code that ends with a semicolon.
+            if (statement.isEmpty()) {
+                continue
+            }
+
+            val components = splitIgnoringLiterals(statement)
+            for (component in components) {
+                // A component is a part of a statement separated by spaces.
+                if (component.contains("\n")) {
                     line++
+                    column = 1
                 }
-                char.isLetter() -> {
-                    val startIndex = index
-                    val startLine = line
-                    while (index < input.length && input[index].isLetter()) {
-                        index++
-                    }
-                    matcher.addTokenIfExists(tokens, input.substring(startIndex, index), Location(startLine, startIndex, line, index)) }
-                else -> {
-                    throw IllegalArgumentException("Unexpected character: $char")
+
+                val subComponents = splitComponent(component)
+                for (subComponent in subComponents) {
+                    // A subcomponent is a part of a component separated by special characters.
+                    //We ask the lexicon to create a token for each subcomponent. Lexicon == Dictionary of tokens
+                    tokens.add(lexicon.getToken(subComponent, Location(line, column)))
+                    column += subComponent.length
                 }
+                column++
             }
         }
+
         return tokens
     }
-}
 
-private fun Char.isNewLine(): Boolean {
-    return this == '\n'
+    private fun splitStatements(input: String): List<String> {
+        // Separate statements by semicolons. Each statement should be a mini astnode in the end of parser.
+        val regex = Regex("([^;]+;)")
+        return regex.findAll(input).map { it.value }.toList()
+    }
+
+    private fun splitComponent(component: String): List<String> {
+        // Separate components in subcomponents in cases such as 'a:' or 10;
+        // If component is at its minimum unit, does not split it.
+        val regex = Regex("([a-zA-Z][a-zA-Z0-9]*|:|[0-9]+|\".*\"|\\S)")
+        return regex.findAll(component).map { it.value }.toList()
+    }
+
+    private fun splitIgnoringLiterals(input: String): List<String> {
+        // Split input by spaces, but ignore spaces inside literals strings.
+        val regex = Regex("\"[^\"]*\"|'[^']*'|\\S+")
+        return regex.findAll(input).map { it.value }.toList()
+    }
 }

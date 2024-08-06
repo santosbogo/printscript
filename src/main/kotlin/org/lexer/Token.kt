@@ -8,6 +8,6 @@ class Token(
     val location: Location
 ) {
     override fun toString(): String {
-        return "Token(type: $type, value: $value, location: $location)"
+        return "Token($type($value in $location)"
     }
 }
