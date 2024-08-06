@@ -9,7 +9,7 @@
 
     class SemanticAnalyzer {
         //lista donde voy guardando variables y funciones creadas.
-        private val symbolTable = mutableMapOf<String, String>()
+        private val symbolTable = mutableMapOf<String, Any>()
 
         //lista de chequeos que voy a hacer.
         private val checks: List<SemanticCheck> = listOf(
