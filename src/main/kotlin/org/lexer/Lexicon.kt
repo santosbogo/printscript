@@ -3,6 +3,7 @@ package org.lexer
 import org.Location
 
 class Lexicon(private val tokenMap: List<Pair<String, String>>) {
+
     fun getToken(component: String, location: Location): Token {
         // Get the token type for a given component from its tokenMap
         val tokenType = tokenMap.firstOrNull { (pattern, _) ->
