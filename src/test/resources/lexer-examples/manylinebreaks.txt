@@ -1,11 +1,14 @@
-let a: number = 10;
+let
+a:
+number
+= 10;
 
 #####
 
 DeclarationToken
 IdentifierToken
 ColonToken
-NumberTypeToken
+TypeToken
 AssignationToken
 NumberToken
 SemicolonToken

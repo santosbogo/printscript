@@ -37,9 +37,12 @@ class LexiconFactory {
                 "\\-" to "OperationToken",
                 "\\*" to "OperationToken",
                 "/" to "OperationToken",
+                "\\(" to "OpenParenthesisToken",
+                "\\)" to "CloseParenthesisToken",
 
-                "number" to "NumberTypeToken",
-                "string" to "StringTypeToken",
+                "println" to "PrintToken",
+                "number" to "TypeToken",
+                "string" to "TypeToken",
 
                 "[0-9]+" to "NumberToken",
                 "[0-9]+\\.[0-9]+" to "NumberToken",
