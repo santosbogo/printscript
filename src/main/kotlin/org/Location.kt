@@ -1,10 +1,10 @@
 package org
 
 class Location(
-    val line: Int,
-    val column: Int
+    private val line: Int,
+    private val column: Int
 ) {
     override fun toString(): String {
-        return "Location(line= $line, column= $column)"
+        return "(line: $line, column: $column)"
     }
 }
