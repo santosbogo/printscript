@@ -1,6 +1,6 @@
 package org.parser.astnode
 
-import org.Location
+import org.utils.Location
 import org.parser.astnode.astnodevisitor.ASTNodeVisitor
 
 class ProgramNode(
