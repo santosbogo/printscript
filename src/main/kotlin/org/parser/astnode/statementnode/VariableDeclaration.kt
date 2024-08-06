@@ -8,8 +8,8 @@ class VariableDeclaration(
     override val type: String,
     override val location: Location,
     override val expression: ExpressionNode,
-    private val identifier: String,
-    private val init: ExpressionNode,
+    val identifier: String,
+    val init: ExpressionNode,
     private val kind: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
