@@ -2,13 +2,13 @@ package org.parser.semanticanalysis.semanticchecks
 
 import org.parser.astnode.ASTNode
 import org.parser.astnode.expressionnode.expressionnodevisitor.EvaluateExpressionNodeVisitor
-import org.parser.astnode.statementnode.VariableDeclaration
+import org.parser.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
         //check that the variable being declared is not already declared
         if (node.type == "VariableDeclaration") {
-            val variableDeclarationNode = node as VariableDeclaration
+            val variableDeclarationNode = node as VariableDeclarationNode
             val variableIdentifier = variableDeclarationNode.identifier
             if (symbolTable.containsKey(variableIdentifier)) {
                 //caso donde ya existe la variable
