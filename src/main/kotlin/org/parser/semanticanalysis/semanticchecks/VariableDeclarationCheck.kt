@@ -12,7 +12,7 @@ class VariableDeclarationCheck : SemanticCheck {
             val variableIdentifier = variableDeclarationNode.identifier
             if (symbolTable.containsKey(variableIdentifier)) {
                 //caso donde ya existe la variable
-                throw Exception("Variable $variableIdentifier already declared")
+                throw Exception("Variable $variableIdentifier ya fue declarada")
             }
             //agrego la variable a la symbolTable si todavia no existe
             symbolTable[variableIdentifier] = node.init.accept(EvaluateExpressionNodeVisitor())

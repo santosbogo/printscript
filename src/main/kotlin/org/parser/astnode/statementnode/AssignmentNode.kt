@@ -9,7 +9,7 @@ class AssignmentNode(
     override val type: String,
     override val location: Location,
     override val expression: ExpressionNode,
-    val identifier: Identifier
+    val identifier: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
         TODO("Not yet implemented")
