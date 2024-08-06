@@ -1,6 +1,6 @@
 package org.parser.astnode.expression
 
-import org.utils.Location
+import org.Location
 
 interface Expression {
     val type: String;

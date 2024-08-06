@@ -1,8 +1,8 @@
 package org.tokenTypes
 
+import org.Location
 import org.token.Assignation
 import org.token.Token
-import org.utils.Location
 
 class AssignationType : TokenType {
     override val name = "="

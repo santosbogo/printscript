@@ -1,8 +1,8 @@
 package org.tokenTypes
 
+import org.Location
 import org.token.Let
 import org.token.Token
-import org.utils.Location
 
 class LetType : TokenType {
     override val name = "let"

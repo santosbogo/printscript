@@ -1,7 +1,7 @@
 package org.token
 
+import org.Location
 import org.tokenTypes.TokenType
-import org.utils.Location
 import kotlin.String
 
 interface Token {

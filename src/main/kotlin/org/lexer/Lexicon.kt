@@ -1,6 +1,6 @@
 package org.lexer
 
-import org.utils.Location
+import org.Location
 
 class Lexicon(private val tokenMap: List<Pair<String, String>>) {
     fun getToken(component: String, location: Location): Token {

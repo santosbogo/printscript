@@ -1,6 +1,6 @@
 package org.parser.astnode.expressionnode
 
-import org.utils.Location
+import org.Location
 import org.parser.astnode.ASTNode
 import org.parser.astnode.astnodevisitor.ASTNodeVisitor
 

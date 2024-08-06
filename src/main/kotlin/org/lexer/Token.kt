@@ -1,6 +1,6 @@
 package org.lexer
 
-import org.utils.Location
+import org.Location
 
 class Token(
     val type: String,

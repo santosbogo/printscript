@@ -1,7 +1,7 @@
 package org.tokenTypes
 
+import org.Location
 import org.token.Token
-import org.utils.Location
 import org.token.Number
 
 class NumberType : TokenType {
