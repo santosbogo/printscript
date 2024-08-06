@@ -1,6 +1,7 @@
 package org.parser
 
 import org.lexer.Token
+import org.parser.astnode.ASTGenerator
 import org.parser.astnode.ASTNode
 
 class Parser {
@@ -20,7 +21,8 @@ class Parser {
         for (token in tokens) {
             buffer.add(token)
             if (token.type == "SemicolonToken") {
-                statements.add(getNodes(buffer))
+                val node : ASTNode = ASTGenerator().generate(buffer)
+                statements.add(node)
                 buffer.clear()
             }
         }
@@ -31,11 +33,5 @@ class Parser {
         }
 
         return statements // Should instead the ProgramNode (root of AST)
-    }
-
-    private fun getNodes(buffer: ArrayList<Token>): ASTNode {
-        // Parse a list of tokens into a single ASTNode
-        // It should check for syntax errors and semantic errors somewhere.
-        TODO("Not yet implemented")
     }
 }
