@@ -24,7 +24,7 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
 class LexiconFactory {
     fun createDefaultLexicon(): Lexicon {
-        // Create a default lexicon with some common tokens. Its the basic lexicon.
+        // Create a default lexicon with some common tokens. It's the basic lexicon.
         return Lexicon(
             listOf(
                 "let" to "DeclarationToken",
