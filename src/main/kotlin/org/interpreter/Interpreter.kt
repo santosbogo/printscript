@@ -25,11 +25,11 @@ class Interpreter : ASTNodeVisitor {
 
     private fun visitAssignmentNode(node: AssignmentNode) {
         val variableIdentifier = node.identifier
-        val value = evaluateExpression(node.expression)
+        val value = evaluateAssignation(node.expression)
         symbolTable[variableIdentifier.name] = value
     }
 
-private fun evaluateExpression(expression: ExpressionNode): Any {
+private fun evaluateAssignation(expression: ExpressionNode): Any {
     return when (expression) {
         is Literal -> expression.value
         is Identifier -> symbolTable[expression.name] ?: throw Exception("Undefined variable: ${expression.name}")
