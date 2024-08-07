@@ -12,7 +12,7 @@ class Parser {
         // List of statements. Each statement is a mini ASTNode.
         val statements = ArrayList<ASTNode>()
 
-        // Buffer to store tokens until a statement is complete by a ;
+        // Buffer to store tokens until a statement is complete by a semicolon
         val buffer = ArrayList<Token>()
 
         // Map of identifiers to their types. Used for type checking and declaring existing variables
@@ -21,7 +21,7 @@ class Parser {
         for (token in tokens) {
             buffer.add(token)
             if (token.type == "SemicolonToken") {
-                val node : ASTNode = ASTGenerator().generate(buffer)
+                val node: ASTNode = ASTGenerator().generate(buffer)
                 statements.add(node)
                 buffer.clear()
             }
