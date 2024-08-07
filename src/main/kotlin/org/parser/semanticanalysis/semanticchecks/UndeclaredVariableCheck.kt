@@ -9,7 +9,7 @@ class UndeclaredVariableCheck: SemanticCheck {
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
             val variableIdentifier = assignmentNode.identifier
-            if (!symbolTable.containsKey(variableIdentifier)) {
+            if (!symbolTable.containsKey(variableIdentifier.name)) {
                 throw Exception("Variable $variableIdentifier no fue declarada")
             }
         }
