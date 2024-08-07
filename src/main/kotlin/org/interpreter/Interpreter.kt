@@ -6,6 +6,7 @@ import org.parser.astnode.expressionnode.ExpressionNode
 import org.parser.astnode.expressionnode.Identifier
 import org.parser.astnode.expressionnode.Literal
 import org.parser.astnode.statementnode.AssignmentNode
+import org.parser.astnode.statementnode.PrintStatementNode
 
 class Interpreter : ASTNodeVisitor {
 
@@ -18,6 +19,7 @@ class Interpreter : ASTNodeVisitor {
     private fun visit(node: ASTNode) {
         when (node) {
             is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
             // Add other node types here
             else -> throw UnsupportedOperationException("Node type not supported")
         }
@@ -25,16 +27,21 @@ class Interpreter : ASTNodeVisitor {
 
     private fun visitAssignmentNode(node: AssignmentNode) {
         val variableIdentifier = node.identifier
-        val value = evaluateAssignation(node.expression)
+        val value = evaluateExpression(node.expression)
         symbolTable[variableIdentifier.name] = value
     }
 
-private fun evaluateAssignation(expression: ExpressionNode): Any {
-    return when (expression) {
-        is Literal -> expression.value
-        is Identifier -> symbolTable[expression.name] ?: throw Exception("Undefined variable: ${expression.name}")
-        // Add other expression types here
-        else -> throw UnsupportedOperationException("Expression type not supported")
+    private fun visitPrintStatementNode(node: PrintStatementNode) {
+        val value = evaluateExpression(node.expression)
+        println(value)
     }
-}
+
+    private fun evaluateExpression(expression: ExpressionNode): Any {
+        return when (expression) {
+            is Literal -> expression.value
+            is Identifier -> symbolTable[expression.name] ?: throw Exception("Undefined variable: ${expression.name}")
+            // Add other expression types here
+            else -> throw UnsupportedOperationException("Expression type not supported")
+        }
+    }
 }
