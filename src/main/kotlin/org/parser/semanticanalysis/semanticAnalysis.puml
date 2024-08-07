@@ -1,0 +1,27 @@
+@startuml
+@startuml
+interface SemanticCheck {
+    +check(node: ASTNode, symbolTable: MutableMap<String, Any>)
+}
+
+class TypeCheck implements SemanticCheck {
+    +check(node: ASTNode, symbolTable: MutableMap<String, Any>)
+}
+
+class UndeclaredVariableCheck implements SemanticCheck {
+    +check(node: ASTNode, symbolTable: MutableMap<String, Any>)
+}
+
+class VariableDeclarationCheck implements SemanticCheck {
+    +check(node: ASTNode, symbolTable: MutableMap<String, Any>)
+}
+
+class SemanticAnalyzer {
+    -symbolTable: MutableMap<String, Any>
+    -checks: List<SemanticCheck>
+    +analyze(node: ASTNode)
+}
+
+
+SemanticAnalyzer --> SemanticCheck
+@enduml

@@ -14,8 +14,6 @@ class TypeCheck : SemanticCheck {
             if (symbolTable[variableIdentifier.name] != variableType) {
                 throw Exception("Variable $variableIdentifier no es del tipo $variableType")
             }
-
-
         }
     }
 }

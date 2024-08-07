@@ -20,11 +20,13 @@
 
         fun analyze(node: ASTNode) {
             if (node is ProgramNode) {
+                //dado un programNode, analizo cada statement
                 for (statement in node.statements) {
                     analyze(statement)
                 }
             }
 
+            //corro los chequeos semanticos sobre cada statement.
             for (check in checks) {
                 check.check(node, symbolTable)
             }
