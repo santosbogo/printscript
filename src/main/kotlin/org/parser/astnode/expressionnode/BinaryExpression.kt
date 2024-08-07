@@ -1,7 +1,9 @@
 package org.parser.astnode.expressionnode
 
 import org.Location
+import org.parser.astnode.ASTNode
 import org.parser.astnode.astnodevisitor.ASTNodeVisitor
+import org.parser.astnode.expressionnode.expressionnodevisitor.ExpressionNodeVisitor
 
 class BinaryExpression(
     override val type: String,
@@ -10,7 +12,7 @@ class BinaryExpression(
     val right: ExpressionNode,
     val operator: String
 ) : ExpressionNode {
-    override fun accept(visitor: ASTNodeVisitor) {
-        TODO("Not yet implemented")
+    override fun accept(visitor: ExpressionNodeVisitor): Any {
+        return visitor.visitBinaryExpression(this)
     }
 }
