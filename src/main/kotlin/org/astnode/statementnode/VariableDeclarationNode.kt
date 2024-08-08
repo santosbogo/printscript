@@ -1,12 +1,12 @@
-package org.parser.astnode.statementnode
+package org.astnode.statementnode
 
 import org.Location
-import org.lexer.Token
-import org.parser.astnode.ASTNode
-import org.parser.astnode.astnodevisitor.ASTNodeVisitor
-import org.parser.astnode.expressionnode.ExpressionNode
-import org.parser.astnode.expressionnode.Literal
-import org.parser.astnode.expressionnode.LiteralValue
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.Literal
+import org.astnode.expressionnode.LiteralValue
 
 class VariableDeclarationNode(
     override val type: String,

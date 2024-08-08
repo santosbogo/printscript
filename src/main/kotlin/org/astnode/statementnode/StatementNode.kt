@@ -1,10 +1,10 @@
-package org.parser.astnode.statementnode
+package org.astnode.statementnode
 
 import org.Location
-import org.lexer.Token
-import org.parser.astnode.ASTNode
-import org.parser.astnode.astnodevisitor.ASTNodeVisitor
-import org.parser.astnode.expressionnode.ExpressionNode
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.expressionnode.ExpressionNode
 
 interface StatementNode : ASTNode {
     override val type: String

@@ -1,14 +1,14 @@
-package org.parser.astnode.statementnode
+package org.astnode.statementnode
 
 import org.Location
-import org.lexer.Token
-import org.parser.astnode.ASTNode
-import org.parser.astnode.astnodevisitor.ASTNodeVisitor
-import org.parser.astnode.expressionnode.ExpressionNode
-import org.parser.astnode.expressionnode.Identifier
-import org.parser.astnode.expressionnode.Literal
-import org.parser.astnode.expressionnode.LiteralValue
-import org.parser.astnode.statementnode.util.Utils
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.Identifier
+import org.astnode.expressionnode.Literal
+import org.astnode.expressionnode.LiteralValue
+import org.astnode.statementnode.util.Utils
 
 class AssignmentNode(
     override val type: String,

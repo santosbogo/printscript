@@ -1,6 +1,7 @@
 package org.lexer
 
 import org.Location
+import org.Token
 
 class Lexer(private val lexicon: Lexicon) {
 

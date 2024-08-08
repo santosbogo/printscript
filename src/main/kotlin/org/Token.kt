@@ -1,6 +1,4 @@
-package org.lexer
-
-import org.Location
+package org
 
 class Token(
     val type: String,

@@ -1,7 +1,7 @@
 package org.parser.semanticanalysis.semanticchecks
 
-import org.parser.astnode.ASTNode
-import org.parser.astnode.statementnode.AssignmentNode
+import org.astnode.ASTNode
+import org.astnode.statementnode.AssignmentNode
 
 class TypeCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {

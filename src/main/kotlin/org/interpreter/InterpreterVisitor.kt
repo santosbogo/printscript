@@ -1,13 +1,13 @@
 package org.interpreter
 
-import org.parser.astnode.ASTNode
-import org.parser.astnode.astnodevisitor.ASTNodeVisitor
-import org.parser.astnode.expressionnode.ExpressionNode
-import org.parser.astnode.expressionnode.Identifier
-import org.parser.astnode.expressionnode.Literal
-import org.parser.astnode.statementnode.AssignmentNode
-import org.parser.astnode.statementnode.PrintStatementNode
-import org.parser.astnode.statementnode.VariableDeclarationNode
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.Identifier
+import org.astnode.expressionnode.Literal
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : ASTNodeVisitor {
 

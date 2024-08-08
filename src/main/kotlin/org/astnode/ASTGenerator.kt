@@ -1,10 +1,10 @@
-package org.parser.astnode
+package org.astnode
 
-import org.lexer.Token
-import org.parser.astnode.statementnode.AssignmentNode
-import org.parser.astnode.statementnode.PrintStatementNode
-import org.parser.astnode.statementnode.StatementNode
-import org.parser.astnode.statementnode.VariableDeclarationNode
+import org.Token
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.StatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 // ASTGenerator is in charge of generating the AST from a list of tokens and checking its syntax.
 class ASTGenerator {

@@ -1,10 +1,11 @@
 import org.Location
+import org.Token
+import org.astnode.ASTNode
 import org.junit.jupiter.api.Test
 import org.lexer.Lexer
 import org.lexer.LexiconFactory
 import org.lexer.Token
 import org.parser.Parser
-import org.parser.astnode.ASTNode
 import java.io.File
 
 class ParserTester {
@@ -15,9 +16,9 @@ class ParserTester {
         val reader = TestReader()
         val file = File("src/test/resources/parser-examples/variabledeclarationtest")
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val tokens : List<Token> = stringToTokens(code)
+        val tokens: List<Token> = stringToTokens(code)
         try {
-            val nodes : List<ASTNode> = parser.parse(tokens)
+            val nodes: List<ASTNode> = parser.parse(tokens)
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -63,6 +64,6 @@ class ParserTester {
 
     private fun stringToTokens(code: String): List<Token> {
         val list: List<String> = code.replace(" ", "").split(",")
-        return list.map { Token(it, "", Location(0,0)) }
+        return list.map { Token(it, "", Location(0, 0)) }
     }
 }
