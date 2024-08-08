@@ -1,62 +1,57 @@
 package org.parser.astnode
 
 import org.lexer.Token
+import org.parser.astnode.statementnode.AssignmentNode
+import org.parser.astnode.statementnode.PrintStatementNode
+import org.parser.astnode.statementnode.StatementNode
+import org.parser.astnode.statementnode.VariableDeclarationNode
 
 // ASTGenerator is in charge of generating the AST from a list of tokens and checking its syntax.
 class ASTGenerator {
-    private val formulaMap: List<Pair<String, List<String>>> = loadFormulas()
+    private val nodeMap: List<Pair<String, StatementNode>> = loadNodes()
+    private var node: StatementNode = AssignmentNode() // por ahora inicializo asi
 
-    public fun generate(buffer : ArrayList<Token>): ASTNode {
-        // Generate the AST from a list of ASTNodes
-        // It should check for syntax errors and semantic errors.
+    fun generate(buffer: ArrayList<Token>): ASTNode {
+        // Check if the buffer of tokens matches any formula
         if (appliesToAnyFormula(buffer)) {
-            TODO()
+            return node.generate(buffer)
         } else {
-            throw Exception("Invalid syntax")
+            throw Exception("Invalid syntax, the Tokens didn't match any formula. Tokens: $buffer")
         }
     }
 
+    // Checks if any formula applies to the buffer of tokens
     private fun appliesToAnyFormula(buffer: ArrayList<Token>): Boolean {
-        for (list in formulaMap.map { it.second }) {
-            if (checkIfEqual(buffer, list)) {
+        for ((_, node) in nodeMap) {
+            if (checkIfEqual(buffer, node.formula)) {
+                this.node = node
                 return true
             }
         }
         return false
     }
 
+    // Checks if the buffer is equal to a specific fórmula
+    // Esto es probable que cambie, pero por ahora es lo que se me ocurrió
+    // Principalmente el problema es que por ejemplo en el caso de un print puedo recibir multiples args dentro,
+    // por lo que no puedo comparar directamente con la fórmula.
     private fun checkIfEqual(buffer: ArrayList<Token>, list: List<String>): Boolean {
         if (buffer.size != list.size) {
             return false
         }
-
         for (i in buffer.indices) {
             if (buffer[i].type != list[i]) {
                 return false
             }
         }
-
         return true
     }
 }
 
-fun loadFormulas(): List<Pair<String, List<String>>> {
+fun loadNodes(): List<Pair<String, StatementNode>> {
     return listOf(
-        "AssignmentNode" to listOf(
-            "IdentifierNode",
-            "AssignationToken",
-            "ExpressionNode"
-        ),
-        "DeclarationNode" to listOf(
-            "DeclarationToken",
-            "IdentifierNode",
-            "ColonToken",
-            "TypeToken"
-        ),
-        "ExpressionNode" to listOf(
-            "ExpressionNode",
-            "OperationToken",
-            "ExpressionNode"
-        )
+        "AssignmentNode" to AssignmentNode(),
+        "PrintStatementNode" to PrintStatementNode(),
+        "VariableDeclarationNode" to VariableDeclarationNode()
     )
 }
