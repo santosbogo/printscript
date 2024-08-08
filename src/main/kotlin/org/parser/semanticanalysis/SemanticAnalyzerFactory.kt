@@ -14,5 +14,4 @@ class SemanticAnalyzerFactory {
         )
         return SemanticAnalyzer(checks)
     }
-
 }

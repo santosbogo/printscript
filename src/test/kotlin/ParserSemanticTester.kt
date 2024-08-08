@@ -21,7 +21,7 @@ class ParserSemanticTester {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
 
-            //cuando falla, me dice donde falló.
+            // cuando falla, me dice donde falló.
             for (i in ast.indices) {
                 assert(ast[i].type == nodes[i]) {
                     "Mismatch in file ${file.name} at ${ast[i].location}: expected ${nodes[i]}, found ${ast[i].type}"
