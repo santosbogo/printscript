@@ -1,8 +1,8 @@
 package org.tokenTypes
 
 import org.Location
-import org.token.Token
 import org.token.String
+import org.token.Token
 
 class StringType : TokenType {
     override val name = "string"

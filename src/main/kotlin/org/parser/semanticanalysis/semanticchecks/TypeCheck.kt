@@ -10,12 +10,10 @@ class TypeCheck : SemanticCheck {
             val variableIdentifier = assignmentNode.identifier
             val variableType = assignmentNode.type
 
-            //si la variable que quiero asignar no es del mismo tipo que la variable declarada, tiro error.
+            // si la variable que quiero asignar no es del mismo tipo que la variable declarada, tiro error.
             if (symbolTable[variableIdentifier.name] != variableType) {
                 throw Exception("Variable $variableIdentifier no es del tipo $variableType")
             }
-
-
         }
     }
 }

@@ -46,7 +46,7 @@ class VariableDeclarationNode(
         "NumberTypeToken",
         "AssignationToken",
         "ExpressionToken",
-        "SemicolonToken",
+        "SemicolonToken"
     )
 
     constructor() : this(
