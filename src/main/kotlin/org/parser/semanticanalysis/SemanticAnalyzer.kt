@@ -1,35 +1,20 @@
-    package org.parser.semanticanalysis
+package org.parser.semanticanalysis
 
-    import org.parser.astnode.ASTNode
-    import org.parser.astnode.ProgramNode
-    import org.parser.semanticanalysis.semanticchecks.SemanticCheck
-    import org.parser.semanticanalysis.semanticchecks.TypeCheck
-    import org.parser.semanticanalysis.semanticchecks.UndeclaredVariableCheck
-    import org.parser.semanticanalysis.semanticchecks.VariableDeclarationCheck
+import org.parser.astnode.ASTNode
+import org.parser.astnode.ProgramNode
+import org.parser.semanticanalysis.semanticchecks.SemanticCheck
+import org.parser.semanticanalysis.semanticchecks.TypeCheck
+import org.parser.semanticanalysis.semanticchecks.UndeclaredVariableCheck
+import org.parser.semanticanalysis.semanticchecks.VariableDeclarationCheck
 
-    class SemanticAnalyzer {
-        //lista donde voy guardando variables y funciones creadas.
-        private val symbolTable = mutableMapOf<String, Any>()
+class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
+    //lista donde voy guardando variables y funciones creadas.
+    private val symbolTable = mutableMapOf<String, Any>()
 
-        //lista de chequeos que voy a hacer.
-        private val checks: List<SemanticCheck> = listOf(
-            VariableDeclarationCheck(),
-            TypeCheck(),
-            UndeclaredVariableCheck()
-        )
-
-        fun analyze(node: ASTNode) {
-            if (node is ProgramNode) {
-                //dado un programNode, analizo cada statement
-                for (statement in node.statements) {
-                    analyze(statement)
-                }
-            }
-
-            //corro los chequeos semanticos sobre cada statement.
-            for (check in checks) {
-                check.check(node, symbolTable)
-            }
-
+    fun analyze(node: ASTNode) {
+        //corro los chequeos semanticos sobre cada statement.
+        for (check in checks) {
+            check.check(node, symbolTable)
         }
     }
+}
