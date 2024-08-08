@@ -7,7 +7,7 @@ class TypeCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
-            val variableIdentifier = assignmentNode.identifier
+            val variableIdentifier = assignmentNode.identifierNode
             val variableType = assignmentNode.type
 
             // si la variable que quiero asignar no es del mismo tipo que la variable declarada, tiro error.

@@ -8,7 +8,7 @@ class UndeclaredVariableCheck : SemanticCheck {
         // si quiero asignar una variable que no existe todavia, tiro error.
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
-            val variableIdentifier = assignmentNode.identifier
+            val variableIdentifier = assignmentNode.identifierNode
             if (!symbolTable.containsKey(variableIdentifier.name)) {
                 throw Exception("Variable $variableIdentifier no fue declarada")
             }

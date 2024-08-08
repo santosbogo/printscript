@@ -1,10 +1,11 @@
 package org.astnode.expressionnode
 
 import org.Location
-import org.astnode.expressionnode.expressionnodevisitor.ExpressionNodeVisitor
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
 
-interface ExpressionNode {
-    val type: String
-    val location: Location
-    fun accept(visitor: ExpressionNodeVisitor): Any
+interface ExpressionNode : ASTNode {
+    override val type: String
+    override val location: Location
+    override fun accept(visitor: ASTNodeVisitor)
 }

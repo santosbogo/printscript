@@ -8,16 +8,8 @@ import org.parser.semanticanalysis.SemanticAnalyzerFactory
 
 class Parser(private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()) {
     fun parse(tokens: List<Token>): ArrayList<ASTNode> {
-        // Parse a list of tokens into a list of ASTNodes
-        // It should check for syntax errors and semantic errors.
-
-        // List of statements. Each statement is a mini ASTNode.
         val statements = ArrayList<ASTNode>()
-
-        // Buffer to store tokens until a statement is complete by a semicolon
         val buffer = ArrayList<Token>()
-
-        // Map of identifiers to their types. Used for type checking and declaring existing variables
         val identifiers = HashMap<String, String>()
 
         for (token in tokens) {

@@ -1,11 +1,12 @@
 package org.astnode.expressionnode.expressionnodevisitor
 
-import org.astnode.expressionnode.BinaryExpression
-import org.astnode.expressionnode.Identifier
-import org.astnode.expressionnode.Literal
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
 
-interface ExpressionNodeVisitor {
-    fun visitLiteral(node: Literal): Any
-    fun visitBinaryExpression(node: BinaryExpression): Any
-    fun visitIdentifier(node: Identifier): Any
+interface ExpressionNodeVisitor : ASTNodeVisitor {
+    fun visitLiteral(node: LiteralNode): Any
+    fun visitBinaryExpression(node: BinaryExpressionNode): Any
+    fun visitIdentifier(node: IdentifierNode): Any
 }

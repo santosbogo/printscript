@@ -3,10 +3,7 @@ package org.interpreter
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.expressionnode.ExpressionNode
-import org.astnode.expressionnode.Identifier
-import org.astnode.expressionnode.Literal
-import org.astnode.expressionnode.expressionnodevisitor.EvaluateExpressionNodeVisitor
+import org.astnode.expressionnode.*
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
@@ -28,27 +25,31 @@ class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : AST
     }
 
     override fun visitAssignmentNode(node: AssignmentNode) {
-        val variableIdentifier = node.identifier
-        val value = evaluateExpression(node.expression)
+        val variableIdentifier = node.identifierNode
+        val value = node.value.accept(this)
         symbolTable[variableIdentifier.name] = value
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode) {
-        val value = evaluateExpression(node.expression)
+        val value = node.value.accept(this)
         println(value)
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode) {
         val variableIdentifier = node.identifier
-        val value = node.init.accept(EvaluateExpressionNodeVisitor())
+        val value = node.init.accept(this)
         symbolTable[variableIdentifier] = value
     }
 
-    private fun evaluateExpression(expression: ExpressionNode): Any {
-        return when (expression) {
-            is Literal -> expression.value
-            is Identifier -> symbolTable[expression.name] ?: throw Exception("Undefined variable: ${expression.name}")
-            else -> throw UnsupportedOperationException("Expression type not supported")
-        }
+    override fun visitLiteralNode(node: LiteralNode) {
+        throw UnsupportedOperationException("Literal node not supported")
+    }
+
+    override fun visitIdentifierNode(node: IdentifierNode) {
+        throw UnsupportedOperationException("Identifier node not supported")
+    }
+
+    override fun visitBinaryExpressionNode(node: BinaryExpressionNode) {
+        throw UnsupportedOperationException("Binary expression node not supported")
     }
 }

@@ -1,15 +1,15 @@
 package org.astnode.expressionnode
 
 import org.Location
-import org.astnode.expressionnode.expressionnodevisitor.ExpressionNodeVisitor
+import org.astnode.astnodevisitor.ASTNodeVisitor
 
-class Literal(
+class LiteralNode(
     override val type: String,
     override val location: Location,
     val value: LiteralValue
 ) : ExpressionNode {
-    override fun accept(visitor: ExpressionNodeVisitor): Any {
-        return visitor.visitLiteral(this)
+    override fun accept(visitor: ASTNodeVisitor) {
+        visitor.visitLiteralNode(this)
     }
 }
 
