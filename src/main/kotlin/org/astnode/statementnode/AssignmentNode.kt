@@ -40,6 +40,6 @@ class AssignmentNode(
     }
 
     override fun accept(visitor: ASTNodeVisitor) {
-        visitor.visit(this)
+        visitor.visitAssignmentNode(this)
     }
 }
