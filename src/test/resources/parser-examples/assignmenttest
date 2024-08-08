@@ -1,0 +1,9 @@
+IdentifierToken, AssignmentToken, ExpressionToken, SemicolonToken
+
+#####
+
+AssignmentNode
+
+#####
+
+True

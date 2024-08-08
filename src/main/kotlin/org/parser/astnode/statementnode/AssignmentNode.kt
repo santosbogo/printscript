@@ -16,7 +16,7 @@ class AssignmentNode(
     override val expression: ExpressionNode,
     val identifier: Identifier
 ) : StatementNode {
-    override val formula: List<String> = listOf("IdentifierToken, AssignmentToken, ExpressionToken, SemicolonToken")
+    override val formula: List<String> = listOf("IdentifierToken", "AssignmentToken", "ExpressionToken", "SemicolonToken")
 
     constructor() : this (
         type = "AssignmentNode",

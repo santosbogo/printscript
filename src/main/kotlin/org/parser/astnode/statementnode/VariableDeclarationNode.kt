@@ -43,7 +43,7 @@ class VariableDeclarationNode(
         "DeclarationToken",
         "IdentifierToken",
         "ColonToken",
-        "NumberTypeToken",
+        "TypeToken",
         "AssignationToken",
         "ExpressionToken",
         "SemicolonToken"
