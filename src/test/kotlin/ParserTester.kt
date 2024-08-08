@@ -4,7 +4,6 @@ import org.astnode.ASTNode
 import org.junit.jupiter.api.Test
 import org.lexer.Lexer
 import org.lexer.LexiconFactory
-import org.lexer.Token
 import org.parser.Parser
 import java.io.File
 
