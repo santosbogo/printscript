@@ -1,7 +1,7 @@
-package org.parser.astnode
+package org.astnode
 
 import org.Location
-import org.parser.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.ASTNodeVisitor
 
 interface ASTNode {
     val type: String

@@ -1,8 +1,8 @@
 package org.parser
 
-import org.lexer.Token
-import org.parser.astnode.ASTGenerator
-import org.parser.astnode.ASTNode
+import org.Token
+import org.astnode.ASTGenerator
+import org.astnode.ASTNode
 import org.parser.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
 

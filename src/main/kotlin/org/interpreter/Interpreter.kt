@@ -1,6 +1,6 @@
 package org.interpreter
 
-import org.parser.astnode.ASTNode
+import org.astnode.ASTNode
 
 class Interpreter {
 

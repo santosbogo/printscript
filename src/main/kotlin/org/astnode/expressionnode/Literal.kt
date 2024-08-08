@@ -1,7 +1,7 @@
-package org.parser.astnode.expressionnode
+package org.astnode.expressionnode
 
 import org.Location
-import org.parser.astnode.expressionnode.expressionnodevisitor.ExpressionNodeVisitor
+import org.astnode.expressionnode.expressionnodevisitor.ExpressionNodeVisitor
 
 class Literal(
     override val type: String,

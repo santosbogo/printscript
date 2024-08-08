@@ -1,8 +1,8 @@
-package org.parser.astnode.statementnode.util
+package org.astnode.statementnode.util
 
-import org.lexer.Token
-import org.parser.astnode.expressionnode.Identifier
-import org.parser.astnode.expressionnode.LiteralValue
+import org.Token
+import org.astnode.expressionnode.Identifier
+import org.astnode.expressionnode.LiteralValue
 
 class Utils {
 

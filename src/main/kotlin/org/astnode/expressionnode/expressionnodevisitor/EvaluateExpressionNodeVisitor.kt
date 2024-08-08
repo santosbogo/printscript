@@ -1,8 +1,8 @@
-package org.parser.astnode.expressionnode.expressionnodevisitor
+package org.astnode.expressionnode.expressionnodevisitor
 
-import org.parser.astnode.expressionnode.BinaryExpression
-import org.parser.astnode.expressionnode.Identifier
-import org.parser.astnode.expressionnode.Literal
+import org.astnode.expressionnode.BinaryExpression
+import org.astnode.expressionnode.Identifier
+import org.astnode.expressionnode.Literal
 
 class EvaluateExpressionNodeVisitor : ExpressionNodeVisitor {
     override fun visitLiteral(node: Literal): Any {
