@@ -1,11 +1,10 @@
 package org.parser.astnode.expressionnode.expressionnodevisitor
 
 import org.parser.astnode.expressionnode.BinaryExpression
-import org.parser.astnode.expressionnode.ExpressionNode
 import org.parser.astnode.expressionnode.Identifier
 import org.parser.astnode.expressionnode.Literal
 
-class EvaluateExpressionNodeVisitor : ExpressionNodeVisitor{
+class EvaluateExpressionNodeVisitor : ExpressionNodeVisitor {
     override fun visitLiteral(node: Literal): Any {
         return node.value
     }

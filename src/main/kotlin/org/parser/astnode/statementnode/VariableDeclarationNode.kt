@@ -17,11 +17,10 @@ class VariableDeclarationNode(
     private val kind: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
-        TODO("Not yet implemented")
+        visitor.visit(this)
     }
 
     override fun generate(tokens: List<Token>): ASTNode {
-        //TODO("Aca habría que pensar la estructura del buffer y asignar cada cosa a su lugar")
         return VariableDeclarationNode(
             "VariableDeclarationNode",
             tokens[0].location,
@@ -44,10 +43,10 @@ class VariableDeclarationNode(
         "DeclarationToken",
         "IdentifierToken",
         "ColonToken",
-        "NumberTypeToken",
+        "TypeToken",
         "AssignationToken",
         "ExpressionToken",
-        "SemicolonToken",
+        "SemicolonToken"
     )
 
     constructor() : this(

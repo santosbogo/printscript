@@ -14,7 +14,7 @@ class PrintStatementNode(
     override val expression: ExpressionNode
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
-        TODO("Not yet implemented")
+        visitor.visit(this)
     }
 
     override fun generate(tokens: List<Token>): ASTNode {
@@ -29,12 +29,12 @@ class PrintStatementNode(
         )
     }
 
-    override val formula: List<String> =  listOf(
+    override val formula: List<String> = listOf(
         "PrintToken",
         "OpenParenthesisToken",
         "ExpressionToken", // Aca podría ir cualquier cosa, pero no se me ocurre que poner
         "CloseParenthesisToken",
-        "SemicolonToken",
+        "SemicolonToken"
     )
 
     constructor() : this(

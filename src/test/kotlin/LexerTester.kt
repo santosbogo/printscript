@@ -13,12 +13,20 @@ class LexerTester {
         val examplesDir = File("src/test/resources/lexer-examples")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
-            val (code, solution) = reader.readTokens(file.path)
-            val tokens = lexer.tokenize(code)
-
-            for (i in tokens.indices) {
-                assert(tokens[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+            val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+            try {
+                val tokens = lexer.tokenize(code)
+                if (!shouldSucceed) {
+                    assert(false) { "Expected an error but test passed for file ${file.name}" }
+                }
+                for (i in tokens.indices) {
+                    assert(tokens[i].type == solution[i]) {
+                        "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                    }
+                }
+            } catch (e: Exception) {
+                if (shouldSucceed) {
+                    assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
                 }
             }
         }
@@ -29,13 +37,21 @@ class LexerTester {
         val lexiconFactory = LexiconFactory()
         val lexer = Lexer(lexiconFactory.createDefaultLexicon())
         val reader = TestReader()
-        val file = File("src/test/resources/lexer-examples/variabledeclaration.txt")
-        val (code, solution) = reader.readTokens(file.path)
-        val tokens = lexer.tokenize(code)
-
-        for (i in tokens.indices) {
-            assert(tokens[i].type == solution[i]) {
-                "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+        val file = File("src/test/resources/lexer-examples/unrecognizedtoken.txt")
+        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        try {
+            val tokens = lexer.tokenize(code)
+            if (!shouldSucceed) {
+                assert(false) { "Expected an error but test passed for file ${file.name}" }
+            }
+            for (i in tokens.indices) {
+                assert(tokens[i].type == solution[i]) {
+                    "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                }
+            }
+        } catch (e: Exception) {
+            if (shouldSucceed) {
+                assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
             }
         }
     }

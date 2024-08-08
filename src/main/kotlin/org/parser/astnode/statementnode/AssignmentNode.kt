@@ -16,7 +16,7 @@ class AssignmentNode(
     override val expression: ExpressionNode,
     val identifier: Identifier
 ) : StatementNode {
-    override val formula: List<String> = listOf("IdentifierToken, AssignmentToken, ExpressionToken, SemicolonToken")
+    override val formula: List<String> = listOf("IdentifierToken", "AssignmentToken", "ExpressionToken", "SemicolonToken")
 
     constructor() : this (
         type = "AssignmentNode",
@@ -25,20 +25,21 @@ class AssignmentNode(
         identifier = Identifier("Identifier", Location(0, 0), "", "String")
     )
 
-    override fun generate(tokens : List<Token>): ASTNode {
-        val dataType : LiteralValue = Utils().getLiteralValue(tokens[2])
+    override fun generate(tokens: List<Token>): ASTNode {
+        val dataType: LiteralValue = Utils().getLiteralValue(tokens[2])
         return AssignmentNode(
             "AssignmentNode",
             tokens[0].location,
             Literal( // Por ahora tiene un literal, pero podría ser un identifier o binaryExpression
                 type = tokens[2].type,
                 location = tokens[2].location,
-                value = dataType),
-            Utils().generateIdentifier(tokens[0], dataType.getType()))
+                value = dataType
+            ),
+            Utils().generateIdentifier(tokens[0], dataType.getType())
+        )
     }
 
-
     override fun accept(visitor: ASTNodeVisitor) {
-        TODO("Not yet implemented")
+        visitor.visit(this)
     }
 }

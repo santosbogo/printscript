@@ -1,4 +1,4 @@
-let a:string="Hello, World!";
+let a: string = &;
 
 #####
 
@@ -7,9 +7,9 @@ IdentifierToken
 ColonToken
 TypeToken
 AssignationToken
-StringToken
+?
 SemicolonToken
 
 #####
 
-True
+False
