@@ -16,7 +16,7 @@ ColonToken
 TypeToken
 AssignationToken
 NumberToken
-OperationToken
+PlusToken
 IdentifierToken
 SemicolonToken
 

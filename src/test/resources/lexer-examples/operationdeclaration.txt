@@ -8,7 +8,7 @@ ColonToken
 TypeToken
 AssignationToken
 NumberToken
-OperationToken
+PlusToken
 NumberToken
 SemicolonToken
 
