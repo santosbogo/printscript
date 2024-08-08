@@ -19,6 +19,7 @@ class ASTGenerator {
         }
     }
 
+    // Once we know which formula applies to the buffer, we generate the ASTNode
     private fun getNodeWhichApplies(buffer: java.util.ArrayList<Token>): ASTNode {
         for ((_, node) in nodeMap) {
             if (checkIfEqual(buffer, node.formula)) {
