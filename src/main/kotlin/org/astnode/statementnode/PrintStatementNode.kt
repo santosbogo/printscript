@@ -14,7 +14,7 @@ class PrintStatementNode(
     override val expression: ExpressionNode
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
-        visitor.visit(this)
+        visitor.visitPrintStatementNode(this)
     }
 
     override fun generate(tokens: List<Token>): ASTNode {

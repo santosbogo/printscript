@@ -17,7 +17,7 @@ class VariableDeclarationNode(
     private val kind: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor) {
-        visitor.visit(this)
+        visitor.visitVariableDeclarationNode(this)
     }
 
     override fun generate(tokens: List<Token>): ASTNode {
