@@ -1,8 +1,7 @@
 package org.parser.semanticanalysis.semanticchecks
 
-import org.astnode.ASTNode
-import org.astnode.expressionnode.expressionnodevisitor.EvaluateExpressionNodeVisitor
-import org.astnode.statementnode.VariableDeclarationNode
+import org.parser.astnode.ASTNode
+import org.parser.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
@@ -14,8 +13,6 @@ class VariableDeclarationCheck : SemanticCheck {
                 // caso donde ya existe la variable
                 throw Exception("Variable $variableIdentifier ya fue declarada")
             }
-            // agrego la variable a la symbolTable si todavia no existe
-            symbolTable[variableIdentifier] = node.init.accept(EvaluateExpressionNodeVisitor())
         }
     }
 }
