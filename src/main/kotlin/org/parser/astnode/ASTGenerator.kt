@@ -9,22 +9,29 @@ import org.parser.astnode.statementnode.VariableDeclarationNode
 // ASTGenerator is in charge of generating the AST from a list of tokens and checking its syntax.
 class ASTGenerator {
     private val nodeMap: List<Pair<String, StatementNode>> = loadNodes()
-    private var node: StatementNode = AssignmentNode() // por ahora inicializo asi
 
     fun generate(buffer: ArrayList<Token>): ASTNode {
         // Check if the buffer of tokens matches any formula
         if (appliesToAnyFormula(buffer)) {
-            return node.generate(buffer)
+            return getNodeWhichApplies(buffer)
         } else {
             throw Exception("Invalid syntax, the Tokens didn't match any formula. Tokens: $buffer")
         }
+    }
+
+    private fun getNodeWhichApplies(buffer: java.util.ArrayList<Token>): ASTNode {
+        for ((_, node) in nodeMap) {
+            if (checkIfEqual(buffer, node.formula)) {
+                return node.generate(buffer)
+            }
+        }
+        throw Exception("Node not found")
     }
 
     // Checks if any formula applies to the buffer of tokens
     private fun appliesToAnyFormula(buffer: ArrayList<Token>): Boolean {
         for ((_, node) in nodeMap) {
             if (checkIfEqual(buffer, node.formula)) {
-                this.node = node
                 return true
             }
         }
