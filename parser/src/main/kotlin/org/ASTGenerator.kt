@@ -1,8 +1,13 @@
 package org
 
+import org.astnodebuilder.ASTNodeBuilder
+import org.astnodebuilder.AssignmentNodeBuilder
+import org.astnodebuilder.ExpressionNodeBuilder
+import org.astnodebuilder.IdentifierNodeBuilder
+import org.astnodebuilder.PrintNodeBuilder
+import org.astnodebuilder.VariableDeclarationNodeBuilder
 import org.shared.Token
 import org.shared.astnode.ASTNode
-import org.shared.astnode.astnodebuilder.*
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
     fun generate(buffer: ArrayList<Token>): ASTNode {

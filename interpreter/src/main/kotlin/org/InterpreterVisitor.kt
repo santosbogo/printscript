@@ -44,14 +44,14 @@ class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : AST
     }
 
     override fun visitLiteralNode(node: LiteralNode) {
-        throw UnsupportedOperationException("Literal node not supported")
+        TODO()
     }
 
     override fun visitIdentifierNode(node: IdentifierNode) {
-        throw UnsupportedOperationException("Identifier node not supported")
+        TODO()
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode) {
-        throw UnsupportedOperationException("Binary expression node not supported")
+        TODO()
     }
 }

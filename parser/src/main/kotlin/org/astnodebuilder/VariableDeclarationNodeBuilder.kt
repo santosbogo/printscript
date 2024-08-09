@@ -1,4 +1,4 @@
-package org.shared.astnode.astnodebuilder
+package org.astnodebuilder
 
 import org.shared.Token
 import org.shared.astnode.ASTNode
