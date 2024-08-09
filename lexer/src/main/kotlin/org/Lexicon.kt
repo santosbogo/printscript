@@ -1,7 +1,7 @@
-package org.lexer
+package org
 
-import org.Location
-import org.Token
+import org.shared.Location
+import org.shared.Token
 
 class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
@@ -16,11 +16,6 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
             value = component,
             location = location
         )
-    }
-
-    fun addToken(pattern: String, tokenType: String): Lexicon {
-        // Add a new token to the lexicon. Not sure if it's a good idea to allow this.
-        return Lexicon(tokenMap + Pair(pattern, tokenType))
     }
 }
 

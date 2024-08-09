@@ -1,12 +1,15 @@
 package org.interpreter
 
-import org.astnode.ASTNode
-import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.shared.astnode.ASTNode
+import org.shared.astnode.ProgramNode
+import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.expressionnode.*
-import org.astnode.statementnode.AssignmentNode
-import org.astnode.statementnode.PrintStatementNode
-import org.astnode.statementnode.VariableDeclarationNode
+import org.shared.astnode.statementnode.AssignmentNode
+import org.shared.astnode.statementnode.PrintStatementNode
+import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.shared.astnode.expressionnode.BinaryExpressionNode
+import org.shared.astnode.expressionnode.IdentifierNode
+import org.shared.astnode.expressionnode.LiteralNode
 
 class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : ASTNodeVisitor {
 

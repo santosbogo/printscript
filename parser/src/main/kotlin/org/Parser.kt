@@ -1,8 +1,8 @@
 package org.parser
 
-import org.Token
-import org.astnode.ASTGenerator
-import org.astnode.ASTNode
+import org.shared.Token
+import org.shared.astnode.ASTGenerator
+import org.shared.astnode.ASTNode
 import org.parser.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
 

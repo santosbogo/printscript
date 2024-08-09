@@ -1,0 +1,23 @@
+let a: number = 10;
+let greeting: string = "Hello,world!";
+
+#####
+
+DeclarationToken
+IdentifierToken
+ColonToken
+TypeToken
+AssignationToken
+NumberToken
+SemicolonToken
+DeclarationToken
+IdentifierToken
+ColonToken
+TypeToken
+AssignationToken
+StringToken
+SemicolonToken
+
+#####
+
+True

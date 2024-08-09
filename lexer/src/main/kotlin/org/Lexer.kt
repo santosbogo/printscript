@@ -1,7 +1,7 @@
-package org.lexer
+package org
 
-import org.Location
-import org.Token
+import org.shared.Location
+import org.shared.Token
 
 class Lexer(private val lexicon: Lexicon) {
 
@@ -22,7 +22,7 @@ class Lexer(private val lexicon: Lexicon) {
         val components = splitIgnoringLiterals(statement)
         for (component in components) {
             if (component.contains("\n")) {
-                handleNewLine(component, position)
+                handleNewLine(position)
             }
             tokenizeComponent(component, tokens, position)
         }
@@ -37,7 +37,7 @@ class Lexer(private val lexicon: Lexicon) {
         position.column++
     }
 
-    private fun handleNewLine(component: String, position: Position) {
+    private fun handleNewLine(position: Position) {
         position.line++
         position.column = 0
     }

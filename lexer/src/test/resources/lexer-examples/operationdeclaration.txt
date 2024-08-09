@@ -1,0 +1,17 @@
+let a: number = 10 + 5;
+
+#####
+
+DeclarationToken
+IdentifierToken
+ColonToken
+TypeToken
+AssignationToken
+NumberToken
+PlusToken
+NumberToken
+SemicolonToken
+
+#####
+
+True

@@ -1,0 +1,15 @@
+let a: string = &;
+
+#####
+
+DeclarationToken
+IdentifierToken
+ColonToken
+TypeToken
+AssignationToken
+?
+SemicolonToken
+
+#####
+
+False

@@ -1,7 +1,8 @@
-package org.parser.semanticanalysis.semanticchecks
+package org.semanticanalysis.semanticchecks
 
-import org.parser.astnode.ASTNode
-import org.parser.astnode.statementnode.VariableDeclarationNode
+import org.shared.astnode.ASTNode
+import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 
 class VariableDeclarationCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
