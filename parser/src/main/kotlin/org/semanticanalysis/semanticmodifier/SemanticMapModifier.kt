@@ -1,6 +1,6 @@
-package org.parser.semanticanalysis.semanticmodifier
+package org.semanticanalysis.semanticmodifier
 
-import org.parser.astnode.ASTNode
+import org.shared.astnode.ASTNode
 
 interface SemanticMapModifier {
     fun modify(node: ASTNode, symbolTable: MutableMap<String, Any>): MutableMap<String, Any>

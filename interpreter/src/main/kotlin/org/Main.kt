@@ -1,6 +1,5 @@
 package org
 
-import org.interpreter.Interpreter
 import org.parser.Parser
 
 fun main() {

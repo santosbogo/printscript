@@ -3,7 +3,7 @@ package org.parser
 import org.shared.Token
 import org.shared.astnode.ASTGenerator
 import org.shared.astnode.ASTNode
-import org.parser.semanticanalysis.SemanticAnalyzer
+import org.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
 
 class Parser(private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()) {

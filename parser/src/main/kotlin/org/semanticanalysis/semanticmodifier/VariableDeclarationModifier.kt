@@ -1,8 +1,8 @@
-package org.parser.semanticanalysis.semanticmodifier
+package org.semanticanalysis.semanticmodifier
 
-import org.parser.astnode.ASTNode
-import org.parser.astnode.expressionnode.expressionnodevisitor.EvaluateExpressionNodeVisitor
-import org.parser.astnode.statementnode.VariableDeclarationNode
+import org.shared.astnode.ASTNode
+import org.shared.astnode.expressionnode.expressionnodevisitor.EvaluateExpressionNodeVisitor
+import org.shared.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationModifier : SemanticMapModifier {
     override fun modify(node: ASTNode, symbolTable: MutableMap<String, Any>): MutableMap<String, Any> {

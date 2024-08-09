@@ -1,8 +1,8 @@
-package org.parser.semanticanalysis
+package org.semanticanalysis
 
-import org.parser.astnode.ASTNode
+import org.shared.astnode.ASTNode
 import org.parser.semanticanalysis.semanticchecks.SemanticCheck
-import org.parser.semanticanalysis.semanticmodifier.SemanticMapModifier
+import org.semanticanalysis.semanticmodifier.SemanticMapModifier
 
 class SemanticAnalyzer(private val modifiers: List<SemanticMapModifier>, private val checks: List<SemanticCheck>) {
     // lista donde voy guardando variables y funciones creadas.

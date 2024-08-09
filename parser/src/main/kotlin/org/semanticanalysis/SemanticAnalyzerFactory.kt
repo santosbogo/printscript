@@ -5,8 +5,10 @@ import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 import org.semanticanalysis.semanticchecks.UndeclaredVariableCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
-import org.parser.semanticanalysis.semanticmodifier.SemanticMapModifier
-import org.parser.semanticanalysis.semanticmodifier.VariableDeclarationModifier
+import org.semanticanalysis.semanticmodifier.SemanticMapModifier
+import org.semanticanalysis.semanticmodifier.VariableDeclarationModifier
+import org.semanticanalysis.SemanticAnalyzer
+
 class SemanticAnalyzerFactory {
     fun createDefaultSemanticAnalyzer(): SemanticAnalyzer {
         val modifiers: List<SemanticMapModifier> = listOf(

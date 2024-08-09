@@ -1,9 +1,8 @@
-package org.interpreter
+package org
 
 import org.shared.astnode.ASTNode
 import org.shared.astnode.ProgramNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.expressionnode.*
 import org.shared.astnode.statementnode.AssignmentNode
 import org.shared.astnode.statementnode.PrintStatementNode
 import org.shared.astnode.statementnode.VariableDeclarationNode
