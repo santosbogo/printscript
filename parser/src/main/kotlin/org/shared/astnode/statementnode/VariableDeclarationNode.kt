@@ -7,7 +7,7 @@ import org.shared.astnode.expressionnode.ExpressionNode
 class VariableDeclarationNode(
     override val type: String,
     override val location: Location,
-    val identifier: String,
+    val identifier: String, // TODO(inconsistencia con AssignmentNode, decidir si va un string o un IdentifierNode)
     val init: ExpressionNode,
     private val kind: String
 ) : StatementNode {

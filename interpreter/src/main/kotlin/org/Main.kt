@@ -1,7 +1,5 @@
 package org
 
-import org.parser.Parser
-
 fun main() {
     val lexiconFactory = LexiconFactory()
     val lexer = Lexer(lexiconFactory.createDefaultLexicon())

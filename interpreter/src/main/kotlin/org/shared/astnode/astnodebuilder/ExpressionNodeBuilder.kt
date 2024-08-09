@@ -8,7 +8,7 @@ import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.expressionnode.LiteralValue
 
 class ExpressionNodeBuilder : ASTNodeBuilder {
-    override val formula: String = "Expression"
+    override val formula: String = "-"
 
     override fun generate(tokens: List<Token>): ASTNode {
         return parseExpression(tokens)

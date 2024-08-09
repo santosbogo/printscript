@@ -5,8 +5,9 @@ import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.statementnode.VariableDeclarationNode
 
-class VariableDeclarationNodeBuilder() : ASTNodeBuilder {
-    override val formula: String = "DeclarationToken IdentifierToken ColonToken TypeToken AssignationToken ExpressionNode SemicolonToken"
+class VariableDeclarationNodeBuilder : ASTNodeBuilder {
+    override val formula: String =
+        "DeclarationToken IdentifierToken ColonToken TypeToken AssignationToken ExpressionNode SemicolonToken"
     override fun generate(tokens: List<Token>): ASTNode {
         return VariableDeclarationNode(
             type = "VariableDeclarationNode",
