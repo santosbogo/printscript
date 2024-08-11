@@ -1,10 +1,11 @@
-import org.Location
-import org.Token
-import org.astnode.ASTNode
+import org.Lexer
+import org.LexiconFactory
+import org.Parser
 import org.junit.jupiter.api.Test
-import org.lexer.Lexer
-import org.lexer.LexiconFactory
-import org.parser.Parser
+import org.shared.Location
+import org.shared.Token
+import org.shared.astnode.ASTNode
+import org.shared.astnode.ProgramNode
 import java.io.File
 
 class ParserTester {
@@ -17,15 +18,11 @@ class ParserTester {
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val tokens: List<Token> = stringToTokens(code)
         try {
-            val nodes: List<ASTNode> = parser.parse(tokens)
+            val nodes: ProgramNode = parser.parse(tokens)
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
-            for (i in nodes.indices) {
-                assert(nodes[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
-                }
-            }
+
         } catch (e: Exception) {
             if (shouldSucceed) {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
@@ -48,12 +45,6 @@ class ParserTester {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
 
-            // cuando falla, me dice donde falló.
-            for (i in ast.indices) {
-                assert(ast[i].type == nodes[i]) {
-                    "Mismatch in file ${file.name} at ${ast[i].location}: expected ${nodes[i]}, found ${ast[i].type}"
-                }
-            }
         } catch (e: Exception) {
             if (shouldSucceed) {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }

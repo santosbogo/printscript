@@ -6,8 +6,14 @@ plugins {
 dependencies {
     implementation project(':lexer')
     implementation project(':shared')
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
 repositories {
     mavenCentral()
+}
+
+tasks.withType(Test) {
+    useJUnitPlatform()
 }

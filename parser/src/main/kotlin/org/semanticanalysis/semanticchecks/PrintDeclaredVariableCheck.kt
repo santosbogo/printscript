@@ -4,7 +4,6 @@ import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.statementnode.PrintStatementNode
 
 class PrintDeclaredVariableCheck : SemanticCheck {
