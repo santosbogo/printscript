@@ -19,4 +19,7 @@ class SemanticAnalyzer(private val modifiers: List<SemanticMapModifier>, private
             symbolTable = modifier.modify(node, symbolTable)
         }
     }
+    fun getSymbolTable(): Map<String, Any> {
+        return symbolTable
+    }
 }

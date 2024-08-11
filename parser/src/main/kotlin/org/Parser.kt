@@ -4,14 +4,15 @@ import org.shared.Token
 import org.shared.astnode.ASTNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
+import org.shared.Location
+import org.shared.astnode.ProgramNode
 
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
     private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()) {
-    fun parse(tokens: List<Token>): ArrayList<ASTNode> {
+    fun parse(tokens: List<Token>): ProgramNode {
         val statements = ArrayList<ASTNode>()
         val buffer = ArrayList<Token>()
-        val identifiers = HashMap<String, String>()
 
         for (token in tokens) {
             buffer.add(token)
@@ -28,6 +29,7 @@ class Parser(
             throw Exception("Unexpected end of input. Missing semicolon at the end of the file.")
         }
 
-        return statements // Should instead the ProgramNode (root of AST)
+        //return the program node. 
+        return ProgramNode(type = "ProgramNode", location = Location(0, 0), statements = statements)
     }
 }

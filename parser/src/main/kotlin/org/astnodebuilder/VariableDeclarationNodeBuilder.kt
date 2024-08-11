@@ -12,7 +12,7 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
         return VariableDeclarationNode(
             type = "VariableDeclarationNode",
             location = tokens[0].location,
-            identifier = tokens[1].value,
+            identifier = IdentifierNodeBuilder.generateNodeFromValue(tokens[1].value, tokens[0].location),
             init = ExpressionNodeBuilder().generate(tokens.subList(5, tokens.size - 2)) as ExpressionNode,
             kind = tokens[0].value
         )

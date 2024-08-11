@@ -10,7 +10,7 @@ class VariableDeclarationCheck : SemanticCheck {
         if (node.type == "VariableDeclaration") {
             val variableDeclarationNode = node as VariableDeclarationNode
             val variableIdentifier = variableDeclarationNode.identifier
-            if (symbolTable.containsKey(variableIdentifier)) {
+            if (symbolTable.containsKey(variableIdentifier.name)) {
                 // caso donde ya existe la variable
                 throw Exception("Variable $variableIdentifier ya fue declarada")
             }

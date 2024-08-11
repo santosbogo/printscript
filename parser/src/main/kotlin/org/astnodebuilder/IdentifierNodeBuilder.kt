@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.shared.Location
 import org.shared.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.IdentifierNode
@@ -12,7 +13,18 @@ class IdentifierNodeBuilder: ASTNodeBuilder {
             type = "IdentifierNode",
             location = tokens[0].location,
             name = tokens[0].value,
-            dataType = "" // TODO(ver como conseguir la data type)
+            dataType = "" //declarada en el semantic modifier.
         )
+    }
+
+    companion object {
+        fun generateNodeFromValue(value: String, location: Location): IdentifierNode {
+            return IdentifierNode(
+                type = "IdentifierNode",
+                location = location,
+                name = value,
+                dataType = "" //declarada en el semantic modifier.
+            )
+        }
     }
 }

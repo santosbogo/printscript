@@ -6,7 +6,7 @@ import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.statementnode.PrintStatementNode
 
 class PrintNodeBuilder: ASTNodeBuilder {
-    override val formula: String = "PrintToken OpenParenthesisToken ExpressionNode CloseParenthesisToken  SemicolonToken"
+    override val formula: String = "PrintToken OpenParenthesisToken ExpressionNode CloseParenthesisToken SemicolonToken"
 
     override fun generate(tokens: List<Token>): ASTNode {
         return PrintStatementNode(
