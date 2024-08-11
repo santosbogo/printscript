@@ -13,7 +13,7 @@ import org.shared.astnode.expressionnode.LiteralValue
 
 class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : ASTNodeVisitor {
 
-    fun visit(node: ASTNode): Any {
+    fun visit(node: ASTNode): LiteralValue? {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
             is AssignmentNode -> visitAssignmentNode(node)
@@ -26,28 +26,32 @@ class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : AST
         }
     }
 
-    override fun visitProgramNode(node: ProgramNode) {
+    override fun visitProgramNode(node: ProgramNode): LiteralValue? {
         val statements = node.statements
         statements.forEach { it.accept(this) }
+        return null
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode) {
+    override fun visitAssignmentNode(node: AssignmentNode): LiteralValue? {
         val variableIdentifier = node.identifierNode
         val value = node.value.accept(this)
         symbolTable[variableIdentifier.name] = value
+        return null
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode) {
+    override fun visitPrintStatementNode(node: PrintStatementNode): LiteralValue? {
         when (val value = node.value.accept(this)) {
             is LiteralValue.StringValue -> println(value.value)
             is LiteralValue.NumberValue -> println(value.value)
         }
+        return null
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode) {
+    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): LiteralValue? {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this)
         symbolTable[variableIdentifier.name] = value
+        return null
     }
 
     override fun visitLiteralNode(node: LiteralNode): LiteralValue {

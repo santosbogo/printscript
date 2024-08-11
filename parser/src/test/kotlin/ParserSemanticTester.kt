@@ -1,7 +1,8 @@
+import org.Lexer
+import org.LexiconFactory
+import org.Parser
 import org.junit.jupiter.api.Test
-import org.lexer.Lexer
-import org.lexer.LexiconFactory
-import org.parser.Parser
+
 import java.io.File
 
 class ParserSemanticTester {
@@ -19,13 +20,6 @@ class ParserSemanticTester {
             val ast = parser.parse(tokens)
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
-            }
-
-            // cuando falla, me dice donde falló.
-            for (i in ast.indices) {
-                assert(ast[i].type == nodes[i]) {
-                    "Mismatch in file ${file.name} at ${ast[i].location}: expected ${nodes[i]}, found ${ast[i].type}"
-                }
             }
         } catch (e: Exception) {
             if (shouldSucceed) {

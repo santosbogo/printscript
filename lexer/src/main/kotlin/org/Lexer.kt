@@ -3,6 +3,7 @@ package org
 import org.shared.Location
 import org.shared.Token
 
+
 class Lexer(private val lexicon: Lexicon) {
 
     fun tokenize(input: String): List<Token> {

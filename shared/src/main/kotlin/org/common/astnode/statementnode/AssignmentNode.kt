@@ -4,6 +4,7 @@ import org.shared.Location
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
+import org.shared.astnode.expressionnode.LiteralValue
 
 class AssignmentNode(
     override val type: String,
@@ -11,7 +12,7 @@ class AssignmentNode(
     val value: ExpressionNode,
     val identifierNode: IdentifierNode
 ) : StatementNode {
-    override fun accept(visitor: ASTNodeVisitor) {
-        visitor.visitAssignmentNode(this)
+    override fun accept(visitor: ASTNodeVisitor): LiteralValue? {
+        return visitor.visitAssignmentNode(this)
     }
 }

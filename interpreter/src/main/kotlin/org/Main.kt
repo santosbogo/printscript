@@ -13,8 +13,8 @@ fun main() {
 
         try {
             val tokens = lexer.tokenize(input)
-            val nodes = parser.parse(tokens)
-            nodes.forEach { interpreter.interpret(it) }
+            val programNode = parser.parse(tokens)
+            programNode.statements.forEach { interpreter.interpret(it) }
         } catch (e: Exception) {
             println("Error: ${e.message}")
         }
