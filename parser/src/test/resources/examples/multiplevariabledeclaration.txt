@@ -1,0 +1,11 @@
+let a: number = 10;
+let greeting: string = "Hello,world!";
+
+#####
+
+VariableDeclarationNode
+VariableDeclarationNode
+
+#####
+
+True

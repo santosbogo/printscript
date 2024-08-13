@@ -15,6 +15,6 @@ repositories {
 }
 
 tasks.withType(Test) {
-    enabled = false //esto es para inhabilitar los tests al buildear
-    //useJUnitPlatform()
+    //enabled = false
+    useJUnitPlatform()
 }

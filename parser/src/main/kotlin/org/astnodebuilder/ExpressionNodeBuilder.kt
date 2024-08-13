@@ -14,6 +14,10 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
         return parseExpression(tokens)
     }
 
+    override fun checkFormula(tokensString: String): Boolean {
+        return false; // TODO ver que onda esta formula
+    }
+
     private fun parseExpression(tokens: List<Token>): ExpressionNode {
         if (tokens.isEmpty()) throw IllegalArgumentException("Empty token list")
 

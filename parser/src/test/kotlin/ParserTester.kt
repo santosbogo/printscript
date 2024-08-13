@@ -11,49 +11,55 @@ import java.io.File
 class ParserTester {
 
     @Test
-    fun testSingleFile() {
+    fun testFiles() {
+        val lexer = Lexer()
         val parser = Parser()
         val reader = TestReader()
-        val file = File("src/test/resources/parser-examples/variabledeclarationtest")
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val tokens: List<Token> = stringToTokens(code)
-        try {
-            val nodes: ProgramNode = parser.parse(tokens)
-            if (!shouldSucceed) {
-                assert(false) { "Expected an error but test passed for file ${file.name}" }
-            }
+        val examplesDir = File("src/test/resources/examples")
 
-        } catch (e: Exception) {
-            if (shouldSucceed) {
-                assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
+        examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
+            val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+            val tokens = lexer.tokenize(code)
+            val nodes = parser.parse(tokens).statements
+            try {
+                if (!shouldSucceed) {
+                    assert(false) { "Expected an error but test passed for file ${file.name}" }
+                }
+                for (i in nodes.indices) {
+                    assert(nodes[i].type == solution[i]) {
+                        "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
+                    }
+                }
+            } catch (e: Exception) {
+                if (shouldSucceed) {
+                    assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
+                }
             }
         }
     }
 
     @Test
-    fun semanticTest() {
-        val lexer = Lexer(LexiconFactory().createDefaultLexicon())
+    fun testSingleFile(){
+        val lexer = Lexer()
         val parser = Parser()
         val reader = TestReader()
-        val file = File("src/test/resources/parser-examples/semanticerrortest.txt")
-        val (code, nodes, shouldSucceed) = reader.readTokens(file.path)
+        val file = File("src/test/resources/examples/printnumber.txt")
+        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val tokens = lexer.tokenize(code)
-
+        val nodes = parser.parse(tokens).statements
         try {
-            val ast = parser.parse(tokens)
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
-
+            for (i in nodes.indices) {
+                assert(nodes[i].type == solution[i]) {
+                    "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
+                }
+            }
         } catch (e: Exception) {
             if (shouldSucceed) {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
             }
         }
-    }
-
-    private fun stringToTokens(code: String): List<Token> {
-        val list: List<String> = code.replace(" ", "").split(",")
-        return list.map { Token(it, "", Location(0, 0)) }
     }
 }

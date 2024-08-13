@@ -4,7 +4,7 @@ import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.PrintStatementNode
 
 class PrintDeclaredVariableCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {

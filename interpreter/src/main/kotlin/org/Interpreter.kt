@@ -1,5 +1,6 @@
 package org
 
+import org.common.astnode.astnodevisitor.InterpreterVisitor
 import org.shared.astnode.ASTNode
 
 class Interpreter {

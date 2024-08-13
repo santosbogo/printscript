@@ -12,7 +12,7 @@ import org.shared.astnode.ASTNode
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
     fun generate(buffer: ArrayList<Token>): ASTNode {
         for (builder in builders) {
-            if (builder.formula == getFormula(buffer)) {
+            if (builder.checkFormula(getFormula(buffer))) {
                 return builder.generate(buffer)
             }
         }

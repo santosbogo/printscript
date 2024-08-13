@@ -4,7 +4,7 @@ import org.shared.Location
 import org.shared.Token
 
 
-class Lexer(private val lexicon: Lexicon) {
+class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon()) {
 
     fun tokenize(input: String): List<Token> {
         val tokens = ArrayList<Token>()
