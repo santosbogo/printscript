@@ -29,7 +29,10 @@ class Parser(
             throw Exception("Unexpected end of input. Missing semicolon at the end of the file.")
         }
 
-        //return the program node. 
-        return ProgramNode(type = "ProgramNode", location = Location(0, 0), statements = statements)
+        //return the program node.
+        return ProgramNode(
+            type = "ProgramNode",
+            location = Location(1, 1),
+            statements = statements)
     }
 }

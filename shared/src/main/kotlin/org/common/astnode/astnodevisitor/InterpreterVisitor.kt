@@ -3,9 +3,9 @@ package org.common.astnode.astnodevisitor
 import org.shared.astnode.ASTNode
 import org.common.astnode.ProgramNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
-import org.shared.astnode.statementnode.AssignmentNode
-import org.shared.astnode.statementnode.PrintStatementNode
-import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.common.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
@@ -91,6 +91,36 @@ class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : AST
                         LiteralValue.NumberValue(leftValue.value.toDouble() + rightValue.value.toDouble())
 
                     else -> throw UnsupportedOperationException("Unsupported types for +")
+                }
+            }
+
+            "-" -> {
+                when {
+                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
+                        LiteralValue.NumberValue(leftValue.value.toDouble() - rightValue.value.toDouble())
+
+                    else -> throw UnsupportedOperationException("Unsupported types for -")
+                }
+            }
+
+            "*" -> {
+                when {
+                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
+                        LiteralValue.NumberValue(leftValue.value.toDouble() * rightValue.value.toDouble())
+
+                    else -> throw UnsupportedOperationException("Unsupported types for -")
+                }
+            }
+
+            "/" -> {
+                when {
+                    rightValue is LiteralValue.NumberValue && rightValue.value.toDouble() == 0.0 ->
+                        throw ArithmeticException("Division by zero")
+
+                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
+                        LiteralValue.NumberValue(leftValue.value.toDouble() / rightValue.value.toDouble())
+
+                    else -> throw UnsupportedOperationException("Unsupported types for /")
                 }
             }
 

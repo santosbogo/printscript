@@ -1,4 +1,4 @@
-package org.shared.astnode.statementnode
+package org.common.astnode.statementnode
 
 import org.common.Location
 import org.shared.astnode.ASTNode

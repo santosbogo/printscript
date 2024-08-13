@@ -17,6 +17,10 @@ class IdentifierNodeBuilder: ASTNodeBuilder {
         )
     }
 
+    override fun checkFormula(tokensString: String): Boolean {
+        return Regex("IdentifierToken").matches(tokensString)
+    }
+
     companion object {
         fun generateNodeFromValue(value: String, location: Location): IdentifierNode {
             return IdentifierNode(
