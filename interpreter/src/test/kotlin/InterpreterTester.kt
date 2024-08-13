@@ -1,7 +1,7 @@
 import org.Interpreter
+import org.common.Location
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
-import org.shared.Location
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.expressionnode.LiteralValue
