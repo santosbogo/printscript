@@ -10,4 +10,8 @@ class Interpreter {
     fun interpret(node: ASTNode) {
         visitor.visit(node)
     }
+
+    fun getSymbolTable(): MutableMap<String, Any> {
+        return symbolTable
+    }
 }
