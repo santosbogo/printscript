@@ -6,7 +6,7 @@ import org.astnodebuilder.ExpressionNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.PrintNodeBuilder
 import org.astnodebuilder.VariableDeclarationNodeBuilder
-import org.shared.Token
+import org.common.Token
 import org.shared.astnode.ASTNode
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {

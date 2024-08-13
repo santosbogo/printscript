@@ -1,7 +1,7 @@
 package org
 
-import org.shared.Location
-import org.shared.Token
+import org.common.Location
+import org.common.Token
 
 
 class Lexer(private val lexicon: Lexicon) {

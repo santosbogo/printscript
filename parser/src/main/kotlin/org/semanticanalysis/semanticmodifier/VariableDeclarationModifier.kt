@@ -1,6 +1,6 @@
 package org.semanticanalysis.semanticmodifier
 
-import org.InterpreterVisitor
+import org.common.astnode.astnodevisitor.InterpreterVisitor
 import org.shared.astnode.ASTNode
 import org.shared.astnode.statementnode.VariableDeclarationNode
 

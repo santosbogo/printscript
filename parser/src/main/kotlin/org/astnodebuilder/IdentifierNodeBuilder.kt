@@ -1,7 +1,7 @@
 package org.astnodebuilder
 
-import org.shared.Location
-import org.shared.Token
+import org.common.Location
+import org.common.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.IdentifierNode
 
@@ -13,7 +13,7 @@ class IdentifierNodeBuilder: ASTNodeBuilder {
             type = "IdentifierNode",
             location = tokens[0].location,
             name = tokens[0].value,
-            dataType = "" //declarada en el semantic modifier.
+            dataType = "" // declarada en el semantic modifier.
         )
     }
 
@@ -23,7 +23,7 @@ class IdentifierNodeBuilder: ASTNodeBuilder {
                 type = "IdentifierNode",
                 location = location,
                 name = value,
-                dataType = "" //declarada en el semantic modifier.
+                dataType = "" // declarada en el semantic modifier.
             )
         }
     }

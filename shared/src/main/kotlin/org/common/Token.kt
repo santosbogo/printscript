@@ -1,4 +1,4 @@
-package org.shared
+package org.common
 
 class Token(
     val type: String,

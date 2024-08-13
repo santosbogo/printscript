@@ -1,6 +1,6 @@
 package org.shared.astnode.expressionnode
 
-import org.shared.Location
+import org.common.Location
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 
 class LiteralNode(

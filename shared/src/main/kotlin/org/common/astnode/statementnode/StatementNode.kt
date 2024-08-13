@@ -1,6 +1,6 @@
 package org.shared.astnode.statementnode
 
-import org.shared.Location
+import org.common.Location
 import org.shared.astnode.ASTNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 import org.shared.astnode.expressionnode.LiteralValue

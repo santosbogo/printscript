@@ -1,4 +1,4 @@
-package org.shared
+package org.common
 
 class Location(
     private val line: Int,

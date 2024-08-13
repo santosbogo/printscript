@@ -1,7 +1,7 @@
 package org
 
-import org.shared.Location
-import org.shared.Token
+import org.common.Location
+import org.common.Token
 
 class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
