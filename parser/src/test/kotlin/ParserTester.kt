@@ -1,11 +1,6 @@
 import org.Lexer
-import org.LexiconFactory
 import org.Parser
 import org.junit.jupiter.api.Test
-import org.shared.Location
-import org.shared.Token
-import org.shared.astnode.ASTNode
-import org.shared.astnode.ProgramNode
 import java.io.File
 
 class ParserTester {

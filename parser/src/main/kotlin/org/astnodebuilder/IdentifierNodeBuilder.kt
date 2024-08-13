@@ -1,7 +1,7 @@
 package org.astnodebuilder
 
 import org.shared.Location
-import org.shared.Token
+import org.common.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.IdentifierNode
 

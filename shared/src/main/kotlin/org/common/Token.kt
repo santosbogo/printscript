@@ -1,4 +1,6 @@
-package org.shared
+package org.common
+
+import org.shared.Location
 
 class Token(
     val type: String,

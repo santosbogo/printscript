@@ -5,7 +5,7 @@ import org.shared.Location
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.expressionnode.LiteralValue
-import org.shared.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.AssignmentNode
 
 class InterpreterTester {
 
