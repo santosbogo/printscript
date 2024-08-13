@@ -1,10 +1,10 @@
 package org.common.astnode.statementnode
 
 import org.common.Location
-import org.shared.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.expressionnode.LiteralValue
 
 class VariableDeclarationNode(
     override val type: String,
@@ -13,7 +13,7 @@ class VariableDeclarationNode(
     val init: ExpressionNode,
     private val kind: String
 ) : StatementNode {
-    override fun accept(visitor: ASTNodeVisitor): LiteralValue? {
+    override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitVariableDeclarationNode(this)
     }
 }

@@ -2,10 +2,11 @@ package org.shared.astnode.expressionnode
 
 import org.common.Location
 import org.shared.astnode.ASTNode
-import org.shared.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.types.VisitorResult
 
 interface ExpressionNode : ASTNode {
     override val type: String
     override val location: Location
-    override fun accept(visitor: ASTNodeVisitor): LiteralValue
+    override fun accept(visitor: ASTNodeVisitor): VisitorResult
 }

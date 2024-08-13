@@ -1,18 +1,17 @@
-package org.common.astnode.astnodevisitor
-
-import org.shared.astnode.ASTNode
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
+import org.shared.astnode.ASTNode
+import org.common.astnode.ProgramNode
+import org.common.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.expressionnode.LiteralValue
-
-class InterpreterVisitor : ASTNodeVisitor {
+class MockInterpreterVisitor : ASTNodeVisitor {
     override val symbolTable: MutableMap<String, Any> = mutableMapOf()
+    public val printsList: MutableList<Any> = mutableListOf()
 
     override fun visit(node: ASTNode): Any {
         return when (node) {
@@ -43,8 +42,8 @@ class InterpreterVisitor : ASTNodeVisitor {
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         when (val value = node.value.accept(this).literalValue) {
-            is LiteralValue.StringValue -> println(value.value)
-            is LiteralValue.NumberValue -> println(value.value)
+            is LiteralValue.StringValue -> printsList.add(value.value)
+            is LiteralValue.NumberValue -> printsList.add(value.value)
             null -> throw Exception("Value is null")
         }
         return VisitorResult(null, emptyMap()) //TODO no me cierra esto, probar cambiar la interfaz de este metodo.
