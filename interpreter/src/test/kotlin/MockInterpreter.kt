@@ -1,11 +1,8 @@
-package org
-
 import org.common.astnode.astnodevisitor.InterpreterVisitor
 import org.shared.astnode.ASTNode
-import org.shared.astnode.ProgramNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 
-class Interpreter(private val visitor: ASTNodeVisitor = InterpreterVisitor()) {
+class MockInterpreter(private val visitor: MockInterpreterVisitor = MockInterpreterVisitor()) {
     fun interpret(node: ASTNode) {
         visitor.visit(node)
     }
@@ -13,4 +10,9 @@ class Interpreter(private val visitor: ASTNodeVisitor = InterpreterVisitor()) {
     fun getSymbolTable(): Map<String, Any> {
         return visitor.symbolTable
     }
+
+    fun getPrintsList(): List<Any> {
+        return visitor.getPrintsList()
+    }
+
 }

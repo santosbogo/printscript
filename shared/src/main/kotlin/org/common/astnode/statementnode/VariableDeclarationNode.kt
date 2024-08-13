@@ -13,7 +13,7 @@ class VariableDeclarationNode(
     val init: ExpressionNode,
     private val kind: String
 ) : StatementNode {
-    override fun accept(visitor: ASTNodeVisitor): LiteralValue? {
+    override fun accept(visitor: ASTNodeVisitor): Map<String, Any> {
         return visitor.visitVariableDeclarationNode(this)
     }
 }
