@@ -7,10 +7,9 @@ class LexerTester {
 
     @Test
     fun testFiles() {
-        val lexiconFactory = LexiconFactory()
-        val lexer = Lexer(lexiconFactory.createDefaultLexicon())
+        val lexer = Lexer()
         val reader = TestReader()
-        val examplesDir = File("src/test/resources/lexer-examples")
+        val examplesDir = File("src/test/resources/examples")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -37,7 +36,7 @@ class LexerTester {
         val lexiconFactory = LexiconFactory()
         val lexer = Lexer(lexiconFactory.createDefaultLexicon())
         val reader = TestReader()
-        val file = File("src/test/resources/lexer-examples/unrecognizedtoken.txt")
+        val file = File("src/test/resources/examples/unrecognizedtoken.txt")
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         try {
             val tokens = lexer.tokenize(code)

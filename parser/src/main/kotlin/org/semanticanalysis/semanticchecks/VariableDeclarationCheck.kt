@@ -1,7 +1,7 @@
 package org.semanticanalysis.semanticchecks
 
 import org.shared.astnode.ASTNode
-import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 
 class VariableDeclarationCheck : SemanticCheck {
