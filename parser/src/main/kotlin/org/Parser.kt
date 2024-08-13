@@ -4,8 +4,8 @@ import org.common.Token
 import org.shared.astnode.ASTNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
-import org.shared.Location
-import org.shared.astnode.ProgramNode
+import org.common.Location
+import org.common.astnode.ProgramNode
 
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
