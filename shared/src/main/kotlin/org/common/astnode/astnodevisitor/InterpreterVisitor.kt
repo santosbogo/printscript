@@ -124,8 +124,6 @@ class InterpreterVisitor(private val symbolTable: MutableMap<String, Any>) : AST
                 }
             }
 
-
-
             else -> {
                 throw UnsupportedOperationException("Unsupported operator: ${node.operator}")
             }

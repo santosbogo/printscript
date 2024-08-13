@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.astnodebuilder.expressionfactory.PatternFactory
 import org.shared.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.ExpressionNode
@@ -19,7 +20,7 @@ class AssignmentNodeBuilder: ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val expressionPattern = "(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)*"
+        val expressionPattern = PatternFactory.getExpressionPattern()
         val pattern = "IdentifierToken AssignationToken $expressionPattern SemicolonToken"
         return Regex(pattern).matches(tokensString)
     }

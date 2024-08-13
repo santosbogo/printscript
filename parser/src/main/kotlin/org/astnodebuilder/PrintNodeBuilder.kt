@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.astnodebuilder.expressionfactory.PatternFactory
 import org.shared.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.ExpressionNode
@@ -17,7 +18,7 @@ class PrintNodeBuilder: ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val expressionPattern = "(\\s*(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)\\s*)*"
+        val expressionPattern = PatternFactory.getExpressionPattern()
         val pattern = "^PrintToken\\s+OpenParenthesisToken\\s*$expressionPattern\\s*CloseParenthesisToken\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }

@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.astnodebuilder.expressionfactory.PatternFactory
 import org.shared.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
@@ -15,7 +16,9 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        return false; // TODO ver que onda esta formula
+        //string with tokens separated by string enters. check that the string is a regex of identificationToken and PrintToken
+        val expressionPattern = PatternFactory.getExpressionPattern()
+        return Regex(expressionPattern).matches(tokensString)
     }
 
     private fun parseExpression(tokens: List<Token>): ExpressionNode {
@@ -34,6 +37,8 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
                     location = tokens[0].location,
                     value = LiteralValue.StringValue(tokens[0].value)
                 )
+                "IdentifierToken" -> IdentifierNodeBuilder.generateNodeFromValue(tokens[0].value, tokens[0].location)
+
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")
             }
         }
