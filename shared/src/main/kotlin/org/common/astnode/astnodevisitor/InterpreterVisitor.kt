@@ -1,11 +1,11 @@
-package org
+package org.common.astnode.astnodevisitor
 
 import org.shared.astnode.ASTNode
 import org.shared.astnode.ProgramNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
-import org.shared.astnode.statementnode.AssignmentNode
-import org.shared.astnode.statementnode.PrintStatementNode
-import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.common.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode

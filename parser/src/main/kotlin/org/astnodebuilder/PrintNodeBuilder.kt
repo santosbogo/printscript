@@ -12,13 +12,14 @@ class PrintNodeBuilder: ASTNodeBuilder {
         return PrintStatementNode(
             type = "PrintStatementNode",
             location = tokens[0].location,
-            value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 3)) as ExpressionNode
+            value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 2)) as ExpressionNode
         )
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val expressionPattern = "(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)*"
-        val pattern = "PrintToken OpenParenthesisToken $expressionPattern CloseParenthesisToken SemicolonToken"
+        val expressionPattern = "(\\s*(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)\\s*)*"
+        val pattern = "^PrintToken\\s+OpenParenthesisToken\\s*$expressionPattern\\s*CloseParenthesisToken\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
+
 }

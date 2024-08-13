@@ -5,9 +5,9 @@ import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
 import org.shared.astnode.expressionnode.LiteralValue
-import org.shared.astnode.statementnode.AssignmentNode
-import org.shared.astnode.statementnode.PrintStatementNode
-import org.shared.astnode.statementnode.VariableDeclarationNode
+import org.common.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 
 interface ASTNodeVisitor {
     fun visitProgramNode(node: ProgramNode): LiteralValue?

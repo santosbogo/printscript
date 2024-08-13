@@ -19,8 +19,9 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val expressionPattern = "(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)*"
-        val pattern = "DeclarationToken IdentifierToken ColonToken TypeToken AssignationToken $expressionPattern SemicolonToken"
+        val expressionPattern = "(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken)(\\s+(IdentifierToken|StringToken|NumberToken|PlusToken|MinusToken|MultiplyToken|DivisionToken))*"
+        val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken\\s+AssignationToken\\s+$expressionPattern\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
+
 }
