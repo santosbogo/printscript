@@ -2,7 +2,7 @@ package org.common.astnode.astnodevisitor
 
 import org.shared.astnode.ASTNode
 import org.common.astnode.ProgramNode
-import org.shared.astnode.astnodevisitor.ASTNodeVisitor
+import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
@@ -28,49 +28,51 @@ class InterpreterVisitor : ASTNodeVisitor {
     }
 
 
-    override fun visitProgramNode(node: ProgramNode): Map<String, Any> {
+    override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach { it.accept(this) }
-        return symbolTable
+        return VisitorResult(null, symbolTable)
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): Map<String, Any> {
+    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifierNode
         val value = node.value.accept(this)
         symbolTable[variableIdentifier.name] = value
-        return symbolTable
+        return VisitorResult(null, symbolTable)
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode) {
-        when (val value = node.value.accept(this)) {
+    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+        when (val value = node.value.accept(this).literalValue) {
             is LiteralValue.StringValue -> println(value.value)
             is LiteralValue.NumberValue -> println(value.value)
+            null -> throw Exception("Value is null")
         }
+        return VisitorResult(null, emptyMap()) //TODO no me cierra esto, probar cambiar la interfaz de este metodo.
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): Map<String, Any> {
+    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this)
         symbolTable[variableIdentifier.name] = value
-        return symbolTable
+        return VisitorResult(null, symbolTable)
     }
 
-    override fun visitLiteralNode(node: LiteralNode): LiteralValue {
+    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
         // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
         return when (val literalValue = node.value) {
-            is LiteralValue.StringValue -> LiteralValue.StringValue(literalValue.value)
-            is LiteralValue.NumberValue -> LiteralValue.NumberValue(literalValue.value)
+            is LiteralValue.StringValue -> VisitorResult( LiteralValue.StringValue(literalValue.value), symbolTable)
+            is LiteralValue.NumberValue -> VisitorResult( LiteralValue.NumberValue(literalValue.value), symbolTable)
         }
 
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): LiteralValue {
+    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         val value = symbolTable[node.name]
         if (value != null) {
             return when (value) {
                 //devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
-                is String -> LiteralValue.StringValue(value)
-                is Number -> LiteralValue.NumberValue(value)
+                is String -> VisitorResult( LiteralValue.StringValue(value), symbolTable)
+                is Number -> VisitorResult( LiteralValue.NumberValue(value), symbolTable)
                 else -> throw UnsupportedOperationException("Unsupported type: ${value::class}")
             }
         } else {
@@ -78,14 +80,17 @@ class InterpreterVisitor : ASTNodeVisitor {
         }
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): LiteralValue {
-        val leftValue = node.left.accept(this)
-        val rightValue = node.right.accept(this)
+    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+        val leftResult = node.left.accept(this)
+        val rightResult = node.right.accept(this)
 
-        return when (node.operator) {
+        val leftValue = leftResult.literalValue
+        val rightValue = rightResult.literalValue
+
+        val resultLiteralValue: LiteralValue = when (node.operator) {
             "+" -> {
                 when {
-                    leftValue is LiteralValue.StringValue || rightValue is LiteralValue.StringValue ->
+                    (leftValue is LiteralValue.StringValue) || (rightValue is LiteralValue.StringValue) ->
                         LiteralValue.StringValue(leftValue.toString() + rightValue.toString())
 
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
@@ -129,5 +134,10 @@ class InterpreterVisitor : ASTNodeVisitor {
                 throw UnsupportedOperationException("Unsupported operator: ${node.operator}")
             }
         }
+
+        return VisitorResult(
+            literalValue = resultLiteralValue,
+            map = symbolTable
+        )
     }
 }

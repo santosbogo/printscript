@@ -1,11 +1,11 @@
 package org.shared.astnode
 
 import org.common.Location
-import org.shared.astnode.astnodevisitor.ASTNodeVisitor
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.astnodevisitor.types.VisitorResult
+import org.common.astnode.astnodevisitor.ASTNodeVisitor
 
 interface ASTNode {
     val type: String
     val location: Location
-    fun accept(visitor: ASTNodeVisitor): LiteralValue?
+    fun accept(visitor: ASTNodeVisitor): VisitorResult
 }

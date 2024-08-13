@@ -1,6 +1,4 @@
-import org.common.astnode.astnodevisitor.InterpreterVisitor
 import org.shared.astnode.ASTNode
-import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 
 class MockInterpreter(private val visitor: MockInterpreterVisitor = MockInterpreterVisitor()) {
     fun interpret(node: ASTNode) {
@@ -12,7 +10,7 @@ class MockInterpreter(private val visitor: MockInterpreterVisitor = MockInterpre
     }
 
     fun getPrintsList(): List<Any> {
-        return visitor.getPrintsList()
+        return visitor.printsList
     }
 
 }
