@@ -1,6 +1,7 @@
-package org.shared.astnode
+package org.common.astnode
 
-import org.shared.Location
+import org.common.Location
+import org.shared.astnode.ASTNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 import org.shared.astnode.expressionnode.LiteralValue
 

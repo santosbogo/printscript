@@ -1,7 +1,7 @@
 package org.common.astnode.astnodevisitor
 
 import org.shared.astnode.ASTNode
-import org.shared.astnode.ProgramNode
+import org.common.astnode.ProgramNode
 import org.shared.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
@@ -56,7 +56,7 @@ class InterpreterVisitor : ASTNodeVisitor {
     }
 
     override fun visitLiteralNode(node: LiteralNode): LiteralValue {
-        //devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
+        // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
         return when (val literalValue = node.value) {
             is LiteralValue.StringValue -> LiteralValue.StringValue(literalValue.value)
             is LiteralValue.NumberValue -> LiteralValue.NumberValue(literalValue.value)

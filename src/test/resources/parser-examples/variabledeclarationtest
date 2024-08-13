@@ -1,9 +1,0 @@
-DeclarationToken, IdentifierToken, ColonToken, TypeToken, AssignationToken, ExpressionToken, SemicolonToken
-
-#####
-
-VariableDeclarationNode
-
-#####
-
-True

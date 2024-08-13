@@ -1,7 +1,7 @@
 package org.astnodebuilder
 
 import org.astnodebuilder.expressionfactory.PatternFactory
-import org.shared.Token
+import org.common.Token
 import org.shared.astnode.ASTNode
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.common.astnode.statementnode.VariableDeclarationNode
@@ -21,7 +21,7 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
 
     override fun checkFormula(tokensString: String): Boolean {
         val expressionPattern = PatternFactory.getExpressionPattern()
-        val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken\\s+AssignationToken\\s+$expressionPattern\\s+SemicolonToken$"
+        val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
 
