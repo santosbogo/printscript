@@ -2,7 +2,7 @@ package org.common.astnode.statementnode
 
 import org.common.Location
 import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 
 interface StatementNode : ASTNode {

@@ -2,7 +2,7 @@ package org.astnodebuilder
 
 import org.common.Location
 import org.common.Token
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.shared.astnode.expressionnode.IdentifierNode
 
 class IdentifierNodeBuilder: ASTNodeBuilder {

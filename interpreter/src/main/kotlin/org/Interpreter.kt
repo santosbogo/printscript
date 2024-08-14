@@ -1,7 +1,7 @@
 package org
 
 import org.common.astnode.astnodevisitor.InterpreterVisitor
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 
 class Interpreter(private val visitor: ASTNodeVisitor = InterpreterVisitor()) {

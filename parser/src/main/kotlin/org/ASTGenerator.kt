@@ -7,7 +7,7 @@ import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.PrintNodeBuilder
 import org.astnodebuilder.VariableDeclarationNodeBuilder
 import org.common.Token
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
     fun generate(buffer: ArrayList<Token>): ASTNode {
