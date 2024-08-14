@@ -1,8 +1,7 @@
 package org
 
 fun main() {
-    val lexiconFactory = LexiconFactory()
-    val lexer = Lexer(lexiconFactory.createDefaultLexicon())
+    val lexer = Lexer()
     val parser = Parser()
     val interpreter = Interpreter()
 

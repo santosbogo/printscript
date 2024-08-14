@@ -114,7 +114,7 @@ class InterpreterVisitor : ASTNodeVisitor {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                         LiteralValue.NumberValue(leftValue.value.toDouble() * rightValue.value.toDouble())
 
-                    else -> throw UnsupportedOperationException("Unsupported types for -")
+                    else -> throw UnsupportedOperationException("Unsupported types for *")
                 }
             }
 

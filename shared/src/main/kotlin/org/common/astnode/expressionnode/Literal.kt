@@ -19,9 +19,15 @@ sealed class LiteralValue {
 
     data class StringValue(val value: String) : LiteralValue() {
         override fun getType(): String = "String"
+        override fun toString(): String {
+            return value.trim('"')
+        }
     }
 
     data class NumberValue(val value: Number) : LiteralValue() {
         override fun getType(): String = "Number"
+        override fun toString(): String {
+            return value.toString()
+        }
     }
 }

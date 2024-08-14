@@ -1,0 +1,11 @@
+let a: string = "hola" + "mundo";
+println(a);
+
+#####
+
+VariableDeclarationNode
+PrintStatementNode
+
+#####
+
+True
