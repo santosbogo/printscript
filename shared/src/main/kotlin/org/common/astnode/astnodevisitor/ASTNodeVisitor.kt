@@ -5,11 +5,10 @@ import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.shared.astnode.expressionnode.LiteralNode
-import org.shared.astnode.expressionnode.LiteralValue
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 
 interface ASTNodeVisitor {
     val symbolTable: Map<String, Any>

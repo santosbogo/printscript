@@ -1,7 +1,7 @@
 package org
 
 import org.common.Token
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.parser.semanticanalysis.SemanticAnalyzerFactory
 import org.common.Location

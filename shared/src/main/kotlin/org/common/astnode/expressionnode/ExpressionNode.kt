@@ -1,7 +1,7 @@
 package org.shared.astnode.expressionnode
 
 import org.common.Location
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.astnodevisitor.types.VisitorResult
 

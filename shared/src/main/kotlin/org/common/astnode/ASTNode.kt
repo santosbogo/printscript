@@ -1,4 +1,4 @@
-package org.shared.astnode
+package org.common.astnode
 
 import org.common.Location
 import org.common.astnode.astnodevisitor.types.VisitorResult

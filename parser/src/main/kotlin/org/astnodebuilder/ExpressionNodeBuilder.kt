@@ -2,7 +2,7 @@ package org.astnodebuilder
 
 import org.astnodebuilder.expressionfactory.PatternFactory
 import org.common.Token
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.shared.astnode.expressionnode.BinaryExpressionNode
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.expressionnode.LiteralNode

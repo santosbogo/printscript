@@ -1,6 +1,6 @@
 package org.common.astnode.astnodevisitor
 
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.common.astnode.statementnode.AssignmentNode

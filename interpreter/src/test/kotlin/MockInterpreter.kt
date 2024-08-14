@@ -1,4 +1,4 @@
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 
 class MockInterpreter(private val visitor: MockInterpreterVisitor = MockInterpreterVisitor()) {
     fun interpret(node: ASTNode) {

@@ -2,7 +2,7 @@ package org.astnodebuilder
 
 import org.astnodebuilder.expressionfactory.PatternFactory
 import org.common.Token
-import org.shared.astnode.ASTNode
+import org.common.astnode.ASTNode
 import org.shared.astnode.expressionnode.ExpressionNode
 import org.shared.astnode.expressionnode.IdentifierNode
 import org.common.astnode.statementnode.AssignmentNode
