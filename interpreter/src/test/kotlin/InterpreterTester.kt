@@ -31,12 +31,13 @@ class InterpreterTester {
 
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode, printStatementNode))
 
-        val interpreter = Interpreter()
+        val interpreter = MockInterpreter()
         interpreter.interpret(programNode)
 
         // Verify the symbol table contains the correct value
-        val symbolTable = interpreter.getSymbolTable()
-        assertEquals(42, symbolTable["x"])
+        val printsList = interpreter.getPrintsList()
+        assertEquals(printsList, listOf(42))
+
     }
 
 }
