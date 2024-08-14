@@ -1,0 +1,11 @@
+let my_cool_variable: string = "ciclon";
+println(my_cool_variable);
+
+#####
+
+VariableDeclarationNode
+PrintStatementNode
+
+#####
+
+True

@@ -36,7 +36,7 @@ class InterpreterVisitor : ASTNodeVisitor {
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifierNode
-        val value = node.value.accept(this)
+        val value = node.value.accept(this).literalValue ?: throw Exception("Value is null")
         symbolTable[variableIdentifier.name] = value
         return VisitorResult(null, symbolTable)
     }
@@ -52,7 +52,7 @@ class InterpreterVisitor : ASTNodeVisitor {
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
-        val value = node.init.accept(this)
+        val value = node.init.accept(this).literalValue ?: throw Exception("Value is null")
         symbolTable[variableIdentifier.name] = value
         return VisitorResult(null, symbolTable)
     }
@@ -71,8 +71,8 @@ class InterpreterVisitor : ASTNodeVisitor {
         if (value != null) {
             return when (value) {
                 //devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
-                is String -> VisitorResult( LiteralValue.StringValue(value), symbolTable)
-                is Number -> VisitorResult( LiteralValue.NumberValue(value), symbolTable)
+                is LiteralValue.StringValue -> VisitorResult( value, symbolTable)
+                is LiteralValue.NumberValue -> VisitorResult( value, symbolTable)
                 else -> throw UnsupportedOperationException("Unsupported type: ${value::class}")
             }
         } else {
