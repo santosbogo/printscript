@@ -5,10 +5,10 @@ import org.common.astnode.ASTNode
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.shared.astnode.expressionnode.BinaryExpressionNode
-import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.expressionnode.LiteralNode
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.expressionnode.BinaryExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.LiteralNode
+import org.common.astnode.expressionnode.LiteralValue
 class MockInterpreterVisitor : ASTNodeVisitor {
     override val symbolTable: MutableMap<String, Any> = mutableMapOf()
     public val printsList: MutableList<Any> = mutableListOf()

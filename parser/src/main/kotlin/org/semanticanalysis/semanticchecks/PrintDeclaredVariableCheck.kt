@@ -2,8 +2,8 @@ package org.semanticanalysis.semanticchecks
 
 import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 import org.common.astnode.ASTNode
-import org.shared.astnode.expressionnode.BinaryExpressionNode
-import org.shared.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.BinaryExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
 import org.common.astnode.statementnode.PrintStatementNode
 
 class PrintDeclaredVariableCheck : SemanticCheck {

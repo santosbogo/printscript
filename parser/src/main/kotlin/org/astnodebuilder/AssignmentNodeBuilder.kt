@@ -3,8 +3,8 @@ package org.astnodebuilder
 import org.astnodebuilder.expressionfactory.PatternFactory
 import org.common.Token
 import org.common.astnode.ASTNode
-import org.shared.astnode.expressionnode.ExpressionNode
-import org.shared.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.ExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
 import org.common.astnode.statementnode.AssignmentNode
 
 class AssignmentNodeBuilder: ASTNodeBuilder {

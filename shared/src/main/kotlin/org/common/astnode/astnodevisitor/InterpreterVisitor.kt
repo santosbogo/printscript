@@ -6,10 +6,10 @@ import org.common.astnode.astnodevisitor.types.VisitorResult
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
-import org.shared.astnode.expressionnode.BinaryExpressionNode
-import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.expressionnode.LiteralNode
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.expressionnode.BinaryExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.LiteralNode
+import org.common.astnode.expressionnode.LiteralValue
 
 class InterpreterVisitor : ASTNodeVisitor {
     override val symbolTable: MutableMap<String, Any> = mutableMapOf()

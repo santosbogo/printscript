@@ -3,7 +3,7 @@ package org.astnodebuilder
 import org.astnodebuilder.expressionfactory.PatternFactory
 import org.common.Token
 import org.common.astnode.ASTNode
-import org.shared.astnode.expressionnode.ExpressionNode
+import org.common.astnode.expressionnode.ExpressionNode
 import org.common.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationNodeBuilder : ASTNodeBuilder {

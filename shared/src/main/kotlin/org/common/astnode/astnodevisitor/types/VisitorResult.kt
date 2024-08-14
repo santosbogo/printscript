@@ -1,6 +1,6 @@
 package org.common.astnode.astnodevisitor.types
 
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.expressionnode.LiteralValue
 
 data class VisitorResult(
     val literalValue: LiteralValue?,

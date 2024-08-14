@@ -3,8 +3,8 @@ package org.common.astnode.statementnode
 import org.common.Location
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.shared.astnode.expressionnode.ExpressionNode
-import org.shared.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.ExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
 
 class VariableDeclarationNode(
     override val type: String,

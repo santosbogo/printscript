@@ -3,10 +3,10 @@ package org.astnodebuilder
 import org.astnodebuilder.expressionfactory.PatternFactory
 import org.common.Token
 import org.common.astnode.ASTNode
-import org.shared.astnode.expressionnode.BinaryExpressionNode
-import org.shared.astnode.expressionnode.ExpressionNode
-import org.shared.astnode.expressionnode.LiteralNode
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.expressionnode.BinaryExpressionNode
+import org.common.astnode.expressionnode.ExpressionNode
+import org.common.astnode.expressionnode.LiteralNode
+import org.common.astnode.expressionnode.LiteralValue
 
 class ExpressionNodeBuilder : ASTNodeBuilder {
     override val formula: String = "-"

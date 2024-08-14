@@ -1,4 +1,4 @@
-package org.shared.astnode.expressionnode
+package org.common.astnode.expressionnode
 
 import org.common.Location
 import org.common.astnode.astnodevisitor.ASTNodeVisitor

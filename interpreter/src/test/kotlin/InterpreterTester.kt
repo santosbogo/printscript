@@ -1,14 +1,12 @@
-import org.Interpreter
-import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.common.Location
 import org.common.astnode.ProgramNode
-import org.shared.astnode.expressionnode.IdentifierNode
-import org.shared.astnode.expressionnode.LiteralNode
-import org.shared.astnode.expressionnode.LiteralValue
+import org.common.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.LiteralNode
+import org.common.astnode.expressionnode.LiteralValue
 
 class InterpreterTester {
 
