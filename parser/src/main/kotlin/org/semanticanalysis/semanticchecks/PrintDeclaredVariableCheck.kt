@@ -1,6 +1,5 @@
 package org.semanticanalysis.semanticchecks
 
-import org.parser.semanticanalysis.semanticchecks.SemanticCheck
 import org.common.astnode.ASTNode
 import org.common.astnode.expressionnode.BinaryExpressionNode
 import org.common.astnode.expressionnode.IdentifierNode

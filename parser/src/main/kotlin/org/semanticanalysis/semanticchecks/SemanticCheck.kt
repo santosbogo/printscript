@@ -1,4 +1,4 @@
-package org.parser.semanticanalysis.semanticchecks
+package org.semanticanalysis.semanticchecks
 
 import org.common.astnode.ASTNode
 

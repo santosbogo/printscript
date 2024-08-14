@@ -2,7 +2,7 @@ package org.semanticanalysis
 
 import org.common.astnode.astnodevisitor.InterpreterVisitor
 import org.common.astnode.ASTNode
-import org.parser.semanticanalysis.semanticchecks.SemanticCheck
+import org.semanticanalysis.semanticchecks.SemanticCheck
 
 class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
     // lista donde voy guardando variables y funciones creadas.
@@ -13,8 +13,5 @@ class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
         for (check in checks) {
             check.check(node, interpreterVisitor.symbolTable)
         }
-
-        // agrego las variables declaradas a la symbolTable, si no tienen errores.
-        interpreterVisitor.visit(node)
     }
 }

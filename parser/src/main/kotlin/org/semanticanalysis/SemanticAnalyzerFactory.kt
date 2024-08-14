@@ -1,7 +1,6 @@
-package org.parser.semanticanalysis
+package org.semanticanalysis
 
-import org.parser.semanticanalysis.semanticchecks.SemanticCheck
-import org.semanticanalysis.SemanticAnalyzer
+import org.semanticanalysis.semanticchecks.SemanticCheck
 import org.semanticanalysis.semanticchecks.*
 
 class SemanticAnalyzerFactory {
@@ -9,9 +8,7 @@ class SemanticAnalyzerFactory {
         val checks: List<SemanticCheck> = listOf(
             VariableDeclarationCheck(),
             AssignmentTypeCheck(),
-            UndeclaredVariableCheck(),
             VariableDeclarationTypeCheck(),
-            PrintDeclaredVariableCheck()
         )
         return SemanticAnalyzer(checks)
     }

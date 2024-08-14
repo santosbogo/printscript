@@ -3,7 +3,7 @@ package org
 import org.common.Token
 import org.common.astnode.ASTNode
 import org.semanticanalysis.SemanticAnalyzer
-import org.parser.semanticanalysis.SemanticAnalyzerFactory
+import org.semanticanalysis.SemanticAnalyzerFactory
 import org.common.Location
 import org.common.astnode.ProgramNode
 
