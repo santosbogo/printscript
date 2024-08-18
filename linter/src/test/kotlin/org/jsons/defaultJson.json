@@ -1,0 +1,9 @@
+{
+  "enabledChecks": [
+    "UnusedVariableCheck",
+    "NamingFormatCheck",
+    "PrintUseCheck"
+  ],
+  "namingPatternName": "camelCase",
+  "printlnCheckEnabled": true
+}
