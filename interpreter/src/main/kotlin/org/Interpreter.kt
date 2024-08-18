@@ -9,7 +9,4 @@ class Interpreter(private val visitor: ASTNodeVisitor = InterpreterVisitor()) {
         visitor.visit(node)
     }
 
-    fun getSymbolTable(): Map<String, Any> {
-        return visitor.symbolTable
-    }
 }

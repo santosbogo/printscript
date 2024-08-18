@@ -11,8 +11,6 @@ import org.common.astnode.statementnode.VariableDeclarationNode
 import org.common.astnode.ASTNode
 
 interface ASTNodeVisitor {
-    val symbolTable: Map<String, Any>
-    fun visit(node: ASTNode): Any
     fun visitProgramNode(node: ProgramNode): VisitorResult
     fun visitAssignmentNode(node: AssignmentNode): VisitorResult
     fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult
@@ -20,4 +18,16 @@ interface ASTNodeVisitor {
     fun visitLiteralNode(node: LiteralNode): VisitorResult
     fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult
     fun visitIdentifierNode(node: IdentifierNode): VisitorResult
+    fun visit(node: ASTNode): VisitorResult {
+        return when (node) {
+            is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is LiteralNode -> visitLiteralNode(node)
+            is IdentifierNode -> visitIdentifierNode(node)
+            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            else -> throw UnsupportedOperationException("Unsupported node: ${node::class}")
+        }
+    }
 }

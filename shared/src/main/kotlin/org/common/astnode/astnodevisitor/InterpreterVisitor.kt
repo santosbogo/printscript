@@ -12,9 +12,9 @@ import org.common.astnode.expressionnode.LiteralNode
 import org.common.astnode.expressionnode.LiteralValue
 
 class InterpreterVisitor : ASTNodeVisitor {
-    override val symbolTable: MutableMap<String, Any> = mutableMapOf()
+    val symbolTable: MutableMap<String, Any> = mutableMapOf()
 
-    override fun visit(node: ASTNode): Any {
+    override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
             is AssignmentNode -> visitAssignmentNode(node)
