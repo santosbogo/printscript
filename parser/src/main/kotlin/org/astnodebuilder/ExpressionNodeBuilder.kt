@@ -1,6 +1,6 @@
 package org.astnodebuilder
 
-import org.astnodebuilder.expressionfactory.PatternFactory
+import org.common.expressionfactory.PatternFactory
 import org.common.Token
 import org.common.astnode.ASTNode
 import org.common.astnode.expressionnode.BinaryExpressionNode
@@ -17,7 +17,7 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
 
     override fun checkFormula(tokensString: String): Boolean {
         //string with tokens separated by string enters. check that the string is a regex of identificationToken and PrintToken
-        val expressionPattern = PatternFactory.getExpressionPattern()
+        val expressionPattern = PatternFactory.getBinaryExpressionPattern()
         return Regex(expressionPattern).matches(tokensString)
     }
 
