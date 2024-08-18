@@ -9,7 +9,7 @@ class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
     private val interpreterVisitor: InterpreterVisitor = InterpreterVisitor()
 
     fun analyze(node: ASTNode) {
-        // corro los chequeos semanticos sobre cada statement.
+        // corro los chequeos semánticos sobre cada statement.
         for (check in checks) {
             check.check(node, interpreterVisitor.symbolTable)
         }
