@@ -38,7 +38,7 @@ class FormatterTester {
     }
 
     @Test
-    fun testFactory() {
+    fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
         val filePath = "src/main/kotlin/rules/rulesExample.json"
         val jsonContent = File(filePath).readText()

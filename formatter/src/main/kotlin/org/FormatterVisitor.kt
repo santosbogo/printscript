@@ -28,15 +28,6 @@ class FormatterVisitor: ASTNodeVisitor {
         return VisitorResult.StringResult(result)
     }
 
-    private fun getExpression(init: ExpressionNode): String {
-        return when (init) {
-            is LiteralNode -> init.value.toString()
-            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
-            is IdentifierNode -> init.name
-            else -> throw Exception("Unsupported expression")
-        }
-    }
-
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
         TODO("Not yet implemented")
     }
@@ -47,5 +38,14 @@ class FormatterVisitor: ASTNodeVisitor {
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         TODO("Not yet implemented")
+    }
+
+    private fun getExpression(init: ExpressionNode): String {
+        return when (init) {
+            is LiteralNode -> init.value.toString()
+            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
+            is IdentifierNode -> init.name
+            else -> throw Exception("Unsupported expression")
+        }
     }
 }
