@@ -5,7 +5,7 @@ import org.common.astnode.statementnode.AssignmentNode
 
 class UndeclaredVariableCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
-        // si quiero asignar una variable que no existe todavia, tiro error.
+        // si quiero asignar una variable que no existe todavía, tiro error.
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
             val variableIdentifier = assignmentNode.identifierNode
