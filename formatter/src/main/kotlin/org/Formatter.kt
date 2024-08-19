@@ -12,6 +12,7 @@ class Formatter(private val node: ProgramNode, json : JsonObject, private val vi
     fun format(): String {
         val code: MutableList<String> = mutableListOf()
         var result : String = ""
+
         // Takes each AST and gets its string representation
         node.statements.forEach {
             code += visitor.visit(it).toString()
@@ -37,6 +38,7 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
     fun createRules(json: JsonObject): List<Rule> {
         val rules = mutableListOf<Rule>()
         for ((key, value) in json) {
+            if (value.toString() == "false") { continue }
             val ruleBuilder = rulesMap.find { it.first == key }?.second
             val rule = ruleBuilder?.buildRule(key, value.toString())
 
