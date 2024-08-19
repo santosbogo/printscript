@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.21'
 }
 
 repositories {
@@ -9,6 +10,14 @@ repositories {
 
 dependencies {
     implementation project(':shared')
+    implementation project(':lexer')
+    implementation project(':parser')
+    implementation project(':interpreter')
+    implementation project(':linter')
+    implementation project(':formatter')
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
+
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }

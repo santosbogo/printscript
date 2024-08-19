@@ -25,7 +25,6 @@ class Parser(
         }
 
         if (buffer.isNotEmpty()) {
-            // If the buffer is not empty, it means the last statement is missing a semicolon.
             throw Exception("Unexpected end of input. Missing semicolon at the end of the file.")
         }
 
@@ -33,8 +32,6 @@ class Parser(
             type = "ProgramNode",
             location = Location(1, 1),
             statements = statements)
-
-        //return the program node.
         return programNode
     }
 }
