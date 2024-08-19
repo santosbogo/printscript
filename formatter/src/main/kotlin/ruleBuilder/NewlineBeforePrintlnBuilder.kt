@@ -1,4 +1,4 @@
-package rules.ruleBuilder
+package ruleBuilder
 
 import rules.NewlineBeforePrintln
 import rules.Rule

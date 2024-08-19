@@ -15,7 +15,7 @@ class FormatterVisitor: ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result: String = "${node.identifierNode.accept(this)} = ${node.value.accept(this)}"
+        val result: String = "${node.identifierNode.accept(this)} = ${node.value.accept(this)}" + ";"
         return VisitorResult.StringResult(result)
     }
 
@@ -24,7 +24,7 @@ class FormatterVisitor: ASTNodeVisitor {
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
-        val result: String = node.kind + " " + node.identifier.name + ": " + node.identifier.dataType + " = " + getExpression(node.init)
+        val result: String = node.kind + " " + node.identifier.name + ": " + node.identifier.dataType + " = " + getExpression(node.init) + ";"
         return VisitorResult.StringResult(result)
     }
 

@@ -1,7 +1,6 @@
 package test.kotlin
 
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
 import org.RulesFactory
@@ -29,7 +28,7 @@ class FormatterTester {
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode))
 
         // Get JSON from file
-        val filePath = "src/main/kotlin/rules/rulesExample.json"
+        val filePath = "src/main/kotlin/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
@@ -40,7 +39,7 @@ class FormatterTester {
     @Test
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val filePath = "src/main/kotlin/rules/rulesExample.json"
+        val filePath = "src/main/kotlin/rulesExample.json"
         val jsonContent = File(filePath).readText()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)

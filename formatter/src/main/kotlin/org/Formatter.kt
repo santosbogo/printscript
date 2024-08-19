@@ -4,21 +4,31 @@ import kotlinx.serialization.json.JsonObject
 import rules.Rule
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import rules.ruleBuilder.NewlineBeforePrintlnBuilder
-import rules.ruleBuilder.RuleBuilder
-import rules.ruleBuilder.SpaceAfterColonBuilder
+import ruleBuilder.*
+import rules.SpaceAroundEquals
 
 class Formatter(private val node: ProgramNode, json : JsonObject, private val visitor: ASTNodeVisitor = FormatterVisitor()) {
     private val rules = RulesFactory().createRules(json)
 
     fun format(): String {
-        var result: String = ""
-        // Takes each AST
-        node.statements.forEach { // Que el visitor guarde el resultado
-            result += visitor.visit(it).toString()
-            result += "\n"
+        val code: MutableList<String> = mutableListOf()
+        var result : String = ""
+        // Takes each AST and gets its string representation
+        node.statements.forEach {
+            code += visitor.visit(it).toString()
+        }
+        // Applies rules to each statement of code
+        code.forEach { line ->
+            result += applyRules(line) + "\n"
         }
         return result
+    }
+
+    private fun applyRules(line: String): String {
+        rules.forEach { rule ->
+            return rule.applyRule(line)
+        }
+        return line
     }
 }
 
@@ -33,9 +43,8 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
 
             if (rule != null) {
                 rules.add(rule)
-                println(rule.name)
             } else {
-                println("Rule does not exist")
+                error("Rule does not exist")
             }
         }
         return rules
@@ -44,8 +53,10 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
 
 fun defaultRules() : List<Pair<String, RuleBuilder>> {
     return listOf(
-        "space_before_colon" to SpaceAfterColonBuilder(),
+        "space_before_colon" to SpaceBeforeColonBuilder(),
         "newline_before_println" to NewlineBeforePrintlnBuilder(),
+        "space_after_colon" to SpaceAfterColonBuilder(),
+        "space_around_equals" to SpaceAroundEqualsBuilder(),
     )
 }
 
