@@ -58,7 +58,7 @@ class InterpreterVisitor : ASTNodeVisitor {
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
+        // Devuelvo el valor tal cual, para que pueda ser usado en su contexto (asignación o expresión)
         return when (val literalValue = node.value) {
             is LiteralValue.StringValue -> VisitorResult( LiteralValue.StringValue(literalValue.value), symbolTable)
             is LiteralValue.NumberValue -> VisitorResult( LiteralValue.NumberValue(literalValue.value), symbolTable)

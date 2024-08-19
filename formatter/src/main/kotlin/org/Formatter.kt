@@ -12,10 +12,10 @@ class Formatter(private val node: ProgramNode, json : JsonObject, private val vi
     private val rules = RulesFactory().createRules(json)
 
     fun format(): String {
-        val result : String = ""
+        var result: String = ""
         node.statements.forEach { // Que el visitor guarde el resultado
-            visitor.visit(it)
-            result.plus("\n")
+            result += visitor.visit(it).literalValue
+            result += "\n"
         }
         return result
     }
