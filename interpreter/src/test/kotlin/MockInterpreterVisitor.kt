@@ -1,17 +1,18 @@
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.astnode.statementnode.PrintStatementNode
-import org.common.astnode.statementnode.VariableDeclarationNode
 import org.common.astnode.ASTNode
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.astnodevisitor.types.VisitorResult
+import org.common.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 import org.common.astnode.expressionnode.BinaryExpressionNode
 import org.common.astnode.expressionnode.IdentifierNode
 import org.common.astnode.expressionnode.LiteralNode
 import org.common.astnode.expressionnode.LiteralValue
+
 class MockInterpreterVisitor : ASTNodeVisitor {
     val symbolTable: MutableMap<String, Any> = mutableMapOf()
-    public val printsList: MutableList<Any> = mutableListOf()
+    val printsList: MutableList<Any> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -30,38 +31,35 @@ class MockInterpreterVisitor : ASTNodeVisitor {
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach { it.accept(this) }
-        return VisitorResult(null, symbolTable)
+        return VisitorResult.MapResult(symbolTable)
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifierNode
-        val value = node.value.accept(this)
+        val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value
-        return VisitorResult(null, symbolTable)
+        return VisitorResult.MapResult(symbolTable)
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        when (val value = node.value.accept(this).literalValue) {
-            is LiteralValue.StringValue -> printsList.add(value.value)
-            is LiteralValue.NumberValue -> printsList.add(value.value)
-            null -> throw Exception("Value is null")
+        val value = node.value.accept(this) as VisitorResult.LiteralValueResult
+        when (value.value) {
+            is LiteralValue.StringValue -> printsList.add((value.value as LiteralValue.StringValue).value) // printeo el valor, del literalValue que está en el literalValueResult.
+            is LiteralValue.NumberValue -> printsList.add((value.value as LiteralValue.NumberValue).value)
         }
-        return VisitorResult(null, emptyMap()) //TODO no me cierra esto, probar cambiar la interfaz de este metodo.
+        return VisitorResult.Empty
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
-        val value = node.init.accept(this)
+        val value = node.init.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value
-        return VisitorResult(null, symbolTable)
+        return VisitorResult.MapResult(symbolTable)
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
         // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
-        return when (val literalValue = node.value) {
-            is LiteralValue.StringValue -> VisitorResult( LiteralValue.StringValue(literalValue.value), symbolTable)
-            is LiteralValue.NumberValue -> VisitorResult( LiteralValue.NumberValue(literalValue.value), symbolTable)
-        }
+        return VisitorResult.LiteralValueResult(node.value)
 
     }
 
@@ -70,8 +68,8 @@ class MockInterpreterVisitor : ASTNodeVisitor {
         if (value != null) {
             return when (value) {
                 //devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
-                is String -> VisitorResult( LiteralValue.StringValue(value), symbolTable)
-                is Number -> VisitorResult( LiteralValue.NumberValue(value), symbolTable)
+                is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
+                is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 else -> throw UnsupportedOperationException("Unsupported type: ${value::class}")
             }
         } else {
@@ -80,11 +78,11 @@ class MockInterpreterVisitor : ASTNodeVisitor {
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        val leftResult = node.left.accept(this)
-        val rightResult = node.right.accept(this)
+        val leftResult = node.left.accept(this) as VisitorResult.LiteralValueResult
+        val rightResult = node.right.accept(this) as VisitorResult.LiteralValueResult
 
-        val leftValue = leftResult.literalValue
-        val rightValue = rightResult.literalValue
+        val leftValue = leftResult.value
+        val rightValue = rightResult.value
 
         val resultLiteralValue: LiteralValue = when (node.operator) {
             "+" -> {
@@ -113,7 +111,7 @@ class MockInterpreterVisitor : ASTNodeVisitor {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                         LiteralValue.NumberValue(leftValue.value.toDouble() * rightValue.value.toDouble())
 
-                    else -> throw UnsupportedOperationException("Unsupported types for -")
+                    else -> throw UnsupportedOperationException("Unsupported types for *")
                 }
             }
 
@@ -134,9 +132,7 @@ class MockInterpreterVisitor : ASTNodeVisitor {
             }
         }
 
-        return VisitorResult(
-            literalValue = resultLiteralValue,
-            map = symbolTable
-        )
+        return VisitorResult.LiteralValueResult(resultLiteralValue)
     }
 }
+

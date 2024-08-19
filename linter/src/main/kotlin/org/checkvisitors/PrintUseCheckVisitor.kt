@@ -15,41 +15,41 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach {
-            val result = it.accept(this)
+            val result = it.accept(this) as VisitorResult.ListResult
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
-            if (result.errors.isNotEmpty()) {
-                warnings.addAll(result.errors) //agarro warnings.
+            if (result.value.isNotEmpty()) {
+                warnings.addAll(result.value) //agarro warnings, el value es la lista.
             }
         }
-        return VisitorResult(null, emptyMap(), warnings)
+        return VisitorResult.ListResult(warnings)
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         if (enabled && node.value is BinaryExpressionNode){
-            return VisitorResult(null, emptyMap(), listOf("Location:${node.location}, Print statement should be called with ID or Literal."))
+            return VisitorResult.ListResult(listOf("Location:${node.location}, Print statement should be called with ID or Literal."))
         }
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
 
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 }

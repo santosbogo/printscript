@@ -6,7 +6,7 @@ fun main() {
     val interpreter = Interpreter()
 
     while (true) {
-        print("> ")
+        print("- )
         val input = readLine() ?: break
         if (input.lowercase() == "exit") break
 
