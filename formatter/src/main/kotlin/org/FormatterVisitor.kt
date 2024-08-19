@@ -12,20 +12,6 @@ import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
 
 class FormatterVisitor: ASTNodeVisitor {
-
-    override fun visit(node: ASTNode): VisitorResult {
-        return when (node) {
-            is ProgramNode -> visitProgramNode(node)
-            is AssignmentNode -> visitAssignmentNode(node)
-            is PrintStatementNode -> visitPrintStatementNode(node)
-            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
-            is LiteralNode -> visitLiteralNode(node)
-            is IdentifierNode -> visitIdentifierNode(node)
-            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
-            else -> throw UnsupportedOperationException("Unsupported node: ${node::class}")
-        }
-    }
-
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         TODO("Not yet implemented")
     }
