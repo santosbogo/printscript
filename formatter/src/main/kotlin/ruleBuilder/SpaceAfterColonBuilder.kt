@@ -1,5 +1,4 @@
 package ruleBuilder
-
 import rules.Rule
 import rules.SpaceAfterColon
 
