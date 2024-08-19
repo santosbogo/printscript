@@ -14,7 +14,7 @@ class Formatter(private val node: ProgramNode, json : JsonObject, private val vi
     fun format(): String {
         var result: String = ""
         node.statements.forEach { // Que el visitor guarde el resultado
-            result += visitor.visit(it).literalValue
+            result += visitor.visit(it).toString()
             result += "\n"
         }
         return result

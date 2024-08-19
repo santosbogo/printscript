@@ -16,8 +16,7 @@ class FormatterVisitor: ASTNodeVisitor {
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val result: String = "${node.identifierNode.accept(this)} = ${node.value.accept(this)}"
-        val final: LiteralValue = LiteralValue.StringValue(result)
-        return VisitorResult(final, emptyMap(), emptyList())
+        return VisitorResult.StringResult(result)
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
@@ -26,8 +25,7 @@ class FormatterVisitor: ASTNodeVisitor {
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val result: String = node.kind + " " + node.identifier.name + ": " + node.identifier.dataType + " = " + getExpression(node.init)
-        val final: LiteralValue = LiteralValue.StringValue(result)
-        return VisitorResult(final, emptyMap(), emptyList())
+        return VisitorResult.StringResult(result)
     }
 
     private fun getExpression(init: ExpressionNode): String {
