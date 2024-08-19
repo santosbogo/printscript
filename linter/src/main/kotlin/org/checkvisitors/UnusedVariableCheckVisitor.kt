@@ -26,36 +26,36 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
             warnings.add("Variable '$it' is declared but never used.")
         }
 
-        return VisitorResult(null, emptyMap(), warnings)
+        return VisitorResult.ListResult(warnings)
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         usedVariables.add(node.identifierNode.name)
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         node.value.accept(this)
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         declaredVariables.add(node.identifier.name)
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         node.left.accept(this)
         node.right.accept(this)
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         usedVariables.add(node.name)
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 }
