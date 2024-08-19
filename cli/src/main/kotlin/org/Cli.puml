@@ -1,0 +1,18 @@
+@startuml
+
+class Cli{
+    + run(input: String)
+}
+
+interface Command{
+    + execute()
+}
+
+interface CommandBuilder{
+    + build(input: String): Command
+}
+
+Cli --> CommandBuilder
+Cli --> Command
+
+@enduml
