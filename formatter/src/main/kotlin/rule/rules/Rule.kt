@@ -1,4 +1,4 @@
-package rules
+package rule.rules
 
 interface Rule {
     val name: String

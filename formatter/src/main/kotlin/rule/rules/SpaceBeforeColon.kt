@@ -1,4 +1,4 @@
-package rules
+package rule.rules
 
 class SpaceBeforeColon : Rule {
     override val name = "space_before_colon"

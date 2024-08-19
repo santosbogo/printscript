@@ -1,4 +1,4 @@
-package rules
+package rule.rules
 
 class SpaceAfterColon: Rule {
     override val name: String = "SpaceAfterColon"

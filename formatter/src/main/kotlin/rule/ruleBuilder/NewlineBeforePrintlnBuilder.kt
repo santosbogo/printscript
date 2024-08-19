@@ -1,7 +1,7 @@
-package rules.ruleBuilder
+package rule.ruleBuilder
 
-import rules.NewlineBeforePrintln
-import rules.Rule
+import rule.rules.NewlineBeforePrintln
+import rule.rules.Rule
 
 class NewlineBeforePrintlnBuilder: RuleBuilder {
     override fun buildRule(ruleName: String, value: String): Rule {

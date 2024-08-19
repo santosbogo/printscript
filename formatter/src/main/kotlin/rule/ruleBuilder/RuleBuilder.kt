@@ -1,6 +1,6 @@
-package rules.ruleBuilder
+package rule.ruleBuilder
 
-import rules.Rule
+import rule.rules.Rule
 
 interface RuleBuilder {
     fun buildRule(ruleName: String, value: String): Rule

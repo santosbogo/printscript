@@ -1,12 +1,12 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
-import rules.Rule
+import rule.rules.Rule
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import rules.ruleBuilder.NewlineBeforePrintlnBuilder
-import rules.ruleBuilder.RuleBuilder
-import rules.ruleBuilder.SpaceAfterColonBuilder
+import rule.ruleBuilder.NewlineBeforePrintlnBuilder
+import rule.ruleBuilder.RuleBuilder
+import rule.ruleBuilder.SpaceAfterColonBuilder
 
 class Formatter(private val node: ProgramNode, json : JsonObject, private val visitor: ASTNodeVisitor = FormatterVisitor()) {
     private val rules = RulesFactory().createRules(json)

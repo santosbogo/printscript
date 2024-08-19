@@ -1,4 +1,4 @@
-package rules
+package rule.rules
 
 class NewlineBeforePrintln(private val shift: Int?) : Rule {
     override val name: String = "NewlineBeforePrintln"
