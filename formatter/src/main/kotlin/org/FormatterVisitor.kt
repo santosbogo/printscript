@@ -11,16 +11,17 @@ import org.common.astnode.statementnode.VariableDeclarationNode
 class FormatterVisitor: ASTNodeVisitor {
     
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
-        TODO("Not yet implemented")
+        return VisitorResult.StringResult("We can't reach here")
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result: String = "${node.identifierNode.accept(this)} = ${node.value.accept(this)}"
+        val result: String = "${node.identifierNode} = ${node.value}"
         return VisitorResult.StringResult(result)
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        TODO("Not yet implemented")
+        val result: String = "println(${node.value})"
+        return VisitorResult.StringResult(result)
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
