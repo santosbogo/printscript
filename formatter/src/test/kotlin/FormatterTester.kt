@@ -29,7 +29,7 @@ class FormatterTester {
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode))
 
         // Get JSON from file
-        val filePath = "src/main/kotlin/rules/rulesExample.json"
+        val filePath = "src/main/kotlin/rule/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
@@ -40,7 +40,7 @@ class FormatterTester {
     @Test
     fun testFactory() {
         val rulesFactory = RulesFactory()
-        val filePath = "src/main/kotlin/rules/rulesExample.json"
+        val filePath = "src/main/kotlin/rule/rulesExample.json"
         val jsonContent = File(filePath).readText()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
