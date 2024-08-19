@@ -9,7 +9,7 @@ import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
 
 class FormatterVisitor: ASTNodeVisitor {
-    
+
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         return VisitorResult.StringResult("We can't reach here")
     }
@@ -30,15 +30,16 @@ class FormatterVisitor: ASTNodeVisitor {
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        TODO("Not yet implemented")
+        return VisitorResult.StringResult(node.value.toString())
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        TODO("Not yet implemented")
+        val result: String = "${getExpression(node.left)} ${node.operator} ${getExpression(node.right)}"
+        return VisitorResult.StringResult(result)
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        TODO("Not yet implemented")
+        return VisitorResult.StringResult(node.name)
     }
 
     private fun getExpression(init: ExpressionNode): String {
