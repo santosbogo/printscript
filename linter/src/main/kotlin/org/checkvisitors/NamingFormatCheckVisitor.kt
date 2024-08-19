@@ -16,49 +16,49 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach {
-            val result = it.accept(this)
+            val result = it.accept(this) as VisitorResult.ListResult
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
-            if (result.errors.isNotEmpty()) {
-                warnings.addAll(result.errors) //agarro warnings.
+            if (result.value.isNotEmpty()) {
+                warnings.addAll(result.value) //agarro warnings, el value es la lista.
             }
         }
-        return VisitorResult(null, emptyMap(), warnings)
+        return VisitorResult.ListResult(warnings)
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         //check that the assignment node's identifier is formated in the style of the pattern
         val patternMatch = node.identifierNode.name.matches(Regex(pattern))
         if (!patternMatch) {
-           return VisitorResult(null, emptyMap(), listOf("Location:${node.location}, Identifier ${node.identifierNode.name} does not match the pattern $patternName"))
+           return VisitorResult.ListResult(listOf("Location:${node.location}, Identifier ${node.identifierNode.name} does not match the pattern $patternName"))
         }
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
 
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         //check that the variable declaration node's identifier is formated in the style of the pattern
         val patternMatch = node.identifier.name.matches(Regex(pattern))
         if (!patternMatch) {
-            return VisitorResult(null, emptyMap(), listOf("Location:${node.location}, Identifier ${node.identifier.name} does not match the pattern $patternName"))
+            return VisitorResult.ListResult(listOf("Location:${node.location}, Identifier ${node.identifier.name} does not match the pattern $patternName"))
         }
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        return VisitorResult(null, emptyMap())
+        return VisitorResult.Empty
     }
 
 }
