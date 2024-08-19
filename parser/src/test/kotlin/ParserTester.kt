@@ -41,7 +41,7 @@ class ParserTester {
         val lexer = Lexer()
         val parser = Parser()
         val reader = TestReader()
-        val file = File("src/test/resources/examples/stringsum.txt")
+        val file = File("src/test/resources/examples/variabledeclaration.txt")
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val tokens = lexer.tokenize(code)
         val nodes = parser.parse(tokens).statements

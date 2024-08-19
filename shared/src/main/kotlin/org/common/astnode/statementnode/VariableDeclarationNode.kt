@@ -11,7 +11,7 @@ class VariableDeclarationNode(
     override val location: Location,
     val identifier: IdentifierNode,
     val init: ExpressionNode,
-    private val kind: String
+    val kind: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitVariableDeclarationNode(this)

@@ -1,4 +1,4 @@
-package rules
+package rule.rules
 
 class SpaceAroundEquals : Rule {
     override val name = "space_around_equals"
