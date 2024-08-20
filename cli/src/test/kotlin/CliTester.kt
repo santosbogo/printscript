@@ -1,2 +1,1 @@
-class CliTester {
-}
+class CliTester

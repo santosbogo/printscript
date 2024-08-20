@@ -17,8 +17,10 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
             }
         }
 
-        throw Exception("Syntax error: Invalid statement at ${buffer.first().location}." +
-                "No formula matches the tokens: ${buffer.joinToString(" ") { it.type }}")
+        throw Exception(
+            "Syntax error: Invalid statement at ${buffer.first().location}." +
+                "No formula matches the tokens: ${buffer.joinToString(" ") { it.type }}"
+        )
     }
 
     private fun getFormula(buffer: ArrayList<Token>): String {
@@ -28,12 +30,14 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
 
 class ASTGeneratorFactory {
     fun createDefaultASTGenerator(): ASTGenerator {
-        return ASTGenerator(listOf(
-            VariableDeclarationNodeBuilder(),
-            PrintNodeBuilder(),
-            AssignmentNodeBuilder(),
-            ExpressionNodeBuilder(),
-            IdentifierNodeBuilder()
-        ))
+        return ASTGenerator(
+            listOf(
+                VariableDeclarationNodeBuilder(),
+                PrintNodeBuilder(),
+                AssignmentNodeBuilder(),
+                ExpressionNodeBuilder(),
+                IdentifierNodeBuilder()
+            )
+        )
     }
 }

@@ -19,7 +19,7 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
             if (result.value.isNotEmpty()) {
-                warnings.addAll(result.value) //agarro warnings, el value es la lista.
+                warnings.addAll(result.value) // agarro warnings, el value es la lista.
             }
         }
         return VisitorResult.ListResult(warnings)
@@ -30,11 +30,10 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        if (enabled && node.value is BinaryExpressionNode){
+        if (enabled && node.value is BinaryExpressionNode) {
             return VisitorResult.ListResult(listOf("Location:${node.location}, Print statement should be called with ID or Literal."))
         }
         return VisitorResult.Empty
-
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {

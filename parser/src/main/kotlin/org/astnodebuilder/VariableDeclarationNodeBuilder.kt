@@ -1,10 +1,10 @@
 package org.astnodebuilder
 
-import org.common.expressionfactory.PatternFactory
 import org.common.Token
 import org.common.astnode.ASTNode
 import org.common.astnode.expressionnode.ExpressionNode
 import org.common.astnode.statementnode.VariableDeclarationNode
+import org.common.expressionfactory.PatternFactory
 
 class VariableDeclarationNodeBuilder : ASTNodeBuilder {
     override val formula: String =
@@ -24,5 +24,4 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
         val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
-
 }

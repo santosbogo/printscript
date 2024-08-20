@@ -12,5 +12,4 @@ class ExecuteCommand(private val input: String) : Command {
         val ast = Parser().parse(tokens)
         ast.accept(InterpreterVisitor())
     }
-
 }

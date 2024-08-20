@@ -3,12 +3,15 @@ package org
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.ASTNodeVisitor
 import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.*
+import org.common.astnode.expressionnode.BinaryExpressionNode
+import org.common.astnode.expressionnode.ExpressionNode
+import org.common.astnode.expressionnode.IdentifierNode
+import org.common.astnode.expressionnode.LiteralNode
 import org.common.astnode.statementnode.AssignmentNode
 import org.common.astnode.statementnode.PrintStatementNode
 import org.common.astnode.statementnode.VariableDeclarationNode
 
-class FormatterVisitor: ASTNodeVisitor {
+class FormatterVisitor : ASTNodeVisitor {
 
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         return VisitorResult.StringResult("We can't reach here")

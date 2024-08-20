@@ -5,7 +5,7 @@ import org.common.Token
 import org.common.astnode.ASTNode
 import org.common.astnode.expressionnode.IdentifierNode
 
-class IdentifierNodeBuilder: ASTNodeBuilder {
+class IdentifierNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken"
 
     override fun generate(tokens: List<Token>): ASTNode {

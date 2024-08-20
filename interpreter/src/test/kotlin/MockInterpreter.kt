@@ -12,5 +12,4 @@ class MockInterpreter(private val visitor: MockInterpreterVisitor = MockInterpre
     fun getPrintsList(): List<Any> {
         return visitor.printsList
     }
-
 }

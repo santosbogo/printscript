@@ -3,13 +3,13 @@ package org.common.astnode.astnodevisitor
 import org.common.astnode.ASTNode
 import org.common.astnode.ProgramNode
 import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.astnode.statementnode.PrintStatementNode
-import org.common.astnode.statementnode.VariableDeclarationNode
 import org.common.astnode.expressionnode.BinaryExpressionNode
 import org.common.astnode.expressionnode.IdentifierNode
 import org.common.astnode.expressionnode.LiteralNode
 import org.common.astnode.expressionnode.LiteralValue
+import org.common.astnode.statementnode.AssignmentNode
+import org.common.astnode.statementnode.PrintStatementNode
+import org.common.astnode.statementnode.VariableDeclarationNode
 
 class InterpreterVisitor : ASTNodeVisitor {
     val symbolTable: MutableMap<String, Any> = mutableMapOf()
@@ -26,7 +26,6 @@ class InterpreterVisitor : ASTNodeVisitor {
             else -> throw UnsupportedOperationException("Unsupported node: ${node::class}")
         }
     }
-
 
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
@@ -60,14 +59,13 @@ class InterpreterVisitor : ASTNodeVisitor {
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
         // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
         return VisitorResult.LiteralValueResult(node.value)
-
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         val value = symbolTable[node.name]
         if (value != null) {
             return when (value) {
-                //devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
+                // devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 else -> throw UnsupportedOperationException("Unsupported type: ${value::class}")

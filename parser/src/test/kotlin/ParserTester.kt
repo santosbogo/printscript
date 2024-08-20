@@ -1,9 +1,6 @@
 import org.Lexer
 import org.Parser
 import org.junit.jupiter.api.Test
-import org.common.Location
-import org.common.Token
-import org.common.astnode.ProgramNode
 import java.io.File
 
 class ParserTester {
@@ -37,7 +34,7 @@ class ParserTester {
     }
 
     @Test
-    fun testSingleFile(){
+    fun testSingleFile() {
         val lexer = Lexer()
         val parser = Parser()
         val reader = TestReader()

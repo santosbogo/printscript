@@ -14,15 +14,14 @@ class Linter(private val checkVisitors: List<ASTNodeVisitor>) {
     private val warnings = mutableListOf<String>()
     fun lint(node: ProgramNode): MutableList<String> {
         checkVisitors.forEach { visitor ->
-            val result: VisitorResult.ListResult = visitor.visit(node) as VisitorResult.ListResult //estoy seguro q voy a recibir un listResult.
+            val result: VisitorResult.ListResult = visitor.visit(node) as VisitorResult.ListResult // estoy seguro q voy a recibir un listResult.
             warnings.addAll(result.value) // voy agregando los warnings q cada visitor da.
         }
         return warnings
     }
-
 }
 
-class LinterFactory(){
+class LinterFactory() {
     fun createLinter(jsonFile: String): Linter {
         val mapper = jacksonObjectMapper()
         val config: LinterConfig = mapper.readValue(jsonFile)
