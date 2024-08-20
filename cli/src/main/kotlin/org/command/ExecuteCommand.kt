@@ -2,7 +2,7 @@ package org.command
 
 import org.Lexer
 import org.Parser
-import org.common.astnode.astnodevisitor.InterpreterVisitor
+import org.astnode.astnodevisitor.InterpreterVisitor
 
 class ExecuteCommand(private val input: String) : Command {
     override fun execute() {

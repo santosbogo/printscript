@@ -1,11 +1,11 @@
 package org.astnodebuilder
 
-import org.common.Token
-import org.common.astnode.ASTNode
-import org.common.astnode.expressionnode.ExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.expressionfactory.PatternFactory
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.statementnode.AssignmentNode
+import org.expressionfactory.PatternFactory
 
 class AssignmentNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken AssignationToken ExpressionNode SemicolonToken"

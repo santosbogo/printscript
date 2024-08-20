@@ -1,9 +1,9 @@
 package org.astnodebuilder
 
-import org.common.Location
-import org.common.Token
-import org.common.astnode.ASTNode
-import org.common.astnode.expressionnode.IdentifierNode
+import org.Location
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.expressionnode.IdentifierNode
 
 class IdentifierNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken"

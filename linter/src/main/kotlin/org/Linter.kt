@@ -2,13 +2,13 @@ package org
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
 import org.checkvisitors.NamingFormatCheckVisitor
 import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.expressionfactory.PatternFactory
+import org.expressionfactory.PatternFactory
 
 class Linter(private val checkVisitors: List<ASTNodeVisitor>) {
     private val warnings = mutableListOf<String>()

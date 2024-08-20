@@ -3,13 +3,13 @@ package test.kotlin
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
+import org.Location
 import org.RulesFactory
-import org.common.Location
-import org.common.astnode.ProgramNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.expressionnode.LiteralNode
-import org.common.astnode.expressionnode.LiteralValue
-import org.common.astnode.statementnode.VariableDeclarationNode
+import org.astnode.ProgramNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.expressionnode.LiteralValue
+import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
 import java.io.File
 

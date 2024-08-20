@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jlleitschuh.gradle.ktlint'
+    id 'org.jetbrains.kotlinx.kover'
 }
 
 group = 'org.example'
@@ -26,5 +27,14 @@ kotlin {
 }
 
 ktlint {
+}
 
+kover {
+    reports {
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+    }
 }

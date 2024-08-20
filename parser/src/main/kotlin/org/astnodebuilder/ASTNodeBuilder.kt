@@ -1,7 +1,7 @@
 package org.astnodebuilder
 
-import org.common.Token
-import org.common.astnode.ASTNode
+import org.Token
+import org.astnode.ASTNode
 
 interface ASTNodeBuilder {
     val formula: String

@@ -1,8 +1,8 @@
-package org.common.astnode.expressionnode
+package org.astnode.expressionnode
 
-import org.common.Location
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
+import org.Location
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
 
 class BinaryExpressionNode(
     override val type: String,

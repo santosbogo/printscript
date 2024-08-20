@@ -1,9 +1,9 @@
-package org.common.astnode.statementnode
+package org.astnode.statementnode
 
-import org.common.Location
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.ExpressionNode
+import org.Location
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.expressionnode.ExpressionNode
 
 class PrintStatementNode(
     override val type: String,

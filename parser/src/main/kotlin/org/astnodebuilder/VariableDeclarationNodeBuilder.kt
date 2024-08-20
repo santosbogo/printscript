@@ -1,10 +1,10 @@
 package org.astnodebuilder
 
-import org.common.Token
-import org.common.astnode.ASTNode
-import org.common.astnode.expressionnode.ExpressionNode
-import org.common.astnode.statementnode.VariableDeclarationNode
-import org.common.expressionfactory.PatternFactory
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.statementnode.VariableDeclarationNode
+import org.expressionfactory.PatternFactory
 
 class VariableDeclarationNodeBuilder : ASTNodeBuilder {
     override val formula: String =

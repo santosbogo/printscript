@@ -1,14 +1,14 @@
 package org.checkvisitors
 
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.BinaryExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.expressionnode.LiteralNode
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.astnode.statementnode.PrintStatementNode
-import org.common.astnode.statementnode.VariableDeclarationNode
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class UnusedVariableCheckVisitor : ASTNodeVisitor {
     private val declaredVariables = mutableSetOf<String>()

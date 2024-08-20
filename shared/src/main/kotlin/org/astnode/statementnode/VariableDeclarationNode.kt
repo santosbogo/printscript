@@ -1,10 +1,10 @@
-package org.common.astnode.statementnode
+package org.astnode.statementnode
 
-import org.common.Location
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.ExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
+import org.Location
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.IdentifierNode
 
 class VariableDeclarationNode(
     override val type: String,

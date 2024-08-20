@@ -1,7 +1,7 @@
 package org.semanticanalysis
 
-import org.common.astnode.ASTNode
-import org.common.astnode.astnodevisitor.InterpreterVisitor
+import org.astnode.ASTNode
+import org.astnode.astnodevisitor.InterpreterVisitor
 import org.semanticanalysis.semanticchecks.SemanticCheck
 
 class SemanticAnalyzer(private val checks: List<SemanticCheck>) {

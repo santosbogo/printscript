@@ -1,9 +1,7 @@
 package org
 
-import org.common.Location
-import org.common.Token
-import org.common.astnode.ASTNode
-import org.common.astnode.ProgramNode
+import org.astnode.ASTNode
+import org.astnode.ProgramNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.semanticanalysis.SemanticAnalyzerFactory
 

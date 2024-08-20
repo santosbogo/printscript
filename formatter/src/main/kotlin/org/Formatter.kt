@@ -1,8 +1,8 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
 import ruleBuilder.NewlineBeforePrintlnBuilder
 import ruleBuilder.RuleBuilder
 import ruleBuilder.SpaceAfterColonBuilder

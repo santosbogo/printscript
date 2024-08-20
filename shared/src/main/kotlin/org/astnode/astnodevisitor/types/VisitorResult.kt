@@ -1,6 +1,6 @@
-package org.common.astnode.astnodevisitor.types
+package org.astnode.astnodevisitor.types
 
-import org.common.astnode.expressionnode.LiteralValue
+import org.astnode.expressionnode.LiteralValue
 
 sealed class VisitorResult {
     data class LiteralValueResult(val value: LiteralValue) : VisitorResult()
