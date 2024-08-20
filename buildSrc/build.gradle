@@ -6,4 +6,12 @@ plugins {
 repositories {
     // Use the plugin portal to apply community plugins in convention plugins.
     gradlePluginPortal()
+    mavenCentral()
+}
+
+dependencies {
+    // Ensure the Kotlin Gradle plugin is available in buildSrc
+    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0'
+    // Optional: Add the Kotlin standard library for Groovy scripts if needed
+    implementation 'org.codehaus.groovy:groovy:3.0.9'
 }
