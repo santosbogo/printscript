@@ -30,6 +30,7 @@ ktlint {
 }
 
 kover {
+    useJacoco()
     reports {
         verify {
             rule {
