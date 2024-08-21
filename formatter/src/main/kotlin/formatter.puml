@@ -1,0 +1,28 @@
+@startuml
+class Formatter {
+    + format(input: String): String
+}
+
+class FormatterVisitor {
+    + visit(node: ProgramNode)
+}
+
+class RulesFactory {
+    + createRules(json: Json): List<Rule>
+}
+
+interface Rule {
+    + applyRule(input: String): String
+}
+
+interface RuleBuilder {
+    + buildRule(ruleName: String, value: String): Rule
+}
+
+Formatter --> FormatterVisitor : uses
+RulesFactory --> Formatter : creates rules
+
+RuleBuilder --> Rule : builds
+FormatterVisitor --> Rule: applies
+
+@enduml

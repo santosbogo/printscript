@@ -11,7 +11,7 @@ class Formatter(private val node: ProgramNode, json : JsonObject, private val vi
 
     fun format(): String {
         val code: MutableList<String> = mutableListOf()
-        var result : String = ""
+        var result = ""
 
         // Takes each AST and gets its string representation
         node.statements.forEach {
