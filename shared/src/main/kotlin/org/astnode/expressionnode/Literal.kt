@@ -12,20 +12,24 @@ class LiteralNode(
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitLiteralNode(this)
     }
+
+    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
+        return value.getType()
+    }
 }
 
 sealed class LiteralValue {
     abstract fun getType(): String
 
     data class StringValue(val value: String) : LiteralValue() {
-        override fun getType(): String = "String"
+        override fun getType(): String = "string"
         override fun toString(): String {
             return value.trim('"')
         }
     }
 
     data class NumberValue(val value: Number) : LiteralValue() {
-        override fun getType(): String = "Number"
+        override fun getType(): String = "number"
         override fun toString(): String {
             return value.toString()
         }

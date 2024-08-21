@@ -12,7 +12,7 @@ import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class InterpreterVisitor : ASTNodeVisitor {
-    val symbolTable: MutableMap<String, Any> = mutableMapOf()
+    val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -36,7 +36,7 @@ class InterpreterVisitor : ASTNodeVisitor {
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifierNode
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value
+        symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -45,6 +45,9 @@ class InterpreterVisitor : ASTNodeVisitor {
         when (value.value) {
             is LiteralValue.StringValue -> println(value.value.value) // printeo el valor, del literalValue que está en el literalValueResult.
             is LiteralValue.NumberValue -> println(value.value.value)
+            else -> {
+                throw UnsupportedOperationException("Unsupported type: ${value.value::class}")
+            }
         }
         return VisitorResult.Empty
     }
@@ -52,12 +55,11 @@ class InterpreterVisitor : ASTNodeVisitor {
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value
+        symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
         return VisitorResult.LiteralValueResult(node.value)
     }
 
@@ -65,10 +67,8 @@ class InterpreterVisitor : ASTNodeVisitor {
         val value = symbolTable[node.name]
         if (value != null) {
             return when (value) {
-                // devuelvo el valor q tiene asignado, para que pueda ser usado en su contexto(asignacion/printeo/expresion)
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
-                else -> throw UnsupportedOperationException("Unsupported type: ${value::class}")
             }
         } else {
             throw Exception("Variable ${node.name} not declared")

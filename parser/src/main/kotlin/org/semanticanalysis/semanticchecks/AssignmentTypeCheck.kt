@@ -1,17 +1,20 @@
 package org.semanticanalysis.semanticchecks
 
 import org.astnode.ASTNode
+import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.AssignmentNode
 
 class AssignmentTypeCheck : SemanticCheck {
-    override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
+    override fun check(node: ASTNode, symbolTable: MutableMap<String, LiteralValue>) {
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
             val variableIdentifier = assignmentNode.identifierNode
-            val variableType = assignmentNode.type
+            val expression = assignmentNode.value
 
-            // si la variable que quiero asignar no es del mismo tipo que la variable declarada, tiro error.
-            if (symbolTable[variableIdentifier.name] != variableType) {
+            val variableType = symbolTable[variableIdentifier.name]?.getType()
+            val expressionType = expression.getType(symbolTable)
+
+            if (variableType != expressionType) {
                 throw Exception("Variable $variableIdentifier no es del tipo $variableType")
             }
         }

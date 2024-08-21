@@ -4,6 +4,7 @@ import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.expressionfactory.PatternFactory
@@ -86,7 +87,7 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
                     location = tokens[0].location,
                     value = LiteralValue.StringValue(tokens[0].value)
                 )
-                "IdentifierToken" -> IdentifierNodeBuilder.generateNodeFromValue(tokens[0].value, tokens[0].location)
+                "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens) as IdentifierNode
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")
             }
         } else {
@@ -102,5 +103,4 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
         }
         return tokens.size // If no operator found, return the size of the list
     }
-
 }

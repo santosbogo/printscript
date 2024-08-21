@@ -13,4 +13,8 @@ class IdentifierNode(
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitIdentifierNode(this)
     }
+
+    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
+        return symbolTable[name]?.getType() ?: dataType
+    }
 }

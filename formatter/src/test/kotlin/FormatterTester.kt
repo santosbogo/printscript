@@ -2,7 +2,11 @@ package test.kotlin
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
-import org.*
+import org.Formatter
+import org.Lexer
+import org.Location
+import org.Parser
+import org.RulesFactory
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
