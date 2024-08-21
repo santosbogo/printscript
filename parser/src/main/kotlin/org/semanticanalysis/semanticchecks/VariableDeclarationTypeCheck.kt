@@ -13,12 +13,9 @@ class VariableDeclarationTypeCheck : SemanticCheck {
             val expressionNode = variableDeclarationNode.init
             val variableType = variableDeclarationNode.identifier.dataType
 
-            // TODO (Definir el resto de casos ó hacer que el visitor actue)
-            if (expressionNode.type == "Literal") {
-                expressionNode as LiteralNode
-                if (expressionNode.value.getType() != variableType) {
-                    throw Exception("Variable $expressionNode no es del tipo $variableType")
-                }
+            if (expressionNode.getType(symbolTable) != variableType){
+                throw Exception("Variable ${variableDeclarationNode.identifier.name}" +
+                        " no es del tipo $variableType")
             }
         }
     }
