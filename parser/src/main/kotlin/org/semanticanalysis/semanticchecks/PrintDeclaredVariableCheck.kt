@@ -3,10 +3,11 @@ package org.semanticanalysis.semanticchecks
 import org.astnode.ASTNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.PrintStatementNode
 
 class PrintDeclaredVariableCheck : SemanticCheck {
-    override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {
+    override fun check(node: ASTNode, symbolTable: MutableMap<String, LiteralValue>) {
         if (node.type == "PrintStatementNode") {
             val printNode = node as PrintStatementNode
             val expression = printNode.value

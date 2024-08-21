@@ -14,4 +14,15 @@ class BinaryExpressionNode(
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitBinaryExpressionNode(this)
     }
+
+    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
+        val leftType = left.getType(symbolTable)
+        val rightType = right.getType(symbolTable)
+
+        return if (leftType == "string" || rightType == "string") {
+            "string"
+        } else {
+            "number"
+        }
+    }
 }

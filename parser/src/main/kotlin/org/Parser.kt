@@ -17,7 +17,7 @@ class Parser(
             buffer.add(token)
             if (token.type == "SemicolonToken") {
                 val node: ASTNode = astGenerator.generate(buffer)
-                semanticAnalyzer.analyze(node) // Run semantic analysis on each node. TODO the idea is to save a result to track all the errors that happen.
+                semanticAnalyzer.analyze(node)
                 statements.add(node)
                 buffer.clear()
             }
