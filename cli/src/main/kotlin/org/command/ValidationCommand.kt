@@ -3,12 +3,16 @@ package org.command
 import org.Lexer
 import org.Parser
 
-class ValidationCommand(private val input: String) : Command {
+class ValidationCommand(
+    private val input: String,
+    private val lexer: Lexer,
+    private val parser: Parser
+) : Command {
     override fun execute() {
-        // ./file.txt validate
-        val file = input.split(" ")[0].removePrefix("./")
-        val tokens = Lexer().tokenize(file)
-        val ast = Parser().parse(tokens)
+        // validate file.txt
+        val file = input.split(" ")[1]
+        val tokens = lexer.tokenize(file)
+        val ast = parser.parse(tokens)
         // TODO parser must return list of error messages
     }
 }

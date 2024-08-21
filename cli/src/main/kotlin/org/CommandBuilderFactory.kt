@@ -9,10 +9,10 @@ import org.commandbuilder.ValidationCommandBuilder
 class CommandBuilderFactory {
     fun createCommandBuilders(): Map<String, CommandBuilder> {
         return mapOf(
-            "execute" to ExecuteCommandBuilder(),
-            "validate" to ValidationCommandBuilder(),
-            "format" to FormattingCommandBuilder(),
-            "analyze" to AnalyzingCommandBuilder()
+            "execute" to ExecuteCommandBuilder(Lexer(), Parser(), Interpreter()),
+            "validate" to ValidationCommandBuilder(Lexer(), Parser()),
+            "format" to FormattingCommandBuilder(Lexer(), Parser()),
+            "analyze" to AnalyzingCommandBuilder(Lexer(), Parser())
         )
     }
 }

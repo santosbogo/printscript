@@ -7,15 +7,19 @@ import org.Lexer
 import org.Parser
 import java.io.File
 
-class FormattingCommand(private val input: String) : Command {
+class FormattingCommand(
+    private val input: String,
+    private val lexer: Lexer,
+    private val parser: Parser,
+) : Command {
     override fun execute() {
-        // ./file.txt format format.json
+        // format file.txt file.json
         val parts = input.split(" ")
-        val file = parts[0].removePrefix("./")
+        val file = parts[1]
         val jsonFilePath = parts[2]
 
-        val tokens = Lexer().tokenize(file)
-        val ast = Parser().parse(tokens)
+        val tokens = lexer.tokenize(file)
+        val ast = parser.parse(tokens)
 
         val jsonContent = File(jsonFilePath).readText()
         val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
