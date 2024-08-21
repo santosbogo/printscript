@@ -80,7 +80,7 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
                 "NumberToken" -> LiteralNode(
                     type = "Literal",
                     location = tokens[0].location,
-                    value = LiteralValue.NumberValue(tokens[0].value.toDouble())
+                    value = LiteralValue.NumberValue(checkIfInteger(tokens[0].value.toDouble()))
                 )
                 "StringToken" -> LiteralNode(
                     type = "Literal",
@@ -93,6 +93,10 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
         } else {
             return parseExpression(tokens)
         }
+    }
+
+    private fun checkIfInteger(num: Double): Number {
+        return if (num % 1 == 0.0) num.toInt() else num
     }
 
     private fun findOperatorIndex(tokens: List<Token>, operators: Set<String>): Int {
