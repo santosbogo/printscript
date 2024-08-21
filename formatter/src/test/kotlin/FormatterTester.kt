@@ -51,7 +51,7 @@ class FormatterTester {
     fun testHoleProgram() {
         val lexer = Lexer()
         val parser = Parser()
-        val input = "let b: number = 10;b = 5;" // "let a: string = 'hola';let b: number = 10;"
+        val input = "let b: number = 10;b = 5;println(4);let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
 
 
         val tokens = lexer.tokenize(input)

@@ -47,9 +47,9 @@ class FormatterVisitor : ASTNodeVisitor {
 
     private fun getExpression(init: ExpressionNode): String {
         return when (init) {
-            is LiteralNode -> init.value.toString() + ";"
-            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)};"
-            is IdentifierNode -> init.name + ";"
+            is LiteralNode -> init.value.toString()
+            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
+            is IdentifierNode -> init.name
             else -> throw Exception("Unsupported expression")
         }
     }

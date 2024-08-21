@@ -9,6 +9,7 @@ import ruleBuilder.SpaceAfterColonBuilder
 import ruleBuilder.SpaceAroundEqualsBuilder
 import ruleBuilder.SpaceBeforeColonBuilder
 import rules.NewLineAfterSemiColon
+import rules.OnlyOneSpacePermited
 import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
 
@@ -58,6 +59,7 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
             }
         }
         // Add non configurable rules
+        rules.add(OnlyOneSpacePermited())
         rules.add(NewLineAfterSemiColon())
         rules.add(SpaceAfterAndBeforeOperators())
         return rules

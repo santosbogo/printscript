@@ -4,6 +4,6 @@ class SpaceAfterAndBeforeOperators: Rule {
     override val name: String = "SpaceAfterAndBeforeOperators"
 
     override fun applyRule(input: String): String {
-        return input.replace(Regex("([+\\-*/])"), " $1 ")
+        return input.replace(Regex("\\s*([+\\-*/])\\s*"), " $1 ")
     }
 }
