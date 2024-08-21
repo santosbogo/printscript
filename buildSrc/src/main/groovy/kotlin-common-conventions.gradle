@@ -29,13 +29,6 @@ kotlin {
 ktlint {
 }
 
-kover {
+kover{
     useJacoco()
-    reports {
-        verify {
-            rule {
-                minBound(80)
-            }
-        }
-    }
 }

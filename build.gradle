@@ -7,6 +7,10 @@ repositories {
     mavenCentral()
 }
 
+subprojects {
+    apply plugin: 'org.jetbrains.kotlinx.kover'
+}
+
 dependencies {
     kover(project(":shared"))
     kover(project(":lexer"))
@@ -26,4 +30,8 @@ kover {
             }
         }
     }
+}
+
+task build {
+    dependsOn ":koverVerify", ":koverHtmlReport"
 }

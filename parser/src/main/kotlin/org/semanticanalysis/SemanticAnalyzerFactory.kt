@@ -14,4 +14,12 @@ class SemanticAnalyzerFactory {
         )
         return SemanticAnalyzer(checks)
     }
+
+    fun createDefaultSemanticChecks(): List<SemanticCheck> {
+        return listOf(
+            VariableDeclarationCheck(),
+            AssignmentTypeCheck(),
+            VariableDeclarationTypeCheck(),
+        )
+    }
 }
