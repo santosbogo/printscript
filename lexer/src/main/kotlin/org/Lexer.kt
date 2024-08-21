@@ -50,7 +50,7 @@ class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon
     }
 
     private fun splitComponent(component: String): List<String> {
-        val regex = Regex("[a-zA-Z_][a-zA-Z0-9_]*|:|;|=|[0-9]+|\".*?\"|\\S")
+        val regex = Regex("[a-zA-Z_][a-zA-Z0-9_]*|:|;|=|[0-9]+|\".*?\"|'.*?'|\\S")
         return regex.findAll(component).map { it.value }.toList()
     }
 }
