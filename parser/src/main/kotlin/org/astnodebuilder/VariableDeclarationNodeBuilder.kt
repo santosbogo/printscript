@@ -3,6 +3,7 @@ package org.astnodebuilder
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.IdentifierNode
 import org.astnode.statementnode.VariableDeclarationNode
 import org.expressionfactory.PatternFactory
 
@@ -13,7 +14,7 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
         return VariableDeclarationNode(
             type = "VariableDeclarationNode",
             location = tokens[0].location,
-            identifier = IdentifierNodeBuilder.generateNodeFromValue(tokens[1].value, tokens[0].location),
+            identifier = IdentifierNodeBuilder().generate(tokens.subList(1, 4)) as IdentifierNode,
             init = ExpressionNodeBuilder().generate(tokens.subList(5, tokens.size - 1)) as ExpressionNode,
             kind = tokens[0].value
         )

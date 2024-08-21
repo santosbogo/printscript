@@ -13,7 +13,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
             type = "IdentifierNode",
             location = tokens[0].location,
             name = tokens[0].value,
-            dataType = "" // declarada en el semantic modifier.
+            dataType = tokens[2].value
         )
     }
 
@@ -27,7 +27,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
                 type = "IdentifierNode",
                 location = location,
                 name = value,
-                dataType = "" // declarada en el semantic modifier.
+                dataType = ""
             )
         }
     }
