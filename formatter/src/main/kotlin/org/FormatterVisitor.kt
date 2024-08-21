@@ -18,12 +18,12 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result: String = "${node.identifierNode} = ${node.value}"
+        val result: String = "${node.identifierNode.name} = ${getExpression(node.value)}"
         return VisitorResult.StringResult(result)
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        val result: String = "println(${node.value})"
+        val result: String = "println(${getExpression(node.value)});"
         return VisitorResult.StringResult(result)
     }
 

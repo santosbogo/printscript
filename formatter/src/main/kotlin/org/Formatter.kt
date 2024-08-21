@@ -8,7 +8,9 @@ import ruleBuilder.RuleBuilder
 import ruleBuilder.SpaceAfterColonBuilder
 import ruleBuilder.SpaceAroundEqualsBuilder
 import ruleBuilder.SpaceBeforeColonBuilder
+import rules.NewLineAfterSemiColon
 import rules.Rule
+import rules.SpaceAfterAndBeforeOperators
 
 class Formatter(
     private val node: ProgramNode,
@@ -25,7 +27,7 @@ class Formatter(
         node.statements.forEach { code += visitor.visit(it).toString() }
 
         // Applies rules to each statement of code
-        code.forEach { line -> result += applyRules(line) + "\n" }
+        code.forEach { line -> result += applyRules(line) }
 
         return result
     }
@@ -55,6 +57,9 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
                 error("Rule does not exist")
             }
         }
+        // Add non configurable rules
+        rules.add(NewLineAfterSemiColon())
+        rules.add(SpaceAfterAndBeforeOperators())
         return rules
     }
 }
