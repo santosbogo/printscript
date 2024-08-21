@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm'
+    id 'org.jlleitschuh.gradle.ktlint'
+    id 'org.jetbrains.kotlinx.kover'
 }
 
 group = 'org.example'
@@ -22,4 +24,18 @@ test {
 
 kotlin {
     jvmToolchain(21)
+}
+
+ktlint {
+}
+
+kover {
+    useJacoco()
+    reports {
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+    }
 }

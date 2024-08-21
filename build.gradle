@@ -1,0 +1,29 @@
+plugins {
+    id "org.jlleitschuh.gradle.ktlint"
+    id 'org.jetbrains.kotlinx.kover'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    kover(project(":shared"))
+    kover(project(":lexer"))
+    kover(project(":parser"))
+    kover(project(":interpreter"))
+    kover(project(":linter"))
+    kover(project(":formatter"))
+    kover(project(":cli"))
+}
+
+kover {
+    useJacoco()
+    reports {
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+    }
+}

@@ -1,6 +1,6 @@
 package org.semanticanalysis.semanticchecks
 
-import org.common.astnode.ASTNode
+import org.astnode.ASTNode
 
 interface SemanticCheck {
     fun check(node: ASTNode, symbolTable: MutableMap<String, Any>)

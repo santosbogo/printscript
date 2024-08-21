@@ -1,9 +1,5 @@
 package org
 
-import org.common.Location
-import org.common.Token
-
-
 class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon()) {
 
     fun tokenize(input: String): List<Token> {

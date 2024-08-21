@@ -1,12 +1,12 @@
 package org.astnodebuilder
 
-import org.common.expressionfactory.PatternFactory
-import org.common.Token
-import org.common.astnode.ASTNode
-import org.common.astnode.expressionnode.BinaryExpressionNode
-import org.common.astnode.expressionnode.ExpressionNode
-import org.common.astnode.expressionnode.LiteralNode
-import org.common.astnode.expressionnode.LiteralValue
+import org.Token
+import org.astnode.ASTNode
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.ExpressionNode
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.expressionnode.LiteralValue
+import org.expressionfactory.PatternFactory
 
 class ExpressionNodeBuilder : ASTNodeBuilder {
     override val formula: String = "-"
@@ -16,7 +16,7 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        //string with tokens separated by string enters. check that the string is a regex of identificationToken and PrintToken
+        // string with tokens separated by string enters. check that the string is a regex of identificationToken and PrintToken
         val expressionPattern = PatternFactory.getBinaryExpressionPattern()
         return Regex(expressionPattern).matches(tokensString)
     }

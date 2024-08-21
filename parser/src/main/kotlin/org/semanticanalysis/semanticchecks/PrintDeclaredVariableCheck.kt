@@ -1,9 +1,9 @@
 package org.semanticanalysis.semanticchecks
 
-import org.common.astnode.ASTNode
-import org.common.astnode.expressionnode.BinaryExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.statementnode.PrintStatementNode
+import org.astnode.ASTNode
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.statementnode.PrintStatementNode
 
 class PrintDeclaredVariableCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, Any>) {

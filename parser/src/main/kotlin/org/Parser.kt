@@ -1,15 +1,14 @@
 package org
 
-import org.common.Token
-import org.common.astnode.ASTNode
+import org.astnode.ASTNode
+import org.astnode.ProgramNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.semanticanalysis.SemanticAnalyzerFactory
-import org.common.Location
-import org.common.astnode.ProgramNode
 
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
-    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()) {
+    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()
+) {
     fun parse(tokens: List<Token>): ProgramNode {
         val statements = ArrayList<ASTNode>()
         val buffer = ArrayList<Token>()
@@ -31,7 +30,8 @@ class Parser(
         val programNode = ProgramNode(
             type = "ProgramNode",
             location = Location(1, 1),
-            statements = statements)
+            statements = statements
+        )
         return programNode
     }
 }

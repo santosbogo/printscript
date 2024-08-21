@@ -1,10 +1,10 @@
 package org.command
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
 import org.Formatter
 import org.Lexer
 import org.Parser
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.jsonObject
 import java.io.File
 
 class FormattingCommand(private val input: String) : Command {

@@ -1,14 +1,14 @@
 package org.checkvisitors
 
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.BinaryExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.expressionnode.LiteralNode
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.astnode.statementnode.PrintStatementNode
-import org.common.astnode.statementnode.VariableDeclarationNode
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
@@ -19,7 +19,7 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
             if (result.value.isNotEmpty()) {
-                warnings.addAll(result.value) //agarro warnings, el value es la lista.
+                warnings.addAll(result.value) // agarro warnings, el value es la lista.
             }
         }
         return VisitorResult.ListResult(warnings)
@@ -30,11 +30,10 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        if (enabled && node.value is BinaryExpressionNode){
+        if (enabled && node.value is BinaryExpressionNode) {
             return VisitorResult.ListResult(listOf("Location:${node.location}, Print statement should be called with ID or Literal."))
         }
         return VisitorResult.Empty
-
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {

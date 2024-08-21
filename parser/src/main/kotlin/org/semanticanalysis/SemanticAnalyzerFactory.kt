@@ -1,7 +1,9 @@
 package org.semanticanalysis
 
+import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
 import org.semanticanalysis.semanticchecks.SemanticCheck
-import org.semanticanalysis.semanticchecks.*
+import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
+import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 
 class SemanticAnalyzerFactory {
     fun createDefaultSemanticAnalyzer(): SemanticAnalyzer {

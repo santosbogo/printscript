@@ -1,10 +1,10 @@
 package org
 
-import org.commandbuilder.ExecuteCommandBuilder
 import org.commandbuilder.AnalyzingCommandBuilder
+import org.commandbuilder.CommandBuilder
+import org.commandbuilder.ExecuteCommandBuilder
 import org.commandbuilder.FormattingCommandBuilder
 import org.commandbuilder.ValidationCommandBuilder
-import org.commandbuilder.CommandBuilder
 
 class CommandBuilderFactory {
     fun createCommandBuilders(): Map<String, CommandBuilder> {

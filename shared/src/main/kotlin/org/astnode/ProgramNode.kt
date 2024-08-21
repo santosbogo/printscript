@@ -1,8 +1,8 @@
-package org.common.astnode
+package org.astnode
 
-import org.common.Location
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
+import org.Location
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
 
 class ProgramNode(
     override val type: String,

@@ -1,13 +1,12 @@
 package org
 
+import org.astnode.ASTNode
 import org.astnodebuilder.ASTNodeBuilder
 import org.astnodebuilder.AssignmentNodeBuilder
 import org.astnodebuilder.ExpressionNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.PrintNodeBuilder
 import org.astnodebuilder.VariableDeclarationNodeBuilder
-import org.common.Token
-import org.common.astnode.ASTNode
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
     fun generate(buffer: ArrayList<Token>): ASTNode {
@@ -17,8 +16,10 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
             }
         }
 
-        throw Exception("Syntax error: Invalid statement at ${buffer.first().location}." +
-                "No formula matches the tokens: ${buffer.joinToString(" ") { it.type }}")
+        throw Exception(
+            "Syntax error: Invalid statement at ${buffer.first().location}." +
+                "No formula matches the tokens: ${buffer.joinToString(" ") { it.type }}"
+        )
     }
 
     private fun getFormula(buffer: ArrayList<Token>): String {
@@ -28,12 +29,14 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
 
 class ASTGeneratorFactory {
     fun createDefaultASTGenerator(): ASTGenerator {
-        return ASTGenerator(listOf(
-            VariableDeclarationNodeBuilder(),
-            PrintNodeBuilder(),
-            AssignmentNodeBuilder(),
-            ExpressionNodeBuilder(),
-            IdentifierNodeBuilder()
-        ))
+        return ASTGenerator(
+            listOf(
+                VariableDeclarationNodeBuilder(),
+                PrintNodeBuilder(),
+                AssignmentNodeBuilder(),
+                ExpressionNodeBuilder(),
+                IdentifierNodeBuilder()
+            )
+        )
     }
 }

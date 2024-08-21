@@ -1,12 +1,16 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import ruleBuilder.NewlineBeforePrintlnBuilder
+import ruleBuilder.RuleBuilder
+import ruleBuilder.SpaceAfterColonBuilder
+import ruleBuilder.SpaceAroundEqualsBuilder
+import ruleBuilder.SpaceBeforeColonBuilder
 import rules.Rule
-import ruleBuilder.*
 
-class Formatter(private val node: ProgramNode, json : JsonObject, private val visitor: ASTNodeVisitor = FormatterVisitor()) {
+class Formatter(private val node: ProgramNode, json: JsonObject, private val visitor: ASTNodeVisitor = FormatterVisitor()) {
     private val rules = RulesFactory().createRules(json)
 
     fun format(): String {
@@ -52,7 +56,7 @@ class RulesFactory(private val rulesMap: List<Pair<String, RuleBuilder>> = defau
     }
 }
 
-fun defaultRules() : List<Pair<String, RuleBuilder>> {
+fun defaultRules(): List<Pair<String, RuleBuilder>> {
     return listOf(
         "space_before_colon" to SpaceBeforeColonBuilder(),
         "newline_before_println" to NewlineBeforePrintlnBuilder(),
@@ -60,4 +64,3 @@ fun defaultRules() : List<Pair<String, RuleBuilder>> {
         "space_around_equals" to SpaceAroundEqualsBuilder(),
     )
 }
-

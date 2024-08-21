@@ -1,14 +1,14 @@
 package org.checkvisitors
 
-import org.common.astnode.ProgramNode
-import org.common.astnode.astnodevisitor.ASTNodeVisitor
-import org.common.astnode.astnodevisitor.types.VisitorResult
-import org.common.astnode.expressionnode.BinaryExpressionNode
-import org.common.astnode.expressionnode.IdentifierNode
-import org.common.astnode.expressionnode.LiteralNode
-import org.common.astnode.statementnode.AssignmentNode
-import org.common.astnode.statementnode.PrintStatementNode
-import org.common.astnode.statementnode.VariableDeclarationNode
+import org.astnode.ProgramNode
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class NamingFormatCheckVisitor(private val patternName: String, private val pattern: String) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
@@ -20,20 +20,19 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
             if (result.value.isNotEmpty()) {
-                warnings.addAll(result.value) //agarro warnings, el value es la lista.
+                warnings.addAll(result.value) // agarro warnings, el value es la lista.
             }
         }
         return VisitorResult.ListResult(warnings)
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        //check that the assignment node's identifier is formated in the style of the pattern
+        // check that the assignment node's identifier is formated in the style of the pattern
         val patternMatch = node.identifierNode.name.matches(Regex(pattern))
         if (!patternMatch) {
-           return VisitorResult.ListResult(listOf("Location:${node.location}, Identifier ${node.identifierNode.name} does not match the pattern $patternName"))
+            return VisitorResult.ListResult(listOf("Location:${node.location}, Identifier ${node.identifierNode.name} does not match the pattern $patternName"))
         }
         return VisitorResult.Empty
-
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
@@ -41,7 +40,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
-        //check that the variable declaration node's identifier is formated in the style of the pattern
+        // check that the variable declaration node's identifier is formated in the style of the pattern
         val patternMatch = node.identifier.name.matches(Regex(pattern))
         if (!patternMatch) {
             return VisitorResult.ListResult(listOf("Location:${node.location}, Identifier ${node.identifier.name} does not match the pattern $patternName"))
@@ -60,5 +59,4 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         return VisitorResult.Empty
     }
-
 }
