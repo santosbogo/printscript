@@ -18,7 +18,7 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result: String = "${node.identifierNode.name} = ${getExpression(node.value)}"
+        val result: String = "${node.identifierNode.name} = ${getExpression(node.value)};"
         return VisitorResult.StringResult(result)
     }
 
@@ -33,23 +33,23 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult.StringResult(node.value.toString())
+        return VisitorResult.StringResult(node.value.toString() + ";")
     }
 
     override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        val result: String = "${getExpression(node.left)} ${node.operator} ${getExpression(node.right)}"
+        val result: String = "${getExpression(node.left)} ${node.operator} ${getExpression(node.right)}" + ";"
         return VisitorResult.StringResult(result)
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        return VisitorResult.StringResult(node.name)
+        return VisitorResult.StringResult(node.name + ";")
     }
 
     private fun getExpression(init: ExpressionNode): String {
         return when (init) {
-            is LiteralNode -> init.value.toString()
-            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
-            is IdentifierNode -> init.name
+            is LiteralNode -> init.value.toString() + ";"
+            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)};"
+            is IdentifierNode -> init.name + ";"
             else -> throw Exception("Unsupported expression")
         }
     }
