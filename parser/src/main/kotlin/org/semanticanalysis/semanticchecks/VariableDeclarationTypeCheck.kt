@@ -1,7 +1,6 @@
 package org.semanticanalysis.semanticchecks
 
 import org.astnode.ASTNode
-import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 
@@ -13,9 +12,11 @@ class VariableDeclarationTypeCheck : SemanticCheck {
             val expressionNode = variableDeclarationNode.init
             val variableType = variableDeclarationNode.identifier.dataType
 
-            if (expressionNode.getType(symbolTable) != variableType){
-                throw Exception("Variable ${variableDeclarationNode.identifier.name}" +
-                        " no es del tipo $variableType")
+            if (expressionNode.getType(symbolTable) != variableType) {
+                throw Exception(
+                    "Variable ${variableDeclarationNode.identifier.name}" +
+                        " no es del tipo $variableType"
+                )
             }
         }
     }

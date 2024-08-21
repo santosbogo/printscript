@@ -53,7 +53,6 @@ class FormatterTester {
         val parser = Parser()
         val input = "let b: number = 10;b = 5;" // "let a: string = 'hola';let b: number = 10;"
 
-
         val tokens = lexer.tokenize(input)
         val programNode = parser.parse(tokens)
         // Get JSON from file

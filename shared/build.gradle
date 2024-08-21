@@ -12,6 +12,3 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter'
 }
 
-tasks.named('koverVerify').configure {
-    enabled = false
-}

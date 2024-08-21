@@ -12,7 +12,7 @@ import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
-class SemanticVisitor: ASTNodeVisitor {
+class SemanticVisitor : ASTNodeVisitor {
     val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
 
     override fun visit(node: ASTNode): VisitorResult {
