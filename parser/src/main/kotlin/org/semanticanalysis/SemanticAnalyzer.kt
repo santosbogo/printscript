@@ -5,11 +5,12 @@ import org.astnode.astnodevisitor.InterpreterVisitor
 import org.semanticanalysis.semanticchecks.SemanticCheck
 
 class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
-    private val interpreterVisitor: InterpreterVisitor = InterpreterVisitor()
+    private val semanticVisitor: SemanticVisitor = SemanticVisitor()
 
     fun analyze(node: ASTNode) {
         for (check in checks) {
-            check.check(node, interpreterVisitor.symbolTable)
+            check.check(node, semanticVisitor.symbolTable)
         }
+        semanticVisitor.visit(node)
     }
 }
