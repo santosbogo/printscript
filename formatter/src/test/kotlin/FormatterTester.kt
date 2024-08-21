@@ -48,7 +48,7 @@ class FormatterTester {
     }
 
     @Test
-    fun testHoleProgram() {
+    fun testWholeProgram() {
         val lexer = Lexer()
         val parser = Parser()
         val input = "let b: number = 10;b = 5;" // "let a: string = 'hola';let b: number = 10;"
