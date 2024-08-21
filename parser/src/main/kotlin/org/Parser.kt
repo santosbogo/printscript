@@ -10,6 +10,8 @@ class Parser(
     private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()
 ) {
     fun parse(tokens: List<Token>): ProgramNode {
+        semanticAnalyzer.reset()
+
         val statements = ArrayList<ASTNode>()
         val buffer = ArrayList<Token>()
 
