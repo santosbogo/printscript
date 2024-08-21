@@ -22,21 +22,20 @@ class Formatter(
         var result = ""
 
         // Takes each AST and gets its string representation
-        node.statements.forEach {
-            code += visitor.visit(it).toString()
-        }
+        node.statements.forEach { code += visitor.visit(it).toString() }
+
         // Applies rules to each statement of code
-        code.forEach { line ->
-            result += applyRules(line) + "\n"
-        }
+        code.forEach { line -> result += applyRules(line) + "\n" }
+
         return result
     }
 
     private fun applyRules(line: String): String {
+        var modifiedLine = line
         rules.forEach { rule ->
-            return rule.applyRule(line)
+            modifiedLine = rule.applyRule(modifiedLine)
         }
-        return line
+        return modifiedLine
     }
 }
 
