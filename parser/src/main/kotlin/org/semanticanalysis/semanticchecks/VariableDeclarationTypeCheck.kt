@@ -10,18 +10,15 @@ class VariableDeclarationTypeCheck : SemanticCheck {
         // chequeo que el tipo de la variable declarada sea el mismo que el tipo de la variable asignada
         if (node.type == "VariableDeclarationNode") {
             val variableDeclarationNode = node as VariableDeclarationNode
-            val variableExpression = variableDeclarationNode.init
-            val variableType = variableDeclarationNode.type
+            val expressionNode = variableDeclarationNode.init
+            val variableType = variableDeclarationNode.identifier.dataType
 
-            if (variableExpression.type == "Literal") {
-                variableExpression as LiteralNode
-                if (variableExpression.value.getType() != variableType) {
-                    throw Exception("Variable $variableExpression no es del tipo $variableType")
+            // TODO (Definir el resto de casos ó hacer que el visitor actue)
+            if (expressionNode.type == "Literal") {
+                expressionNode as LiteralNode
+                if (expressionNode.value.getType() != variableType) {
+                    throw Exception("Variable $expressionNode no es del tipo $variableType")
                 }
-            }
-            // si el tipo de la variable que quiero asignar no es el mismo que el tipo de la variable declarada, tiro error.
-            if (variableExpression.type != variableType) {
-                throw Exception("Variable $variableExpression no es del tipo $variableType")
             }
         }
     }
