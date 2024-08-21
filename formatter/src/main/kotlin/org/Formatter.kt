@@ -10,7 +10,11 @@ import ruleBuilder.SpaceAroundEqualsBuilder
 import ruleBuilder.SpaceBeforeColonBuilder
 import rules.Rule
 
-class Formatter(private val node: ProgramNode, json: JsonObject, private val visitor: ASTNodeVisitor = FormatterVisitor()) {
+class Formatter(
+    private val node: ProgramNode,
+    json: JsonObject,
+    private val visitor: ASTNodeVisitor = FormatterVisitor()
+) {
     private val rules = RulesFactory().createRules(json)
 
     fun format(): String {
