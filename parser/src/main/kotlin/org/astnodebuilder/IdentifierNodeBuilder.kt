@@ -13,7 +13,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
             type = "IdentifierNode",
             location = tokens[0].location,
             name = tokens[0].value,
-            dataType = "" // declarada en el semantic modifier.
+            dataType = ""
         )
     }
 
@@ -22,7 +22,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
     }
 
     companion object {
-        fun generateNodeFromValue(value: String, location: Location): IdentifierNode {
+        fun generateNodeFromValue(value: String, location: Location, ): IdentifierNode {
             return IdentifierNode(
                 type = "IdentifierNode",
                 location = location,

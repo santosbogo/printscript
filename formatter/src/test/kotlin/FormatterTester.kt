@@ -2,9 +2,7 @@ package test.kotlin
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
-import org.Formatter
-import org.Location
-import org.RulesFactory
+import org.*
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
@@ -36,12 +34,29 @@ class FormatterTester {
         println(formatter.format())
     }
 
-    @Test
+    @Test // Obtiene las reglas desde un archivo JSON
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
         val filePath = "src/main/kotlin/rulesExample.json"
         val jsonContent = File(filePath).readText()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
+    }
+
+    @Test
+    fun testHoleFormater() {
+        val lexer = Lexer()
+        val parser = Parser()
+        val input: String = "let a: number = 10;" // El data type (number) no se guarda
+
+        val tokens = lexer.tokenize(input)
+        val programNode = parser.parse(tokens)
+        // Get JSON from file
+        val filePath = "src/main/kotlin/rulesExample.json"
+        val jsonContent = File(filePath).readText()
+        val json = Json.parseToJsonElement(jsonContent).jsonObject
+
+        val formatter = Formatter(programNode, json)
+        println(formatter.format())
     }
 }
