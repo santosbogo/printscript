@@ -1,14 +1,11 @@
 package test.kotlin
 
+import java.io.File
+import kotlin.test.assertFailsWith
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
-import org.Formatter
-import org.Location
-import org.Parser
-import org.Lexer
-import org.RulesFactory
-import org.FormatterVisitor
+import org.*
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -16,8 +13,6 @@ import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
-import java.io.File
-import kotlin.test.assertFailsWith
 
 class FormatterTester {
 
@@ -57,10 +52,8 @@ class FormatterTester {
         val lexer = Lexer()
         val parser = Parser()
 
-        val json = getJsonFromFile()
-
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
-            val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+            val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
             val tokens = lexer.tokenize(code)
             val nodes = parser.parse(tokens)
             val formatter = Formatter(nodes, json)
@@ -70,10 +63,10 @@ class FormatterTester {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples/stringdeclarationandassigment.txt")
+        val file = File("src/test/resources/examples/doubleprintln.txt")
 
         val reader = TestReader()
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
 
         val lexer = Lexer()
         val tokens = lexer.tokenize(code)
@@ -81,7 +74,7 @@ class FormatterTester {
         val parser = Parser()
         val nodes = parser.parse(tokens)
 
-        val formatter = Formatter(nodes, getJsonFromFile())
+        val formatter = Formatter(nodes, json)
 
         compareResults(formatter, shouldSucceed, file, solution)
     }
@@ -143,5 +136,13 @@ class FormatterTester {
         assertFailsWith<IllegalStateException>("Rule does not exist") {
             Formatter(programNode, json).format()
         }
+    }
+
+    @Test
+    fun testGetRuleNames() {
+        val factory = RulesFactory()
+        val json = getJsonFromFile()
+        val rules = factory.createRules(json)
+        rules.forEach { rule -> println(rule.name) }
     }
 }

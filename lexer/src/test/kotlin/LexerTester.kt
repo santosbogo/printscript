@@ -57,7 +57,7 @@ class LexerTester {
 
     @Test
     fun testToStringToken() {
-        val token = Token("ToStringToken", "value",Location(1, 1))
+        val token = Token("ToStringToken", "value", Location(1, 1))
         println(token.toString())
     }
 }

@@ -15,7 +15,7 @@ class AssignmentTypeCheck : SemanticCheck {
             val expressionType = expression.getType(symbolTable)
 
             if (variableType != expressionType) {
-                throw Exception("Variable $variableIdentifier no es del tipo $variableType")
+                throw Exception("Variable ${variableIdentifier.name} no es del tipo $variableType")
             }
         }
     }
