@@ -1,6 +1,7 @@
 package test.kotlin
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
 import org.Lexer
@@ -16,6 +17,73 @@ import org.junit.jupiter.api.Test
 import java.io.File
 
 class FormatterTester {
+
+    private fun getJsonFromFile(): JsonObject {
+        val jsonContent = File("src/main/kotlin/rulesExample.json").readText()
+        return Json.parseToJsonElement(jsonContent).jsonObject
+    }
+
+    private fun compareResults(
+        formater: Formatter,
+        shouldSucceed: Boolean,
+        file: File,
+        solution: List<String>
+    ) {
+        try {
+            val result = formater.format().split("\n")
+            if (!shouldSucceed) {
+                assert(false) { "Expected an error but test passed for file ${file.name}" }
+            }
+
+            for (i in solution.indices) {
+                assert(result[i] == solution[i]) {
+                    "Mismatch in file \"${file.name}\" at line ${i + 1}: expected \"${solution[i]}\", found \"${result[i]}\""
+                }
+            }
+
+        } catch (e: Exception) {
+            if (shouldSucceed) {
+                assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
+            }
+        }
+    }
+
+    @Test
+    fun testFiles() {
+        val examplesDir = File("src/test/resources/examples")
+        val reader = TestReader()
+        val lexer = Lexer()
+        val parser = Parser()
+
+        val json = getJsonFromFile()
+
+        examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
+            val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+            val tokens = lexer.tokenize(code)
+            val nodes = parser.parse(tokens)
+            val formater = Formatter(nodes, json);
+
+            compareResults(formater, shouldSucceed, file, solution)
+        }
+    }
+
+    @Test
+    fun testSingleFile() {
+        val file = File("src/test/resources/examples/manylinebreaks.txt")
+
+        val reader = TestReader()
+        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+
+        val lexer = Lexer()
+        val tokens = lexer.tokenize(code)
+
+        val parser = Parser()
+        val nodes = parser.parse(tokens)
+
+        val formater = Formatter(nodes, getJsonFromFile() );
+
+        compareResults(formater, shouldSucceed, file, solution)
+    }
 
     @Test
     fun testFormat() {
@@ -62,42 +130,5 @@ class FormatterTester {
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
-    }
-
-    @Test
-    fun testSingleFile() {
-        val file = File("src/test/resources/examples/manylinebreaks.txt")
-        val reader = TestReader()
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-
-        val lexer = Lexer()
-        val tokens = lexer.tokenize(code)
-
-        val parser = Parser()
-        val nodes = parser.parse(tokens)
-
-        val filePath = "src/main/kotlin/rulesExample.json"
-        val jsonContent = File(filePath).readText()
-        val json = Json.parseToJsonElement(jsonContent).jsonObject
-
-        val formater = Formatter(nodes, json );
-        val result = formater.format();
-
-
-
-        try {
-            if (!shouldSucceed) {
-                assert(false) { "Expected an error but test passed for file ${file.name}" }
-            }
-            for (i in nodes.indices) {
-                assert(nodes[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
-                }
-            }
-        } catch (e: Exception) {
-            if (shouldSucceed) {
-                assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
-            }
-        }
     }
 }

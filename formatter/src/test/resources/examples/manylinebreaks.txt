@@ -5,13 +5,7 @@ number
 
 #####
 
-DeclarationToken
-IdentifierToken
-ColonToken
-TypeToken
-AssignationToken
-NumberToken
-SemicolonToken
+let a: number = 10;
 
 #####
 
