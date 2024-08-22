@@ -30,7 +30,7 @@ class FormatterTester {
         solution: List<String>
     ) {
         try {
-            val result = formater.format().split("\n")
+            val result = formater.format().toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
