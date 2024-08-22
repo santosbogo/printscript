@@ -63,4 +63,41 @@ class FormatterTester {
         val formatter = Formatter(programNode, json)
         println(formatter.format())
     }
+
+    @Test
+    fun testSingleFile() {
+        val file = File("src/test/resources/examples/manylinebreaks.txt")
+        val reader = TestReader()
+        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+
+        val lexer = Lexer()
+        val tokens = lexer.tokenize(code)
+
+        val parser = Parser()
+        val nodes = parser.parse(tokens)
+
+        val filePath = "src/main/kotlin/rulesExample.json"
+        val jsonContent = File(filePath).readText()
+        val json = Json.parseToJsonElement(jsonContent).jsonObject
+
+        val formater = Formatter(nodes, json );
+        val result = formater.format();
+
+
+
+        try {
+            if (!shouldSucceed) {
+                assert(false) { "Expected an error but test passed for file ${file.name}" }
+            }
+            for (i in nodes.indices) {
+                assert(nodes[i].type == solution[i]) {
+                    "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
+                }
+            }
+        } catch (e: Exception) {
+            if (shouldSucceed) {
+                assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
+            }
+        }
+    }
 }
