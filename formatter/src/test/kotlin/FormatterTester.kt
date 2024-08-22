@@ -101,11 +101,10 @@ class FormatterTester {
         println(formatter.format())
     }
 
-    @Test // Obtiene las reglas desde un archivo JSON
+    @Test
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val jsonContent = getJsonFromFile().jsonObject.toString()
-        println(jsonContent)
+        val jsonContent =  getJsonFromFile().jsonObject.toString()
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
 
