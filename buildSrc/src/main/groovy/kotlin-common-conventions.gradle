@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.jvm'
     id 'org.jlleitschuh.gradle.ktlint'
     id 'org.jetbrains.kotlinx.kover'
-    id 'io.gitlab.arturbosch.detekt'
 }
 
 group = 'org.example'

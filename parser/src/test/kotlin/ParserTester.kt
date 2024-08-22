@@ -23,7 +23,8 @@ class ParserTester {
                 }
                 for (i in nodes.indices) {
                     assert(nodes[i].type == solution[i]) {
-                        "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
+                        "Mismatch in file ${file.name} at ${nodes[i].location}: " +
+                            "expected ${solution[i]}, found ${nodes[i].type}"
                     }
                 }
             } catch (e: Exception) {
@@ -49,7 +50,8 @@ class ParserTester {
             }
             for (i in nodes.indices) {
                 assert(nodes[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${nodes[i].location}: expected ${solution[i]}, found ${nodes[i].type}"
+                    "Mismatch in file ${file.name} at ${nodes[i].location}: " +
+                        "expected ${solution[i]}, found ${nodes[i].type}"
                 }
             }
         } catch (e: Exception) {
@@ -86,8 +88,10 @@ class ParserTester {
         }
 
         // Optionally, you can assert that the exception message matches your expectation
-        assert(exception.message?.contains("Unexpected end of input. Missing semicolon at the end of the file.") == true)
+        assert(
+            exception.message?.contains(
+                "Unexpected end of input. Missing semicolon at the end of the file."
+            ) == true
+        )
     }
-
-
 }

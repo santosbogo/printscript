@@ -4,11 +4,11 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
+import org.FormatterVisitor
+import org.Lexer
 import org.Location
 import org.Parser
-import org.Lexer
 import org.RulesFactory
-import org.FormatterVisitor
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -40,7 +40,8 @@ class FormatterTester {
 
             for (i in solution.indices) {
                 assert(result[i] == solution[i]) {
-                    "Mismatch in file \"${file.name}\" at line ${i + 1}: expected \"${solution[i]}\", found \"${result[i]}\""
+                    "Mismatch in file \"${file.name}\" at line ${i + 1}: " +
+                        "expected \"${solution[i]}\", found \"${result[i]}\""
                 }
             }
         } catch (e: Exception) {
@@ -115,7 +116,8 @@ class FormatterTester {
     fun testWholeProgram() {
         val lexer = Lexer()
         val parser = Parser()
-        val input = "let b: number = 10;b = 5;println(4);let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
+        val input = "let b: number = 10;b = 5;" +
+            "println(4);let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
 
         val tokens = lexer.tokenize(input)
         val programNode = parser.parse(tokens)
@@ -129,8 +131,18 @@ class FormatterTester {
     @Test
     fun testUnreachedCases() {
         val formatterVisitor = FormatterVisitor()
-        val literalNode = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))
-        val binaryExpressionNode = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), literalNode, literalNode, "+")
+        val literalNode = LiteralNode(
+            "LiteralNode",
+            Location(1, 1),
+            LiteralValue.NumberValue(5)
+        )
+        val binaryExpressionNode = BinaryExpressionNode(
+            "BinaryExpressionNode",
+            Location(1, 1),
+            literalNode,
+            literalNode,
+            "+"
+        )
         val identifierNode = IdentifierNode("IdentifierNode", Location(1, 1), "x", "Number")
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(binaryExpressionNode))
         val nodes = listOf(programNode, binaryExpressionNode, identifierNode, literalNode)
