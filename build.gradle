@@ -33,5 +33,5 @@ kover {
 }
 
 task build {
-    dependsOn ":koverVerify", ":koverHtmlReport"
+    dependsOn ":koverVerify", ":koverHtmlReport", "ktlintCheck"
 }
