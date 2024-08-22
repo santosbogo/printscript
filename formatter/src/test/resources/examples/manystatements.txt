@@ -6,7 +6,7 @@ let b: number = 10;
 b = 5;
 
 println(4);
-let a: string = hola;
+let a: string = 'hola';
 
 println(a);
 let c: number = 4;

@@ -19,7 +19,7 @@ import java.io.File
 class FormatterTester {
 
     private fun getJsonFromFile(): JsonObject {
-        val jsonContent = File("src/main/kotlin/rulesExample.json").readText()
+        val jsonContent = File("src/test/resources/rulesExample.json").readText()
         return Json.parseToJsonElement(jsonContent).jsonObject
     }
 
@@ -67,7 +67,7 @@ class FormatterTester {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples/manylinebreaks.txt")
+        val file = File("src/test/resources/examples/stringdeclarationandassigment.txt")
 
         val reader = TestReader()
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -95,10 +95,7 @@ class FormatterTester {
 
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode))
 
-        // Get JSON from file
-        val filePath = "src/main/kotlin/rulesExample.json"
-        val jsonContent = File(filePath).readText()
-        val json = Json.parseToJsonElement(jsonContent).jsonObject
+        val json = getJsonFromFile()
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
@@ -108,7 +105,7 @@ class FormatterTester {
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
         val filePath = "src/main/kotlin/rulesExample.json"
-        val jsonContent = File(filePath).readText()
+        val jsonContent =  getJsonFromFile().jsonObject.toString()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
@@ -122,9 +119,7 @@ class FormatterTester {
         val tokens = lexer.tokenize(input)
         val programNode = parser.parse(tokens)
         // Get JSON from file
-        val filePath = "src/main/kotlin/rulesExample.json"
-        val jsonContent = File(filePath).readText()
-        val json = Json.parseToJsonElement(jsonContent).jsonObject
+        val json = getJsonFromFile()
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())

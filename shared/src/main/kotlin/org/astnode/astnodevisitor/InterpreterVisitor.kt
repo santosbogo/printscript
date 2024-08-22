@@ -43,7 +43,12 @@ class InterpreterVisitor : ASTNodeVisitor {
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         when (value.value) {
-            is LiteralValue.StringValue -> println(value.value.value) // printeo el valor, del literalValue que está en el literalValueResult.
+            is LiteralValue.StringValue -> {
+                val stringValue = (value.value as LiteralValue.StringValue).value
+                // Reemplaza todas las comillas simples y dobles, tanto internas como externas
+                val cleanedStringValue = stringValue.replace("'", "").replace("\"", "")
+                println(cleanedStringValue)
+            }// printeo el valor, del literalValue que está en el literalValueResult.
             is LiteralValue.NumberValue -> println(value.value.value)
             else -> {
                 throw UnsupportedOperationException("Unsupported type: ${value.value::class}")
