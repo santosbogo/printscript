@@ -103,12 +103,10 @@ class FormatterTester {
         println(formatter.format())
     }
 
-    @Test // Obtiene las reglas desde un archivo JSON
+    @Test
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val filePath = "src/main/kotlin/rulesExample.json"
         val jsonContent =  getJsonFromFile().jsonObject.toString()
-        println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
 
