@@ -43,8 +43,9 @@ class ParserTester {
         val file = File("src/test/resources/examples/variabledeclarationwithoperation.txt")
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val tokens = lexer.tokenize(code)
-        val nodes = parser.parse(tokens).statements
+
         try {
+            val nodes = parser.parse(tokens).statements
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
