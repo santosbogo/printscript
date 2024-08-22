@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.semanticanalysis.SemanticAnalyzerFactory
 import org.semanticanalysis.SemanticVisitor
 import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
-import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import java.io.File
 import kotlin.test.assertFailsWith

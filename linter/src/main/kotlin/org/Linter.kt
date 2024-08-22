@@ -1,14 +1,14 @@
 package org
 
 import java.io.File
-import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.types.VisitorResult
-import org.astnode.ProgramNode
 import org.checkvisitors.NamingFormatCheckVisitor
 import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor

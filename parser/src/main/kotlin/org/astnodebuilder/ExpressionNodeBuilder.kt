@@ -30,7 +30,12 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
 
     // Separo recursivamente por cada operador de suma o resta
     private fun parseAdditiveExpression(tokens: List<Token>): ExpressionNode {
-        var left = parseMultiplicativeExpression(tokens.subList(0, findOperatorIndex(tokens, setOf("PlusToken", "MinusToken"))))
+        var left = parseMultiplicativeExpression(
+            tokens.subList(
+                0,
+                findOperatorIndex(tokens, setOf("PlusToken", "MinusToken"))
+            )
+        )
 
         for (i in tokens.indices) {
             if (tokens[i].type == "PlusToken" || tokens[i].type == "MinusToken") {
@@ -53,7 +58,12 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
 
     // Separo recursivamente por cada operador de multiplicación o división
     private fun parseMultiplicativeExpression(tokens: List<Token>): ExpressionNode {
-        var left = parsePrimaryExpression(tokens.subList(0, findOperatorIndex(tokens, setOf("MultiplyToken", "DivisionToken"))))
+        var left = parsePrimaryExpression(
+            tokens.subList(
+                0,
+                findOperatorIndex(tokens, setOf("MultiplyToken", "DivisionToken"))
+            )
+        )
 
         for (i in tokens.indices) {
             if (tokens[i].type == "MultiplyToken" || tokens[i].type == "DivisionToken") {

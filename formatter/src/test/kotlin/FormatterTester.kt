@@ -37,7 +37,8 @@ class FormatterTester {
 
             for (i in solution.indices) {
                 assert(result[i] == solution[i]) {
-                    "Mismatch in file \"${file.name}\" at line ${i + 1}: expected \"${solution[i]}\", found \"${result[i]}\""
+                    "Mismatch in file \"${file.name}\" at " +
+                        "line ${i + 1}: expected \"${solution[i]}\", found \"${result[i]}\""
                 }
             }
         } catch (e: Exception) {
@@ -115,7 +116,8 @@ class FormatterTester {
     fun testWholeProgram() {
         val lexer = Lexer()
         val parser = Parser()
-        val input = "let b: number = 10;b = 5;println(4);let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
+        val input = "let b: number = 10;b = 5;println(4);" +
+            "let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
 
         val tokens = lexer.tokenize(input)
         val programNode = parser.parse(tokens)

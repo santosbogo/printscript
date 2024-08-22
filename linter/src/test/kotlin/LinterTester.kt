@@ -30,14 +30,21 @@ class LinterTester {
         compareResults(linter, code, programNode, expectedWarning, shouldSucceed)
     }
 
-    private fun compareResults(linter: Linter, code: String, programNode: ProgramNode, expectedWarnings: List<String>, shouldSucceed: Boolean) {
+    private fun compareResults(
+        linter: Linter,
+        code: String,
+        programNode: ProgramNode,
+        expectedWarnings: List<String>,
+        shouldSucceed: Boolean
+    ) {
         val reportList = linter.lint(programNode).getList()
         if (!shouldSucceed) {
             assert(false) { "Expected an error but test passed for code $code" }
         }
 
         assert(reportList.firstOrNull() == expectedWarnings.firstOrNull()) {
-            "Mismatch in code \"$code\": expected \"${expectedWarnings.firstOrNull()}\", found \"${reportList.firstOrNull()}\""
+            "Mismatch in code \"$code\": expected \"${expectedWarnings.firstOrNull()}\", " +
+                "found \"${reportList.firstOrNull()}\""
         }
     }
 }

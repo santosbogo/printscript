@@ -22,7 +22,8 @@ class VariableDeclarationNodeBuilder : ASTNodeBuilder {
 
     override fun checkFormula(tokensString: String): Boolean {
         val expressionPattern = PatternFactory.getBinaryExpressionPattern()
-        val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}\\s+SemicolonToken$"
+        val pattern = "^DeclarationToken\\s+IdentifierToken\\s+ColonToken\\s+TypeToken" +
+            "\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
 }

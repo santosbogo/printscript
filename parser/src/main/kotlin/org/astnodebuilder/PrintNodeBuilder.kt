@@ -19,7 +19,8 @@ class PrintNodeBuilder : ASTNodeBuilder {
 
     override fun checkFormula(tokensString: String): Boolean {
         val expressionPattern = PatternFactory.getBinaryExpressionPattern()
-        val pattern = "^PrintToken\\s+OpenParenthesisToken\\s*${expressionPattern.drop(1).dropLast(1)}\\s*CloseParenthesisToken\\s+SemicolonToken$"
+        val pattern = "^PrintToken\\s+OpenParenthesisToken\\s*${expressionPattern.drop(1).dropLast(1)}\\s*" +
+            "CloseParenthesisToken\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
 }

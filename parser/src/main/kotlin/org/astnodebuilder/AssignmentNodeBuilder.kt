@@ -21,7 +21,8 @@ class AssignmentNodeBuilder : ASTNodeBuilder {
 
     override fun checkFormula(tokensString: String): Boolean {
         val expressionPattern = PatternFactory.getBinaryExpressionPattern()
-        val pattern = "^IdentifierToken\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}\\s+SemicolonToken$"
+        val pattern = "^IdentifierToken\\s+AssignationToken\\s+${expressionPattern.drop(1).dropLast(1)}" +
+            "\\s+SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
 }
