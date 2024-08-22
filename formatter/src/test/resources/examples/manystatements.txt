@@ -1,0 +1,20 @@
+let b: number = 10;b = 5;println(4);let a: string = 'hola';println(a);let c: number = 4;println(1 + 4);println(a + b);
+
+#####
+
+let b: number = 10;
+b = 5;
+
+println(4);
+let a: string = 'hola';
+
+println(a);
+let c: number = 4;
+
+println(1 + 4);
+
+println(a + b);
+
+#####
+
+True

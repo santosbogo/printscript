@@ -2,6 +2,7 @@ import org.Lexer
 import org.Parser
 import org.junit.jupiter.api.Test
 import java.io.File
+import kotlin.test.assertFailsWith
 
 class ParserTester {
 
@@ -56,5 +57,20 @@ class ParserTester {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
             }
         }
+    }
+
+    @Test
+    fun testNoMatchingFormula() {
+        val lexer = Lexer()
+        val parser = Parser()
+        val tokens = lexer.tokenize("let let a: number = 10;")
+
+        // Expecting an exception to be thrown
+        val exception = assertFailsWith<Exception> {
+            parser.parse(tokens)
+        }
+
+        // Optionally, you can assert that the exception message matches your expectation
+        assert(exception.message?.contains("Syntax error: Invalid statement") == true)
     }
 }
