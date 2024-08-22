@@ -24,13 +24,13 @@ class FormatterTester {
     }
 
     private fun compareResults(
-        formater: Formatter,
+        formatter: Formatter,
         shouldSucceed: Boolean,
         file: File,
         solution: List<String>
     ) {
         try {
-            val result = formater.format().toString().split("\n")
+            val result = formatter.format().toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -60,8 +60,8 @@ class FormatterTester {
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val tokens = lexer.tokenize(code)
             val nodes = parser.parse(tokens)
-            val formater = Formatter(nodes, json)
-            compareResults(formater, shouldSucceed, file, solution)
+            val formatter = Formatter(nodes, json)
+            compareResults(formatter, shouldSucceed, file, solution)
         }
     }
 
@@ -78,9 +78,9 @@ class FormatterTester {
         val parser = Parser()
         val nodes = parser.parse(tokens)
 
-        val formater = Formatter(nodes, getJsonFromFile())
+        val formatter = Formatter(nodes, getJsonFromFile())
 
-        compareResults(formater, shouldSucceed, file, solution)
+        compareResults(formatter, shouldSucceed, file, solution)
     }
 
     @Test
@@ -104,7 +104,6 @@ class FormatterTester {
     @Test // Obtiene las reglas desde un archivo JSON
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val filePath = "src/main/kotlin/rulesExample.json"
         val jsonContent = getJsonFromFile().jsonObject.toString()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
