@@ -26,7 +26,11 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
             warnings.add("Variable '$it' is declared but never used.")
         }
 
-        return VisitorResult.ListResult(warnings)
+        return if (warnings.isNotEmpty()) {
+            VisitorResult.ListResult(warnings)
+        } else {
+            VisitorResult.Empty
+        }
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {

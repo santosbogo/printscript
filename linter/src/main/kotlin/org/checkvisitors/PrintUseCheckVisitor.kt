@@ -15,14 +15,19 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach {
-            val result = it.accept(this) as VisitorResult.ListResult
+            val result = it.accept(this)
 
             // si se devolvió un warning, lo agrego a la lista de warnings que despues voy a querer devolver.
-            if (result.value.isNotEmpty()) {
+            if (result is VisitorResult.ListResult && result.value.isNotEmpty()) {
                 warnings.addAll(result.value) // agarro warnings, el value es la lista.
             }
         }
-        return VisitorResult.ListResult(warnings)
+
+        return if (warnings.isNotEmpty()) {
+            VisitorResult.ListResult(warnings)
+        } else {
+            VisitorResult.Empty
+        }
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {

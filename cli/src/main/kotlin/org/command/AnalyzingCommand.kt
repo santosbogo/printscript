@@ -29,6 +29,6 @@ class AnalyzingCommand(
         val lintedOutput = linter.lint(ast)
 
         val warnings = lintedOutput.getList()
-        warnings.forEach { println(it) } //printeo en consola los warnings.
+        warnings.forEach { println(it) } // printeo en consola los warnings.
     }
 }
