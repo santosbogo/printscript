@@ -6,7 +6,7 @@ let b: number = 10;
 b = 5;
 
 println(4);
-let a: string = hola;
+let a: string = 'hola';
 
 println(a);
 let c: number = 4;
@@ -18,3 +18,12 @@ println(a + b);
 #####
 
 True
+
+#####
+
+{
+  "space_before_colon": false,
+  "space_after_colon": true,
+  "space_around_equals": true,
+  "newline_before_println": 1
+}

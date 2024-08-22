@@ -43,7 +43,12 @@ class InterpreterVisitor : ASTNodeVisitor {
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         when (value.value) {
-            is LiteralValue.StringValue -> println(value.value.value) // printeo el valor, del literalValue que está en el literalValueResult.
+            is LiteralValue.StringValue -> {
+                val stringValue = (value.value as LiteralValue.StringValue).value
+                // Reemplaza todas las comillas simples y dobles, tanto internas como externas
+                val cleanedStringValue = stringValue.replace("'", "").replace("\"", "")
+                println(cleanedStringValue)
+            } // printeo el valor, del literalValue que está en el literalValueResult.
             is LiteralValue.NumberValue -> println(value.value.value)
             else -> {
                 throw UnsupportedOperationException("Unsupported type: ${value.value::class}")
@@ -89,7 +94,9 @@ class InterpreterVisitor : ASTNodeVisitor {
                         LiteralValue.StringValue(leftValue.toString() + rightValue.toString())
 
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a + b })
+                        LiteralValue.NumberValue(
+                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a + b }
+                        )
 
                     else -> throw UnsupportedOperationException("Unsupported types for +")
                 }
@@ -98,7 +105,9 @@ class InterpreterVisitor : ASTNodeVisitor {
             "-" -> {
                 when {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a - b })
+                        LiteralValue.NumberValue(
+                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a - b }
+                        )
 
                     else -> throw UnsupportedOperationException("Unsupported types for -")
                 }
@@ -107,7 +116,9 @@ class InterpreterVisitor : ASTNodeVisitor {
             "*" -> {
                 when {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a * b })
+                        LiteralValue.NumberValue(
+                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a * b }
+                        )
 
                     else -> throw UnsupportedOperationException("Unsupported types for *")
                 }
@@ -119,7 +130,9 @@ class InterpreterVisitor : ASTNodeVisitor {
                         throw ArithmeticException("Division by zero")
 
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a / b })
+                        LiteralValue.NumberValue(
+                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a / b }
+                        )
 
                     else -> throw UnsupportedOperationException("Unsupported types for /")
                 }

@@ -85,7 +85,7 @@ class ExpressionNodeBuilder : ASTNodeBuilder {
                 "StringToken" -> LiteralNode(
                     type = "Literal",
                     location = tokens[0].location,
-                    value = LiteralValue.StringValue(tokens[0].value.trim('\'', '"'))
+                    value = LiteralValue.StringValue(tokens[0].value)
                 )
                 "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens) as IdentifierNode
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")

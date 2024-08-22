@@ -36,7 +36,12 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         if (enabled && node.value is BinaryExpressionNode) {
-            return VisitorResult.ListResult(listOf("Location:${node.location}, Print statement should be called with ID or Literal."))
+            return VisitorResult.ListResult(
+                listOf(
+                    "Location:${node.location}, " +
+                        "Print statement should be called with ID or Literal."
+                )
+            )
         }
         return VisitorResult.Empty
     }

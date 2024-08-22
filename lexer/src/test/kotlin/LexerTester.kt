@@ -1,4 +1,6 @@
 import org.Lexer
+import org.Location
+import org.Token
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -19,7 +21,8 @@ class LexerTester {
                 }
                 for (i in tokens.indices) {
                     assert(tokens[i].type == solution[i]) {
-                        "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                        "Mismatch in file ${file.name} at ${tokens[i].location}: " +
+                            "expected ${solution[i]}, found ${tokens[i].type}"
                     }
                 }
             } catch (e: Exception) {
@@ -43,7 +46,8 @@ class LexerTester {
             }
             for (i in tokens.indices) {
                 assert(tokens[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                    "Mismatch in file ${file.name} at ${tokens[i].location}: " +
+                        "expected ${solution[i]}, found ${tokens[i].type}"
                 }
             }
         } catch (e: Exception) {
@@ -51,5 +55,11 @@ class LexerTester {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
             }
         }
+    }
+
+    @Test
+    fun testToStringToken() {
+        val token = Token("ToStringToken", "value", Location(1, 1))
+        println(token.toString())
     }
 }
