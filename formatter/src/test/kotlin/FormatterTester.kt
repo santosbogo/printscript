@@ -78,7 +78,7 @@ class FormatterTester {
         val parser = Parser()
         val nodes = parser.parse(tokens)
 
-        val formater = Formatter(nodes, getJsonFromFile() )
+        val formater = Formatter(nodes, getJsonFromFile())
 
         compareResults(formater, shouldSucceed, file, solution)
     }
@@ -105,7 +105,7 @@ class FormatterTester {
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
         val filePath = "src/main/kotlin/rulesExample.json"
-        val jsonContent =  getJsonFromFile().jsonObject.toString()
+        val jsonContent = getJsonFromFile().jsonObject.toString()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
