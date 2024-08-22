@@ -89,7 +89,7 @@ class InterpreterVisitor : ASTNodeVisitor {
                         LiteralValue.StringValue(leftValue.toString() + rightValue.toString())
 
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() + rightValue.value.toDouble())
+                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a + b })
 
                     else -> throw UnsupportedOperationException("Unsupported types for +")
                 }
@@ -98,7 +98,7 @@ class InterpreterVisitor : ASTNodeVisitor {
             "-" -> {
                 when {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() - rightValue.value.toDouble())
+                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a - b })
 
                     else -> throw UnsupportedOperationException("Unsupported types for -")
                 }
@@ -107,7 +107,7 @@ class InterpreterVisitor : ASTNodeVisitor {
             "*" -> {
                 when {
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() * rightValue.value.toDouble())
+                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a * b })
 
                     else -> throw UnsupportedOperationException("Unsupported types for *")
                 }
@@ -119,7 +119,7 @@ class InterpreterVisitor : ASTNodeVisitor {
                         throw ArithmeticException("Division by zero")
 
                     leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() / rightValue.value.toDouble())
+                        LiteralValue.NumberValue(handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a / b })
 
                     else -> throw UnsupportedOperationException("Unsupported types for /")
                 }
@@ -131,5 +131,10 @@ class InterpreterVisitor : ASTNodeVisitor {
         }
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
+    }
+
+    private fun handleNumberCase(left: Double, right: Double, operator: (Double, Double) -> Double): Number {
+        return if (left % 1 == 0.0 && right % 1 == 0.0) operator(left, right).toInt()
+        else operator(left, right)
     }
 }
