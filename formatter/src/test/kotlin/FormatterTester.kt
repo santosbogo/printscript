@@ -19,7 +19,7 @@ import java.io.File
 class FormatterTester {
 
     private fun getJsonFromFile(): JsonObject {
-        val jsonContent = File("src/main/kotlin/rulesExample.json").readText()
+        val jsonContent = File("src/test/resources/rulesExample.json").readText()
         return Json.parseToJsonElement(jsonContent).jsonObject
     }
 
@@ -49,7 +49,7 @@ class FormatterTester {
 
     @Test
     fun testFiles() {
-        val examplesDir = File("src/test/resources/examples")
+        val examplesDir = File("src/test/resources/rulesExample.json")
         val reader = TestReader()
         val lexer = Lexer()
         val parser = Parser()
@@ -94,7 +94,7 @@ class FormatterTester {
         val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode))
 
         // Get JSON from file
-        val filePath = "src/main/kotlin/rulesExample.json"
+        val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
@@ -105,7 +105,7 @@ class FormatterTester {
     @Test // Obtiene las reglas desde un archivo JSON
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val filePath = "src/main/kotlin/rulesExample.json"
+        val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         println(jsonContent)
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
@@ -120,7 +120,7 @@ class FormatterTester {
         val tokens = lexer.tokenize(input)
         val programNode = parser.parse(tokens)
         // Get JSON from file
-        val filePath = "src/main/kotlin/rulesExample.json"
+        val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
