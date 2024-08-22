@@ -3,6 +3,7 @@ package org.command
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import org.Lexer
+import org.Linter
 import org.Parser
 import java.io.File
 
@@ -20,11 +21,14 @@ class AnalyzingCommand(
         val tokens = lexer.tokenize(file)
         val ast = parser.parse(tokens)
 
+        // Leo el json file y lo parseo a un JsonObject
         val jsonContent = File(jsonFilePath).readText()
         val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
 
-        // val linter = Linter()
-        // val lintedOutput = linter.lint(ast)
-        // TODO see what to do with the result
+        val linter = Linter(jsonObject)
+        val lintedOutput = linter.lint(ast)
+
+        val warnings = lintedOutput.getList()
+        warnings.forEach { println(it) } //printeo en consola los warnings.
     }
 }
