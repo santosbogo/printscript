@@ -40,7 +40,6 @@ class FormatterTester {
                     "Mismatch in file \"${file.name}\" at line ${i + 1}: expected \"${solution[i]}\", found \"${result[i]}\""
                 }
             }
-
         } catch (e: Exception) {
             if (shouldSucceed) {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
@@ -61,8 +60,7 @@ class FormatterTester {
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val tokens = lexer.tokenize(code)
             val nodes = parser.parse(tokens)
-            val formater = Formatter(nodes, json);
-
+            val formater = Formatter(nodes, json)
             compareResults(formater, shouldSucceed, file, solution)
         }
     }
@@ -80,7 +78,7 @@ class FormatterTester {
         val parser = Parser()
         val nodes = parser.parse(tokens)
 
-        val formater = Formatter(nodes, getJsonFromFile() );
+        val formater = Formatter(nodes, getJsonFromFile() )
 
         compareResults(formater, shouldSucceed, file, solution)
     }

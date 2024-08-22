@@ -18,12 +18,12 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result: String = "${node.identifierNode.name} = ${getExpression(node.value)};"
+        val result = "${node.identifierNode.name} = ${getExpression(node.value)};"
         return VisitorResult.StringResult(result)
     }
 
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        val result: String = "println(${getExpression(node.value)});"
+        val result = "println(${getExpression(node.value)});"
         return VisitorResult.StringResult(result)
     }
 
@@ -48,7 +48,7 @@ class FormatterVisitor : ASTNodeVisitor {
     private fun getExpression(init: ExpressionNode): String {
         return when (init) {
             is LiteralNode -> init.value.toString()
-            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
+            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}   "
             is IdentifierNode -> init.name
             else -> throw Exception("Unsupported expression")
         }
