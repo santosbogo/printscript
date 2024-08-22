@@ -42,8 +42,22 @@ class InterpreterTester {
         )
 
         val literalNode = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))
-        val binaryExpressionNode = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), literalNode, literalNode, "+")
-        val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode, printStatementNode, binaryExpressionNode))
+        val binaryExpressionNode = BinaryExpressionNode(
+            "BinaryExpressionNode",
+            Location(1, 1),
+            literalNode,
+            literalNode,
+            "+"
+        )
+        val programNode = ProgramNode(
+            "ProgramNode",
+            Location(1, 1),
+            listOf(
+                variableDeclarationNode,
+                printStatementNode,
+                binaryExpressionNode
+            )
+        )
 
         val list = listOf(programNode, assignmentNode, printStatementNode, variableDeclarationNode)
         val interpreter = MockInterpreter()

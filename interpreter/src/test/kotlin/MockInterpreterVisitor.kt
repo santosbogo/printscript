@@ -43,7 +43,8 @@ class MockInterpreterVisitor : ASTNodeVisitor {
     override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         when (value.value) {
-            is LiteralValue.StringValue -> printsList.add((value.value as LiteralValue.StringValue).value) // printeo el valor, del literalValue que está en el literalValueResult.
+            is LiteralValue.StringValue ->
+                printsList.add((value.value as LiteralValue.StringValue).value)
             is LiteralValue.NumberValue -> printsList.add((value.value as LiteralValue.NumberValue).value)
         }
         return VisitorResult.Empty

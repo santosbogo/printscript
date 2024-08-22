@@ -21,7 +21,8 @@ class LexerTester {
                 }
                 for (i in tokens.indices) {
                     assert(tokens[i].type == solution[i]) {
-                        "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                        "Mismatch in file ${file.name} at ${tokens[i].location}: " +
+                            "expected ${solution[i]}, found ${tokens[i].type}"
                     }
                 }
             } catch (e: Exception) {
@@ -45,7 +46,8 @@ class LexerTester {
             }
             for (i in tokens.indices) {
                 assert(tokens[i].type == solution[i]) {
-                    "Mismatch in file ${file.name} at ${tokens[i].location}: expected ${solution[i]}, found ${tokens[i].type}"
+                    "Mismatch in file ${file.name} at ${tokens[i].location}: " +
+                        "expected ${solution[i]}, found ${tokens[i].type}"
                 }
             }
         } catch (e: Exception) {
@@ -57,7 +59,7 @@ class LexerTester {
 
     @Test
     fun testToStringToken() {
-        val token = Token("ToStringToken", "value",Location(1, 1))
+        val token = Token("ToStringToken", "value", Location(1, 1))
         println(token.toString())
     }
 }
