@@ -1,0 +1,9 @@
+let a: string= 'hola';
+
+#####
+
+let a: string = hola;
+
+#####
+
+True
