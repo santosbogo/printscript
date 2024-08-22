@@ -4,17 +4,20 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
-import org.Lexer
 import org.Location
 import org.Parser
+import org.Lexer
 import org.RulesFactory
+import org.FormatterVisitor
 import org.astnode.ProgramNode
+import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
 import java.io.File
+import kotlin.test.assertFailsWith
 
 class FormatterTester {
 
@@ -104,7 +107,7 @@ class FormatterTester {
     @Test
     fun getRulesFromJson() {
         val rulesFactory = RulesFactory()
-        val jsonContent =  getJsonFromFile().jsonObject.toString()
+        val jsonContent = getJsonFromFile().jsonObject.toString()
         rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
 
@@ -121,5 +124,24 @@ class FormatterTester {
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
+    }
+
+    @Test
+    fun testUnreachedCases() {
+        val formatterVisitor = FormatterVisitor()
+        val literalNode = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))
+        val binaryExpressionNode = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), literalNode, literalNode, "+")
+        val identifierNode = IdentifierNode("IdentifierNode", Location(1, 1), "x", "Number")
+        val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(binaryExpressionNode))
+        val nodes = listOf(programNode, binaryExpressionNode, identifierNode, literalNode)
+        for (node in nodes) {
+            node.accept(formatterVisitor)
+        }
+
+        val jsonContent = File("src/test/resources/corruptExample.json").readText()
+        val json = Json.parseToJsonElement(jsonContent).jsonObject
+        assertFailsWith<IllegalStateException>("Rule does not exist") {
+            Formatter(programNode, json).format()
+        }
     }
 }

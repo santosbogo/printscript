@@ -1,4 +1,6 @@
 import org.Lexer
+import org.Location
+import org.Token
 import org.junit.jupiter.api.Test
 import java.io.File
 
@@ -51,5 +53,11 @@ class LexerTester {
                 assert(false) { "Unexpected error in file ${file.name}: ${e.message}" }
             }
         }
+    }
+
+    @Test
+    fun testToStringToken() {
+        val token = Token("ToStringToken", "value",Location(1, 1))
+        println(token.toString())
     }
 }

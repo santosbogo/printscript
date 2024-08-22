@@ -73,4 +73,21 @@ class ParserTester {
         // Optionally, you can assert that the exception message matches your expectation
         assert(exception.message?.contains("Syntax error: Invalid statement") == true)
     }
+
+    @Test
+    fun testMissingSemicolon() {
+        val lexer = Lexer()
+        val parser = Parser()
+        val tokens = lexer.tokenize("let a: number = 10; a = 5")
+
+        // Expecting an exception to be thrown
+        val exception = assertFailsWith<Exception> {
+            parser.parse(tokens)
+        }
+
+        // Optionally, you can assert that the exception message matches your expectation
+        assert(exception.message?.contains("Unexpected end of input. Missing semicolon at the end of the file.") == true)
+    }
+
+
 }

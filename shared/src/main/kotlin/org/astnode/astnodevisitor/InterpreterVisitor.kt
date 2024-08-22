@@ -48,7 +48,7 @@ class InterpreterVisitor : ASTNodeVisitor {
                 // Reemplaza todas las comillas simples y dobles, tanto internas como externas
                 val cleanedStringValue = stringValue.replace("'", "").replace("\"", "")
                 println(cleanedStringValue)
-            }// printeo el valor, del literalValue que está en el literalValueResult.
+            } // printeo el valor, del literalValue que está en el literalValueResult.
             is LiteralValue.NumberValue -> println(value.value.value)
             else -> {
                 throw UnsupportedOperationException("Unsupported type: ${value.value::class}")
