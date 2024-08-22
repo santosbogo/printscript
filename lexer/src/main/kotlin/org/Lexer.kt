@@ -40,8 +40,8 @@ class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon
     }
 
     private fun splitStatements(input: String): List<String> {
-        val regex = Regex("[^;]+;")
-        return regex.findAll(input).map { it.value }.toList()
+        val regex = Regex("[^;]+;?")
+        return regex.findAll(input).map { it.value.trim() }.toList()
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
