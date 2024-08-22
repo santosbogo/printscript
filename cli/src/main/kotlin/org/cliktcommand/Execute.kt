@@ -7,7 +7,10 @@ import org.Lexer
 import org.Parser
 import java.io.File
 
-class Execute : CliktCommand(help = "./execute <file path>") {
+class Execute : CliktCommand(
+    help = "./execute <file path>",
+    name = "execute"
+) {
     val filePath by argument()
     override fun run() {
         val content = File(filePath).readText()
@@ -16,3 +19,5 @@ class Execute : CliktCommand(help = "./execute <file path>") {
         Interpreter().interpret(ast)
     }
 }
+
+fun main(args: Array<String>) = Execute().main(args)

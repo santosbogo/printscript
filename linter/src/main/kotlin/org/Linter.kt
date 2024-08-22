@@ -30,8 +30,12 @@ class LinterFactory() {
         val checkVisitors = config.enabledChecks.mapNotNull { checkName ->
             when (checkName) {
                 "UnusedVariableCheck" -> UnusedVariableCheckVisitor()
-                "NamingFormatCheck" -> NamingFormatCheckVisitor(config.namingPatternName,
-                    PatternFactory.getNamingFormatPattern(config.namingPatternName))
+                "NamingFormatCheck" -> NamingFormatCheckVisitor(
+                    config.namingPatternName,
+                    PatternFactory.getNamingFormatPattern(
+                        config.namingPatternName
+                    )
+                )
                 "PrintUseCheck" -> PrintUseCheckVisitor(config.printlnCheckEnabled)
                 else -> null
             }
