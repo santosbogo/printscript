@@ -69,7 +69,7 @@ class FormatterTester {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples/manylinebreaks.txt")
+        val file = File("src/test/resources/examples/stringdeclarationandassigment.txt")
 
         val reader = TestReader()
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
