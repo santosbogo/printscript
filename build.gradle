@@ -32,6 +32,10 @@ kover {
     }
 }
 
-task build {
+tasks.register('build') {
     dependsOn ":koverVerify", ":koverHtmlReport", "ktlintCheck"
+}
+
+tasks.register('check') {
+    dependsOn ":koverVerify", "ktlintCheck", "test"
 }

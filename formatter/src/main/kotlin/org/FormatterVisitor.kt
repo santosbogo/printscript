@@ -28,7 +28,11 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
-        val result: String = node.kind + " " + node.identifier.name + ":" + node.identifier.dataType + "=" + getExpression(node.init) + ";"
+        val result: String = node.kind + " " + node.identifier.name + ":" +
+            node.identifier.dataType +
+            "=" +
+            getExpression(node.init) +
+            ";"
         return VisitorResult.StringResult(result)
     }
 
