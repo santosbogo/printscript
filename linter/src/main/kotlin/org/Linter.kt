@@ -1,6 +1,5 @@
 package org
 
-import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
@@ -13,6 +12,7 @@ import org.checkvisitors.NamingFormatCheckVisitor
 import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor
 import org.expressionfactory.PatternFactory
+import java.io.File
 
 class Linter(private val jsonFile: JsonObject) {
     private val warnings = mutableListOf<String>()
