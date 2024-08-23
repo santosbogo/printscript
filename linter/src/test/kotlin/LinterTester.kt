@@ -17,11 +17,11 @@ class LinterTester {
 
         // meto el codigo en el lexer, obtengo tokens
         val lexer = Lexer()
-        val tokens = lexer.tokenize(code)
+        val lexerResult = lexer.tokenize(code)
 
         // meto tokens en el parser, obtengo los nodos.
         val parser = Parser()
-        val programNode = parser.parse(tokens)
+        val programNode = parser.parse(lexerResult.tokens)
 
         val linterFactory = LinterFactory()
         val linter = linterFactory.createDefaultLinter("src/test/kotlin/org/jsons/defaultJson.json")

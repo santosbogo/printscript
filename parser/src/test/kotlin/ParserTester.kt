@@ -27,8 +27,8 @@ class ParserTester {
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val tokens = lexer.tokenize(code)
-            val nodes = parser.parse(tokens).statements
+            val lexerResult = lexer.tokenize(code)
+            val nodes = parser.parse(lexerResult.tokens).statements
             try {
                 if (!shouldSucceed) {
                     assert(false) { "Expected an error but test passed for file ${file.name}" }
@@ -54,8 +54,8 @@ class ParserTester {
         val reader = TestReader()
         val file = File("src/test/resources/examples/variabledeclarationwithoperation.txt")
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val tokens = lexer.tokenize(code)
-        val nodes = parser.parse(tokens).statements
+        val lexerResult = lexer.tokenize(code)
+        val nodes = parser.parse(lexerResult.tokens).statements
         try {
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
@@ -77,11 +77,11 @@ class ParserTester {
     fun testNoMatchingFormula() {
         val lexer = Lexer()
         val parser = Parser()
-        val tokens = lexer.tokenize("let let a: number = 10;")
+        val lexerResult = lexer.tokenize("let let a: number = 10;")
 
         // Expecting an exception to be thrown
         val exception = assertFailsWith<Exception> {
-            parser.parse(tokens)
+            parser.parse(lexerResult.tokens)
         }
 
         // Optionally, you can assert that the exception message matches your expectation
@@ -92,11 +92,11 @@ class ParserTester {
     fun testMissingSemicolon() {
         val lexer = Lexer()
         val parser = Parser()
-        val tokens = lexer.tokenize("let a: number = 10; a = 5")
+        val lexerResult = lexer.tokenize("let a: number = 10; a = 5")
 
         // Expecting an exception to be thrown
         val exception = assertFailsWith<Exception> {
-            parser.parse(tokens)
+            parser.parse(lexerResult.tokens)
         }
 
         // Optionally, you can assert that the exception message matches your expectation

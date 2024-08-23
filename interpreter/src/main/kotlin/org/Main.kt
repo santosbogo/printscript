@@ -11,8 +11,8 @@ fun main() {
         if (input.lowercase() == "exit") break
 
         try {
-            val tokens = lexer.tokenize(input)
-            val programNode = parser.parse(tokens)
+            val lexerResult = lexer.tokenize(input)
+            val programNode = parser.parse(lexerResult.tokens)
             programNode.statements.forEach { interpreter.interpret(it) }
         } catch (e: Exception) {
             println("Error: ${e.message}")

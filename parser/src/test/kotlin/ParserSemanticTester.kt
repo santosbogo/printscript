@@ -13,10 +13,10 @@ class ParserSemanticTester {
         val reader = TestReader()
         val file = File("src/test/resources/examples/variabledeclaration.txt")
         val (code, nodes, shouldSucceed) = reader.readTokens(file.path)
-        val tokens = lexer.tokenize(code)
+        val lexerResult = lexer.tokenize(code)
 
         try {
-            val ast = parser.parse(tokens)
+            val ast = parser.parse(lexerResult.tokens)
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }

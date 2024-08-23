@@ -2,33 +2,39 @@ package org
 
 class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon()) {
 
-    fun tokenize(input: String): List<Token> {
-        val tokens = ArrayList<Token>()
+    fun tokenize(input: String): LexerResult {
+        val result = LexerResult()
         val statements = splitStatements(input)
         val position = Position(1, 1)
 
         for (statement in statements) {
             if (statement.isEmpty()) continue
-            tokenizeStatement(statement, tokens, position)
+            tokenizeStatement(statement, result, position)
         }
 
-        return tokens
+        return result
     }
 
-    private fun tokenizeStatement(statement: String, tokens: ArrayList<Token>, position: Position) {
+    private fun tokenizeStatement(statement: String, result: LexerResult, position: Position) {
         val components = splitIgnoringLiterals(statement)
         for (component in components) {
             if (component.contains("\n")) {
                 handleNewLine(position)
             }
-            tokenizeComponent(component, tokens, position)
+            tokenizeComponent(component, result, position)
         }
     }
 
-    private fun tokenizeComponent(component: String, tokens: ArrayList<Token>, position: Position) {
+    private fun tokenizeComponent(component: String, result: LexerResult, position: Position) {
         val subComponents = splitComponent(component)
         for (subComponent in subComponents) {
-            tokens.add(lexicon.getToken(subComponent, Location(position.line, position.column)))
+            try {
+                val token = lexicon.getToken(subComponent, Location(position.line, position.column))
+                result.addToken(token)
+            } catch (e: Exception) {
+                result.addError(e.message ?: "Unknown error")
+                result.addToken(Token("UnknownToken", subComponent, Location(position.line, position.column)))
+            }
             position.column += subComponent.length
         }
         position.column++

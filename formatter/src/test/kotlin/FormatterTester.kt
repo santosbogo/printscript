@@ -59,8 +59,8 @@ class FormatterTester {
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val tokens = lexer.tokenize(code)
-            val nodes = parser.parse(tokens)
+            val lexerResult = lexer.tokenize(code)
+            val nodes = parser.parse(lexerResult.tokens)
             val formater = Formatter(nodes, json)
             compareResults(formater, shouldSucceed, file, solution)
         }
@@ -74,10 +74,10 @@ class FormatterTester {
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
 
         val lexer = Lexer()
-        val tokens = lexer.tokenize(code)
+        val lexerResult = lexer.tokenize(code)
 
         val parser = Parser()
-        val nodes = parser.parse(tokens)
+        val nodes = parser.parse(lexerResult.tokens)
 
         val formater = Formatter(nodes, getJsonFromFile())
         compareResults(formater, shouldSucceed, file, solution)
@@ -119,8 +119,8 @@ class FormatterTester {
         val input = "let b: number = 10;b = 5;println(4);" +
             "let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
 
-        val tokens = lexer.tokenize(input)
-        val programNode = parser.parse(tokens)
+        val lexerResult = lexer.tokenize(input)
+        val programNode = parser.parse(lexerResult.tokens)
         // Get JSON from file
         val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()

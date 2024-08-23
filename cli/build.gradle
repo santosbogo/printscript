@@ -1,11 +1,15 @@
 plugins {
     id 'kotlin-common-conventions'
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.5.21'
-
+    id 'application'
 }
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass.set("org.CliKt")
 }
 
 dependencies {

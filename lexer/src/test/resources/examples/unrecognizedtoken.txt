@@ -7,7 +7,7 @@ IdentifierToken
 ColonToken
 TypeToken
 AssignationToken
-?
+UnknownToken
 SemicolonToken
 
 #####

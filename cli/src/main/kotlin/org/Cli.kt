@@ -1,11 +1,12 @@
 package org
 
-import org.commandbuilder.CommandBuilder
+import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
 
-class Cli(private val commandBuilderMap: Map<String, CommandBuilder>) {
-    fun run(input: String) {
-        val key = input.split(" ")[0] // <command> <file> <args>
-        val command = commandBuilderMap[key]?.build(input) ?: throw IllegalArgumentException("Command not found")
-        command.execute()
-    }
+class Cli : CliktCommand() {
+    override fun run() = Unit
 }
+
+fun main(args: Array<String>) = Cli()
+    .subcommands(Analyze(), Format(), Validate(), Execute())
+    .main(args)
