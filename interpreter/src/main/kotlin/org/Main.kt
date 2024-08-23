@@ -12,8 +12,8 @@ fun main() {
 
         try {
             val lexerResult = lexer.tokenize(input)
-            val programNode = parser.parse(lexerResult.tokens)
-            programNode.statements.forEach { interpreter.interpret(it) }
+            val parserResult = parser.parse(lexerResult.tokens)
+            parserResult.programNode?.statements?.forEach { interpreter.interpret(it) }
         } catch (e: Exception) {
             println("Error: ${e.message}")
         }

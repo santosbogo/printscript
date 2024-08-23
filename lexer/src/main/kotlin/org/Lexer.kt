@@ -28,6 +28,7 @@ class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon
     private fun tokenizeComponent(component: String, result: LexerResult, position: Position) {
         val subComponents = splitComponent(component)
         for (subComponent in subComponents) {
+            // Try to get a token from the lexicon. If it fails, add an error and a token with type "UnknownToken".
             try {
                 val token = lexicon.getToken(subComponent, Location(position.line, position.column))
                 result.addToken(token)

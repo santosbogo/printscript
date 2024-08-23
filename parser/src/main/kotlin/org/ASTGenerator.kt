@@ -17,7 +17,7 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
         }
 
         throw Exception(
-            "Syntax error: Invalid statement at ${buffer.first().location}." +
+            "Invalid statement at ${buffer.first().location}." +
                 "No formula matches the tokens: ${buffer.joinToString(" ") { it.type }}"
         )
     }

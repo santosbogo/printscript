@@ -87,8 +87,8 @@ class InterpreterTester {
 
             // Perform the interpretation
             val lexerResult = lexer.tokenize(input)
-            val programNode = parser.parse(lexerResult.tokens)
-            interpreter.interpret(programNode)
+            val parserResult = parser.parse(lexerResult.tokens)
+            interpreter.interpret(parserResult.programNode!!)
 
             // Return the captured output as a trimmed string
             return outputStream.toString().trim()

@@ -28,7 +28,8 @@ class ParserTester {
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
-            val nodes = parser.parse(lexerResult.tokens).statements
+            val parserResult = parser.parse(lexerResult.tokens)
+            val nodes = parserResult.programNode!!.statements
             try {
                 if (!shouldSucceed) {
                     assert(false) { "Expected an error but test passed for file ${file.name}" }
@@ -49,13 +50,17 @@ class ParserTester {
 
     @Test
     fun testSingleFile() {
+        val file = File("src/test/resources/examples/variabledeclarationwithoperation.txt")
+
         val lexer = Lexer()
         val parser = Parser()
         val reader = TestReader()
-        val file = File("src/test/resources/examples/variabledeclarationwithoperation.txt")
+
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val lexerResult = lexer.tokenize(code)
-        val nodes = parser.parse(lexerResult.tokens).statements
+        val parserResult = parser.parse(lexerResult.tokens)
+
+        val nodes = parserResult.programNode!!.statements
         try {
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
@@ -78,33 +83,21 @@ class ParserTester {
         val lexer = Lexer()
         val parser = Parser()
         val lexerResult = lexer.tokenize("let let a: number = 10;")
+        val parserResult = parser.parse(lexerResult.tokens)
 
-        // Expecting an exception to be thrown
-        val exception = assertFailsWith<Exception> {
-            parser.parse(lexerResult.tokens)
-        }
-
-        // Optionally, you can assert that the exception message matches your expectation
-        assert(exception.message?.contains("Syntax error: Invalid statement") == true)
+        assert(parserResult.hasErrors())
     }
 
     @Test
     fun testMissingSemicolon() {
         val lexer = Lexer()
         val parser = Parser()
+
         val lexerResult = lexer.tokenize("let a: number = 10; a = 5")
+        val parserResult = parser.parse(lexerResult.tokens)
 
-        // Expecting an exception to be thrown
-        val exception = assertFailsWith<Exception> {
-            parser.parse(lexerResult.tokens)
-        }
-
-        // Optionally, you can assert that the exception message matches your expectation
-        assert(
-            exception.message?.contains(
-                "Unexpected end of input. Missing semicolon at the end of the file."
-            ) == true
-        )
+        assert(parserResult.hasErrors())
+        assert(parserResult.errors[0].contains("Unexpected end of input. Missing semicolon at the end of the file."))
     }
 
     @Test
