@@ -8,8 +8,6 @@ class Execute : CliktCommand() {
     private val filePath by argument(help = "Path to the script file to execute")
 
     override fun run() {
-        echo("Executing $filePath")
-
         val code = File(filePath).readText()
         val lexerResult = Lexer().tokenize(code)
 
