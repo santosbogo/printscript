@@ -24,5 +24,7 @@ class Execute : CliktCommand() {
         }
 
         Interpreter().interpret(parserResult.programNode!!)
+
+        echo("Execution successful")
     }
 }

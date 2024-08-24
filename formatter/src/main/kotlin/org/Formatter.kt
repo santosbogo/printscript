@@ -20,7 +20,7 @@ class Formatter(
 ) {
     private val rules = RulesFactory().createRules(json)
 
-    fun format(): FormattedCode {
+    fun format(): FormatResult {
         val code: MutableList<String> = mutableListOf()
         var result = ""
 
@@ -30,7 +30,7 @@ class Formatter(
         // Applies rules to each statement of code
         code.forEach { line -> result += applyRules(line) }
 
-        return FormattedCode(result)
+        return FormatResult(result)
     }
 
     private fun applyRules(line: String): String {

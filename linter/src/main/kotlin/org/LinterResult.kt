@@ -1,6 +1,6 @@
 package org
 
-class Report(private var lista: List<String> = emptyList()) {
+class LinterResult(private var lista: List<String> = emptyList()) {
     // reporte con una lista de String (warnings, errors, etc)
 
     fun addToList(element: String) {

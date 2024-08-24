@@ -18,7 +18,7 @@ class Linter(private val jsonFile: JsonObject) {
     private val warnings = mutableListOf<String>()
     private val checkVisitors: List<ASTNodeVisitor> = LinterFactory().createLinterVisitors(jsonFile)
 
-    fun lint(node: ProgramNode): Report {
+    fun lint(node: ProgramNode): LinterResult {
         checkVisitors.forEach { visitor ->
             val result: VisitorResult = visitor.visit(node) // estoy seguro q voy a recibir un listResult.
 
@@ -26,7 +26,7 @@ class Linter(private val jsonFile: JsonObject) {
                 warnings.addAll(result.value) // voy agregando los warnings q cada visitor da.
             }
         }
-        return Report(warnings) // devuelvo el reporte con todos los warnings.
+        return LinterResult(warnings) // devuelvo el reporte con todos los warnings.
     }
 }
 
