@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.semanticanalysis.SemanticAnalyzerFactory
 import org.semanticanalysis.SemanticVisitor
 import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
+import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import java.io.File
 import kotlin.test.assertFailsWith
@@ -171,5 +172,21 @@ class ParserTester {
             VariableDeclarationTypeCheck().check(variableDeclarationNode, symbolTable)
         }
         assert(exception.message?.contains("Variable x no es del tipo number") == true)
+    }
+
+    @Test
+    fun testBreakVariableDeclarationCheck() {
+        val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf("x" to LiteralValue.NumberValue(10))
+        val variableDeclarationNode = VariableDeclarationNode(
+            "VariableDeclarationNode",
+            Location(0, 0),
+            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number"),
+            LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
+            "let"
+        )
+        val exception = assertFailsWith<Exception> {
+            VariableDeclarationCheck().check(variableDeclarationNode, symbolTable)
+        }
+        assert(exception.message?.contains("Variable x ya fue declarada") == true)
     }
 }
