@@ -1,0 +1,61 @@
+on:
+    push:
+        branches:
+            - master # incluyo solo la branch master
+    pull_request:
+        branches:
+            - master
+jobs:
+    basic-ubuntu-22:
+        runs-on: ubuntu-22.04
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Set up JDK
+                uses: actions/setup-java@v2
+                with:
+                    java-version: '21'
+
+            -   name: Run Build
+                run: ./gradlew build
+
+            -   name: Run Tests
+                run: ./gradlew test
+
+            -   name: Run coverage check
+                run: ./gradlew jacocoTestReport
+
+            -   name: Run Linter
+                run: ./gradlew ktlintCheck
+
+            -   name: Run formatter
+                run: ./gradlew ktlintFormat
+
+    basic-on-mac:
+        runs-on: macos-latest
+        steps:
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Set up JDK
+                uses: actions/setup-java@v2
+                with:
+                    java-version: '21'
+
+            -   name: Run Build
+                run: ./gradlew build
+
+            -   name: Run Tests
+                run: ./gradlew test
+
+            -   name: Run coverage check
+                run: ./gradlew jacocoTestReport
+
+            -   name: Run Linter
+                run: ./gradlew ktlintCheck
+
+            -   name: Run formatter
+                run: ./gradlew ktlintFormat
+
+name: ci
