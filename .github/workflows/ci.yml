@@ -7,6 +7,8 @@ on:
             - master
 jobs:
     ciTasks:
+        # github generará automaticamente le mismo job para cada una de las
+        # combinaciones de os y java que definimos en la matriz.
         runs-on: ${{ matrix.os }}
         strategy:
             matrix: # como tengo varias versiones de Ubuntu y macOS, y de Java, defino una matriz.
@@ -36,4 +38,4 @@ jobs:
             -   name: Run formatter
                 run: ./gradlew ktlintFormat
 
-name: ci
+name: continuous integration

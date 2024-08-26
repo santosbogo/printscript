@@ -1,0 +1,17 @@
+on:
+    push:
+        branches:
+            - master # incluyo solo la branch master
+    pull_request:
+        branches:
+            - master
+jobs:
+    cdTasks:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix: # como tengo varias versiones de Ubuntu y macOS, y de Java, defino una matriz.
+                os: [ ubuntu-22.04, ubuntu-24.04, macos-latest ]  # Versiones de Ubuntu y macOS que permitiremos q pusheen.
+                java: [ 17, 18, 20, 21 ] # Versiones de Java que permitiremos.
+        steps:
+            # aca voy a tener q hacer el deployment.
+name: continuous deployment
