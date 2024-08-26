@@ -6,8 +6,12 @@ on:
         branches:
             - master
 jobs:
-    basic-ubuntu-22:
-        runs-on: ubuntu-22.04
+    ciTasks:
+        runs-on: ${{ matrix.os }}
+        strategy:
+            matrix: # como tengo varias versiones de Ubuntu y macOS, y de Java, defino una matriz.
+                os: [ ubuntu-22.04, ubuntu-24.04, macos-latest ]  # Versiones de Ubuntu y macOS que permitiremos q pusheen.
+                java: [ 17, 18, 20, 21 ] # Versiones de Java que permitiremos.
         steps:
             -   name: Checkout
                 uses: actions/checkout@v4
@@ -15,7 +19,7 @@ jobs:
             -   name: Set up JDK
                 uses: actions/setup-java@v2
                 with:
-                    java-version: '21'
+                    java-version: ${{ matrix.java }}
 
             -   name: Run Build
                 run: ./gradlew build
@@ -24,33 +28,7 @@ jobs:
                 run: ./gradlew test
 
             -   name: Run coverage check
-                run: ./gradlew jacocoTestReport
-
-            -   name: Run Linter
-                run: ./gradlew ktlintCheck
-
-            -   name: Run formatter
-                run: ./gradlew ktlintFormat
-
-    basic-on-mac:
-        runs-on: macos-latest
-        steps:
-            -   name: Checkout
-                uses: actions/checkout@v4
-
-            -   name: Set up JDK
-                uses: actions/setup-java@v2
-                with:
-                    java-version: '21'
-
-            -   name: Run Build
-                run: ./gradlew build
-
-            -   name: Run Tests
-                run: ./gradlew test
-
-            -   name: Run coverage check
-                run: ./gradlew jacocoTestReport
+                run: ./gradlew :koverHtmlReport
 
             -   name: Run Linter
                 run: ./gradlew ktlintCheck
