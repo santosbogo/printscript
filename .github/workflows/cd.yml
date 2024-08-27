@@ -17,6 +17,7 @@ jobs:
                 uses: actions/setup-java@v2
                 with:
                     java-version: 11
+                    distribution: 'adopt'
 
             #buildeo para chequear q se esté aplicando la CI.
             #Si cd se hace luego de ci, no haría falta.
