@@ -1,0 +1,10 @@
+let BaBa: number = 10;
+
+##
+
+Variable 'BaBa' is declared but never used.
+Location:(line: 1, column: 1), Identifier 'BaBa' does not match the pattern camelCase
+
+##
+
+True

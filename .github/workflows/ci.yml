@@ -7,21 +7,16 @@ on:
             - master
 jobs:
     ciTasks:
-        # github generará automaticamente le mismo job para cada una de las
-        # combinaciones de os y java que definimos en la matriz.
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix: # como tengo varias versiones de Ubuntu y macOS, y de Java, defino una matriz.
-                os: [ ubuntu-22.04, ubuntu-24.04, macos-latest ]  # Versiones de Ubuntu y macOS que permitiremos q pusheen.
-                java: [ 17, 18, 20, 21 ] # Versiones de Java que permitiremos.
+        runs-on: ubuntu-latest
+
         steps:
             -   name: Checkout
                 uses: actions/checkout@v4
 
             -   name: Set up JDK
-                uses: actions/setup-java@v2
+                uses: actions/setup-java@v1
                 with:
-                    java-version: ${{ matrix.java }}
+                    java-version: 11
 
             -   name: Run Build
                 run: ./gradlew build
@@ -30,12 +25,13 @@ jobs:
                 run: ./gradlew test
 
             -   name: Run coverage check
-                run: ./gradlew :koverHtmlReport
+                run: ./gradlew :koverVerify
 
             -   name: Run Linter
                 run: ./gradlew ktlintCheck
 
-            -   name: Run formatter
-                run: ./gradlew ktlintFormat
+            # no corro formatter en pipeline.
+            # -   name: Run formatter
+            #    run: ./gradlew ktlintFormat
 
 name: continuous integration

@@ -37,7 +37,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         if (!patternMatch) {
             return VisitorResult.ListResult(
                 listOf(
-                    "Location:${node.location}, Identifier ${node.identifierNode.name}" +
+                    "Location:${node.location}, Identifier '${node.identifierNode.name}'" +
                         " does not match the pattern $patternName"
                 )
             )
@@ -56,7 +56,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
             return VisitorResult.ListResult(
                 listOf(
                     "Location:${node.location}," +
-                        " Identifier ${node.identifier.name} does not match the pattern $patternName"
+                        " Identifier '${node.identifier.name}' does not match the pattern $patternName"
                 )
             )
         }
