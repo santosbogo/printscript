@@ -6,7 +6,10 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
         // Get the token type for a given component from its tokenMap
         val tokenType = tokenMap.firstOrNull { (pattern, _) ->
             component.matches(Regex(pattern))
-        }?.second ?: throw Exception("No token found for component: $component at $location")
+        }?.second ?: throw Exception(
+            "Lexicon Error: " +
+                "No token found for component: $component at $location"
+        )
 
         return Token(
             type = tokenType,
