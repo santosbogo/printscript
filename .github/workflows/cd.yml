@@ -1,19 +1,37 @@
 on:
     push:
         branches:
-            - master # incluyo solo la branch master
-    pull_request:
-        branches:
-            - master
+            - main # incluyo solo la branch main
 jobs:
-    cdTasks:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix: # como tengo varias versiones de Ubuntu y macOS, y de Java, defino una matriz.
-                os: [ ubuntu-22.04, ubuntu-24.04, macos-latest ]  # Versiones de Ubuntu y macOS que permitiremos q pusheen.
-                java: [ 17, 18, 20, 21 ] # Versiones de Java que permitiremos.
+    deployment:
+        runs-on: ubuntu-latest
+
+        # corre en el entorno de producción.
+        environment: production
+
         steps:
-            # aca voy a tener q hacer el deployment.
+            -   name: Checkout
+                uses: actions/checkout@v4
+
+            -   name: Set up JDK
+                uses: actions/setup-java@v2
+                with:
+                    java-version: 11
+
+            #buildeo para chequear q se esté aplicando la CI.
+            #Si cd se hace luego de ci, no haría falta.
+            -   name: Run Build
+                run: ./gradlew build
+
+            # en build.gradle se define a donde se va a publicar.
+            -   name: Publish package
+                run: ./gradlew publish
+                env:
+                    # actor de github q lo ejecuta
+                    GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+
+                    # autentico la publicación del paquete.
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 name: continuous deployment
