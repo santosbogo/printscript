@@ -24,7 +24,7 @@ sealed class LiteralValue {
     data class StringValue(val value: String) : LiteralValue() {
         override fun getType(): String = "string"
         override fun toString(): String {
-            return value.trim('"')
+            return value
         }
     }
 

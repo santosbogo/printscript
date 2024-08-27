@@ -119,7 +119,7 @@ class FormatterTester {
         val lexer = Lexer()
         val parser = Parser()
         val input = "let b: number = 10;b = 5;println(4);" +
-            "let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
+            "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
 
         val lexerResult = lexer.tokenize(input)
         val parserResult = parser.parse(lexerResult.tokens)
@@ -128,6 +128,22 @@ class FormatterTester {
         val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
+
+        val formatter = Formatter(programNode, json)
+        println(formatter.format())
+    }
+
+    @Test
+    fun testDoubleQuotes() {
+        val lexer = Lexer()
+        val parser = Parser()
+        val input = "let a: string = \"hola\";"
+
+        val lexerResult = lexer.tokenize(input)
+        val parserResult = parser.parse(lexerResult.tokens)
+        val programNode = parserResult.programNode!!
+
+        val json = getJsonFromFile()
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
