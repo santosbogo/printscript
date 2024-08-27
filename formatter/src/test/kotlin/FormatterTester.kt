@@ -1,20 +1,22 @@
 package test.kotlin
 
+import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import org.Formatter
+import org.FormatterVisitor
 import org.Lexer
 import org.Location
 import org.Parser
 import org.RulesFactory
 import org.astnode.ProgramNode
+import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
-import java.io.File
 
 class FormatterTester {
 
@@ -119,7 +121,7 @@ class FormatterTester {
         val lexer = Lexer()
         val parser = Parser()
         val input = "let b: number = 10;b = 5;println(4);" +
-            "let a: string = 'hola';println(a);println(1 + 4);println(a + b);"
+            "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
 
         val lexerResult = lexer.tokenize(input)
         val parserResult = parser.parse(lexerResult.tokens)
@@ -131,5 +133,42 @@ class FormatterTester {
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
+    }
+
+    @Test
+    fun testDoubleQuotes() {
+        val lexer = Lexer()
+        val parser = Parser()
+        val input = "let a: string = \"hola\";"
+
+        val lexerResult = lexer.tokenize(input)
+        val parserResult = parser.parse(lexerResult.tokens)
+        val programNode = parserResult.programNode!!
+
+        val json = getJsonFromFile()
+
+        val formatter = Formatter(programNode, json)
+        println(formatter.format())
+    }
+
+    @Test
+    fun testGetExpression() {
+        val visitor = FormatterVisitor()
+        val literalNode = LiteralNode("Literal", Location(1, 1), LiteralValue.NumberValue(10))
+        val binaryExpressionNode = BinaryExpressionNode(
+            "BinaryExpressionNode",
+            Location(1, 1),
+            LiteralNode("Literal", Location(1, 1), LiteralValue.NumberValue(10)),
+            LiteralNode("Literal", Location(1, 1), LiteralValue.NumberValue(10)), "+"
+        )
+        val identifierNode = IdentifierNode("IdentifierNode", Location(1, 1), "a", "number")
+        val programNode = ProgramNode("ProgramNode", Location(1, 1), emptyList())
+        val nodes = listOf(
+            literalNode,
+            binaryExpressionNode,
+            identifierNode,
+            programNode
+        )
+        nodes.forEach { node -> visitor.visit(node) }
     }
 }

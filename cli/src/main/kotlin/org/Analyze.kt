@@ -18,14 +18,14 @@ class Analyze : CliktCommand() {
         val lexerResult = Lexer().tokenize(code)
 
         if (lexerResult.hasErrors()) {
-            lexerResult.errors.forEach { echo("Error: $it") }
+            lexerResult.errors.forEach { echo(it, err = true) }
             return
         }
 
         val parserResult = Parser().parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
-            parserResult.errors.forEach { echo("Error: $it") }
+            parserResult.errors.forEach { echo(it, err = true) }
             return
         }
 

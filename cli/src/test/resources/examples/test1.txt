@@ -1,0 +1,4 @@
+let aB : string = "Hello World!";
+
+
+println(aB);
