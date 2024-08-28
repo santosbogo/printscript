@@ -35,3 +35,5 @@ class Format : CliktCommand() {
         echo("Format successful")
     }
 }
+
+fun main(args: Array<String>) = Format().main(args)

@@ -35,3 +35,5 @@ class Analyze : CliktCommand() {
         echo("Analyze successful")
     }
 }
+
+fun main(args: Array<String>) = Analyze().main(args)
