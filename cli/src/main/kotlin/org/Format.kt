@@ -30,7 +30,7 @@ class Format : CliktCommand() {
         }
 
         val formatResult = Formatter(parserResult.programNode!!, rules).format()
-        // File(filePath).writeText(formatResult.code)
+        File(filePath).writeText(formatResult.code)
 
         echo("Format successful")
     }
