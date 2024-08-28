@@ -1,40 +1,37 @@
-name: Continuous Deployment
+name: continuous deployment
 
 on:
     push:
         branches:
-            - main  # Trigger only on the main branch
-
+            - main # incluyo solo la branch main
 jobs:
     deployment:
         runs-on: ubuntu-latest
 
-        # Run in the production environment
+        # corre en el entorno de producción.
         environment: production
 
         steps:
-            - name: Checkout
-              uses: actions/checkout@v3  # Use the correct version of checkout action
+            -   name: Checkout
+                uses: actions/checkout@v4
 
-            - name: Set up JDK
-              uses: actions/setup-java@v2
-              with:
-                  java-version: 11
-                  distribution: 'adopt'
+            -   name: Set up JDK
+                uses: actions/setup-java@v2
+                with:
+                    java-version: 11
+                    distribution: 'adopt'
 
-            # Build the project to ensure CI is applied before CD
-            - name: Run Build
-              run: ./gradlew build
+            #buildeo para chequear q se esté aplicando la CI.
+            #Si cd se hace luego de ci, no haría falta.
+            -   name: Run Build
+                run: ./gradlew build
 
-            # Publish the package
-            - name: Publish Package
-              run: ./gradlew publish --info
-              env:
-                  # Use GITHUB_ACTOR provided by GitHub Actions or set a default value
-                  GITHUB_ACTOR: ${{ github.actor || 'default-actor' }}
-                  # Use GITHUB_TOKEN provided by GitHub Secrets
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            # en build.gradle se define a donde se va a publicar.
+            -   name: Publish package
+                run: ./gradlew publish --info
+                env:
+                    # actor de github q lo ejecuta
+                    GITHUB_ACTOR: ${{ github.actor }}
 
-            # Optionally, add a step to ensure Gradle has executable permissions
-            - name: Make Gradlew Executable
-              run: chmod +x ./gradlew
+                    # autentico la publicación del paquete.
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
