@@ -28,10 +28,10 @@ jobs:
 
             # en build.gradle se define a donde se va a publicar.
             -   name: Publish package
-                run: ./gradlew publish
+                run: ./gradlew publish --info
                 env:
                     # actor de github q lo ejecuta
-                    GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
+                    GITHUB_ACTOR: ${{ github.actor }}
 
                     # autentico la publicación del paquete.
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
