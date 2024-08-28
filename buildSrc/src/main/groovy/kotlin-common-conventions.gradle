@@ -20,7 +20,7 @@ test {
     useJUnitPlatform()
 }
 
-group = 'com.github.matichialvaa' // hay q poner el nombre de nuestra organización.
+group = 'com.github.santosbogo.PrintScript' // hay q poner el nombre de nuestra organización.
 version = '1.0.0-SNAPSHOT' // version q deployeo.
 
 publishing {

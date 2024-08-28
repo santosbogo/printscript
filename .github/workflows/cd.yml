@@ -1,15 +1,22 @@
 name: continuous deployment
 
 on:
+    workflow_dispatch:
     push:
         branches:
             - main # incluyo solo la branch main
+
+
 jobs:
     deployment:
         runs-on: ubuntu-latest
 
+        permissions: # le doy al token todos los permisos, por si no los tiene.
+            contents: read
+            packages: write
+
         # corre en el entorno de producción.
-        environment: production
+        # environment: production
 
         steps:
             -   name: Checkout
@@ -31,7 +38,7 @@ jobs:
                 run: ./gradlew publish --info
                 env:
                     # actor de github q lo ejecuta
-                    GITHUB_ACTOR: ${{ github.actor }}
+                    GITHUB_ACTOR: ${{ env.GITHUB_ACTOR }}
 
                     # autentico la publicación del paquete.
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
