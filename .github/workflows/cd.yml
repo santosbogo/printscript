@@ -1,3 +1,5 @@
+name: continuous deployment
+
 on:
     push:
         branches:
@@ -34,5 +36,3 @@ jobs:
                     # autentico la publicación del paquete.
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
-name: continuous deployment

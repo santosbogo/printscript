@@ -1,3 +1,5 @@
+name: continuous integration
+
 on:
     push:
         branches:
@@ -36,4 +38,3 @@ jobs:
             # -   name: Run formatter
             #    run: ./gradlew ktlintFormat
 
-name: continuous integration
