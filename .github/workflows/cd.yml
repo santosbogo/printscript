@@ -24,7 +24,7 @@ jobs:
 
             # Add a debug step to check the value of GITHUB_ACTOR
             - name: Debug GITHUB_ACTOR
-              run: echo "Actor: $GITHUB_ACTOR"
+              run: echo "Actor: $GITHUB_ACTOR"  # Correct syntax for echo command
 
             # Build the project to ensure CI is applied before CD
             - name: Run Build
