@@ -1,6 +1,10 @@
 name: continuous deployment
 
 on:
+    workflow_run:
+        workflows: [ "continuous integration" ] # name del workflow q va primero.
+        types:
+            - completed
     workflow_dispatch:
     push:
         branches:
