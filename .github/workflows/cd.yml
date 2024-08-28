@@ -42,4 +42,3 @@ jobs:
 
                     # autentico la publicación del paquete.
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
