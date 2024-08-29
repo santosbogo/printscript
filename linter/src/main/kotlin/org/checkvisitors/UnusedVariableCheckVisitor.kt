@@ -34,7 +34,7 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        usedVariables.add(node.identifierNode.name)
+        usedVariables.add(node.identifier.name)
         return VisitorResult.Empty
     }
 

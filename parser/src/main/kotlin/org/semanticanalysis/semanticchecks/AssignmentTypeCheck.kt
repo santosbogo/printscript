@@ -8,7 +8,7 @@ class AssignmentTypeCheck : SemanticCheck {
     override fun check(node: ASTNode, symbolTable: MutableMap<String, LiteralValue>) {
         if (node.type == "AssignmentNode") {
             val assignmentNode = node as AssignmentNode
-            val variableIdentifier = assignmentNode.identifierNode
+            val variableIdentifier = assignmentNode.identifier
             val expression = assignmentNode.value
 
             val variableType = symbolTable[variableIdentifier.name]?.getType()

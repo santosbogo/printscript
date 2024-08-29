@@ -21,7 +21,7 @@ class SemanticVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val variableIdentifier = node.identifierNode
+        val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
