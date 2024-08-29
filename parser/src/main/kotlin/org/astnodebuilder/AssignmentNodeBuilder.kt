@@ -15,7 +15,7 @@ class AssignmentNodeBuilder : ASTNodeBuilder {
             type = "AssignmentNode",
             location = tokens[0].location,
             value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 1)) as ExpressionNode,
-            identifierNode = IdentifierNodeBuilder().generate(tokens.subList(0, 1)) as IdentifierNode
+            identifier = IdentifierNodeBuilder().generate(tokens.subList(0, 1)) as IdentifierNode
         )
     }
 

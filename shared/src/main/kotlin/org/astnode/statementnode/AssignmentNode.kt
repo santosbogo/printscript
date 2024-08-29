@@ -10,7 +10,7 @@ class AssignmentNode(
     override val type: String,
     override val location: Location,
     val value: ExpressionNode,
-    val identifierNode: IdentifierNode
+    val identifier: IdentifierNode
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitAssignmentNode(this)

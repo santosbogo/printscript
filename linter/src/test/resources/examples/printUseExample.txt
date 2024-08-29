@@ -2,7 +2,7 @@ println(1 + 2);
 
 ##
 
-Location:(line: 1, column: 1), Print statement should be called with ID or Literal.
+Location:(line: 1, column: 1), Print statement should be called as a variable or Literal.
 
 ##
 

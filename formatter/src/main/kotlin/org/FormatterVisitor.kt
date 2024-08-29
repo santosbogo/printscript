@@ -18,7 +18,7 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        val result = "${node.identifierNode.name} = ${getExpression(node.value)};"
+        val result = "${node.identifier.name} = ${getExpression(node.value)};"
         return VisitorResult.StringResult(result)
     }
 

@@ -39,7 +39,7 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
             return VisitorResult.ListResult(
                 listOf(
                     "Location:${node.location}, " +
-                        "Print statement should be called with ID or Literal."
+                        "Print statement should be called as a variable or Literal."
                 )
             )
         }

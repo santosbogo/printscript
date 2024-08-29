@@ -33,11 +33,11 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
 
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         // check that the assignment node's identifier is formated in the style of the pattern
-        val patternMatch = node.identifierNode.name.matches(Regex(pattern))
+        val patternMatch = node.identifier.name.matches(Regex(pattern))
         if (!patternMatch) {
             return VisitorResult.ListResult(
                 listOf(
-                    "Location:${node.location}, Identifier '${node.identifierNode.name}'" +
+                    "Location:${node.identifier.location}, Identifier '${node.identifier.name}'" +
                         " does not match the pattern $patternName"
                 )
             )
@@ -55,7 +55,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         if (!patternMatch) {
             return VisitorResult.ListResult(
                 listOf(
-                    "Location:${node.location}," +
+                    "Location:${node.identifier.location}," +
                         " Identifier '${node.identifier.name}' does not match the pattern $patternName"
                 )
             )
