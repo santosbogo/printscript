@@ -10,7 +10,15 @@ class CommandTester {
     fun testExecute() {
         val command = Execute()
         val result = command.test("src/test/resources/examples/test1.txt")
-        assert(result.stdout == "Execution successful\n")
+        assert(
+            result.stdout == "Lexing...\n" +
+                "\n" +
+                "Parsing...\n" +
+                "\n" +
+                "Executing...\n" +
+                "\n" +
+                "Execution successful\n"
+        )
         assert(result.statusCode == 0)
     }
 
@@ -35,7 +43,15 @@ class CommandTester {
             "src/test/resources/examples/test1.txt " +
                 "src/test/resources/analyzeJsons/defaultJson.json"
         )
-        assert(result.stdout == "Analyze successful\n")
+        assert(
+            result.stdout == "Lexing...\n" +
+                "\n" +
+                "Parsing...\n" +
+                "\n" +
+                "Analyzing...\n" +
+                "\n" +
+                "Analyze successful\n"
+        )
         assert(result.statusCode == 0)
     }
 
@@ -63,7 +79,13 @@ class CommandTester {
     fun testValidate() {
         val command = Validate()
         val result = command.test("src/test/resources/examples/test1.txt")
-        assert(result.stdout == "Validation successful\n")
+        assert(
+            result.stdout == "Lexing...\n" +
+                "\n" +
+                "Parsing...\n" +
+                "\n" +
+                "Validation successful\n"
+        )
         assert(result.statusCode == 0)
     }
 
@@ -88,7 +110,15 @@ class CommandTester {
             "src/test/resources/examples/test1.txt " +
                 "src/test/resources/formatJsons/rulesExample.json"
         )
-        assert(result.stdout == "Format successful\n")
+        assert(
+            result.stdout == "Lexing...\n" +
+                "\n" +
+                "Parsing...\n" +
+                "\n" +
+                "Formatting...\n" +
+                "\n" +
+                "Format successful\n"
+        )
         assert(result.statusCode == 0)
     }
 

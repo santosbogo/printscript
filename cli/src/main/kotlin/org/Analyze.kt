@@ -15,6 +15,7 @@ class Analyze : CliktCommand() {
         val rulesContent = File(rulePath).readText()
         val rules = Json.parseToJsonElement(rulesContent).jsonObject
 
+        echo("Lexing...\n", trailingNewline = true)
         val lexerResult = Lexer().tokenize(code)
 
         if (lexerResult.hasErrors()) {
@@ -22,6 +23,7 @@ class Analyze : CliktCommand() {
             return
         }
 
+        echo("Parsing...\n", trailingNewline = true)
         val parserResult = Parser().parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
@@ -29,6 +31,7 @@ class Analyze : CliktCommand() {
             return
         }
 
+        echo("Analyzing...\n", trailingNewline = true)
         val linterResult = Linter(rules).lint(parserResult.programNode!!)
         linterResult.getList().forEach { echo(it, true) }
 
