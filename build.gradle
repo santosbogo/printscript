@@ -18,6 +18,7 @@ dependencies {
     kover(project(":cli"))
 }
 
+
 kover {
     useJacoco()
     reports {
@@ -36,3 +37,4 @@ tasks.register('build') {
 tasks.register('check') {
     dependsOn ":koverVerify", "ktlintCheck", "test"
 }
+
