@@ -47,8 +47,17 @@ class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon
     }
 
     private fun splitStatements(input: String): List<String> {
-        val regex = Regex("[^;]+;?")
-        return regex.findAll(input).map { it.value.trim() }.toList()
+        var result: List<String> = ArrayList()
+        var statement = ""
+        for (word in input) {
+            statement += word
+            if (word == ';') {
+                result = ArrayList(result + statement)
+                statement = ""
+            }
+        }
+        result = ArrayList(result + statement)
+        return result
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {

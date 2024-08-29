@@ -141,4 +141,14 @@ class CommandTester {
         )
         assert(result.stderr == "Semantic error: Variable a no es del tipo string\n")
     }
+
+    @Test
+    fun testFile2Analyze() {
+        val command = Analyze()
+        val result = command.test(
+            "src/test/resources/examples/test2.txt " +
+                "src/test/resources/analyzeJsons/defaultJson.json"
+        )
+        assert(result.statusCode == 0)
+    }
 }
