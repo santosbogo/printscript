@@ -28,5 +28,3 @@ class Execute : CliktCommand() {
         echo("Execution successful")
     }
 }
-
-fun main(args: Array<String>) = Execute().main(args)

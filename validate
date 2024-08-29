@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CLI_PATH="./cli/build/install/cli/bin/cli"
+
+if [ ! -f "$CLI_PATH" ]; then
+    echo "CLI command not found. Please run './gradlew :cli:installDist' first."
+    exit 1
+fi
+
+if [ $# -ne 1 ]; then
+    echo "Usage: ./validate <file path>"
+    exit 1
+fi
+
+if [ ! -f "$1" ]; then
+    echo "Error: $1 is not a valid file."
+    exit 1
+fi
+
+"$CLI_PATH" "validate" "$1"

@@ -26,5 +26,3 @@ class Validate : CliktCommand() {
         echo("Validation successful")
     }
 }
-
-fun main(args: Array<String>) = Validate().main(args)
