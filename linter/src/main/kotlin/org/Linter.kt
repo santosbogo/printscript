@@ -14,7 +14,7 @@ import org.checkvisitors.UnusedVariableCheckVisitor
 import org.expressionfactory.PatternFactory
 import java.io.File
 
-class Linter(private val jsonFile: JsonObject) {
+class Linter(jsonFile: JsonObject) {
     private val warnings = mutableListOf<String>()
     private val checkVisitors: List<ASTNodeVisitor> = LinterFactory().createLinterVisitors(jsonFile)
 
@@ -30,7 +30,7 @@ class Linter(private val jsonFile: JsonObject) {
     }
 }
 
-class LinterFactory() {
+class LinterFactory {
     fun createDefaultLinter(jsonFilePath: String = "src/test/kotlin/org/jsons/defaultJson.json"): Linter {
         // use the default json file in test
         val jsonContent = File(jsonFilePath).readText()
