@@ -9,6 +9,8 @@ class Execute : CliktCommand() {
 
     override fun run() {
         val code = File(filePath).readText()
+
+        echo("Lexing...\n", trailingNewline = true)
         val lexerResult = Lexer().tokenize(code)
 
         if (lexerResult.hasErrors()) {
@@ -16,6 +18,7 @@ class Execute : CliktCommand() {
             return
         }
 
+        echo("Parsing...\n", trailingNewline = true)
         val parserResult = Parser().parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
@@ -23,6 +26,7 @@ class Execute : CliktCommand() {
             return
         }
 
+        echo("Executing...\n", trailingNewline = true)
         Interpreter().interpret(parserResult.programNode!!)
 
         echo("Execution successful")

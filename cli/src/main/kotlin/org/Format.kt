@@ -15,6 +15,7 @@ class Format : CliktCommand() {
         val rulesContent = File(rulePath).readText()
         val rules = Json.parseToJsonElement(rulesContent).jsonObject
 
+        echo("Lexing...\n", trailingNewline = true)
         val lexerResult = Lexer().tokenize(code)
 
         if (lexerResult.hasErrors()) {
@@ -22,6 +23,7 @@ class Format : CliktCommand() {
             return
         }
 
+        echo("Parsing...\n", trailingNewline = true)
         val parserResult = Parser().parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
@@ -29,6 +31,7 @@ class Format : CliktCommand() {
             return
         }
 
+        echo("Formatting...\n", trailingNewline = true)
         val formatResult = Formatter(parserResult.programNode!!, rules).format()
         File(filePath).writeText(formatResult.code)
 
