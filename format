@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CLI_PATH="./cli/build/install/cli/bin/cli"
+
+if [ ! -f "$CLI_PATH" ]; then
+    echo "CLI command not found. Please run './gradlew :cli:installDist' first."
+    exit 1
+fi
+
+if [ $# -ne 2 ]; then
+    echo "Usage: ./format <file path> <rules json path>"
+    exit 1
+fi
+
+if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+    echo "Error: One or both files are not valid."
+    exit 1
+fi
+
+"$CLI_PATH" "format" "$1" "$2"
