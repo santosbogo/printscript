@@ -7,11 +7,10 @@ import org.semanticanalysis.SemanticAnalyzerFactory
 
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
-    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createDefaultSemanticAnalyzer()
+    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV10()
 ) {
     fun parse(tokens: List<Token>): ParserResult {
         val result = ParserResult()
-        semanticAnalyzer.reset()
 
         val statements = ArrayList<ASTNode>()
         val buffer = ArrayList<Token>()
@@ -47,5 +46,21 @@ class Parser(
         }
 
         return result
+    }
+}
+
+class ParserFactory {
+    fun createParserV10(): Parser {
+        return Parser(
+            ASTGeneratorFactory().createDefaultASTGenerator(),
+            SemanticAnalyzerFactory().createSemanticAnalyzerV10()
+        )
+    }
+
+    fun createParserV11(): Parser {
+        return Parser(
+            ASTGeneratorFactory().createDefaultASTGenerator(),
+            SemanticAnalyzerFactory().createSemanticAnalyzerV11()
+        )
     }
 }

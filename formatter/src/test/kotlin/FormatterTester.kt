@@ -91,7 +91,7 @@ class FormatterTester {
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(1, 1),
-            IdentifierNode("IdentifierNode", Location(1, 1), "a", "number"),
+            IdentifierNode("IdentifierNode", Location(1, 1), "a", "number", "let"),
             LiteralNode("Literal", Location(1, 17), LiteralValue.NumberValue(10)),
             "let"
         )
@@ -161,7 +161,7 @@ class FormatterTester {
             LiteralNode("Literal", Location(1, 1), LiteralValue.NumberValue(10)),
             LiteralNode("Literal", Location(1, 1), LiteralValue.NumberValue(10)), "+"
         )
-        val identifierNode = IdentifierNode("IdentifierNode", Location(1, 1), "a", "number")
+        val identifierNode = IdentifierNode("IdentifierNode", Location(1, 1), "a", "number", "let")
         val programNode = ProgramNode("ProgramNode", Location(1, 1), emptyList())
         val nodes = listOf(
             literalNode,

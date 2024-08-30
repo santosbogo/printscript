@@ -9,12 +9,13 @@ class SharedTests {
 
     @Test
     fun testShared() {
-        val simbolTable: MutableMap<String, LiteralValue> = mutableMapOf("x" to LiteralValue.NumberValue(5))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(5)))
         val identifierNode = IdentifierNode(
             "IdentifierNode",
             Location(1, 2),
             "x",
-            "dataType"
+            "dataType",
+            "let"
         )
         val literalNode = LiteralNode(
             "LiteralNode",
@@ -40,7 +41,7 @@ class SharedTests {
         )
         numberLiteral.toString()
         literalNode.toString()
-        identifierNode.getType(simbolTable)
+        identifierNode.getType(symbolTable)
         identifierNode.dataType
     }
 }

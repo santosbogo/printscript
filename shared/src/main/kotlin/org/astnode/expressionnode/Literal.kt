@@ -13,7 +13,7 @@ class LiteralNode(
         return visitor.visitLiteralNode(this)
     }
 
-    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
+    override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return value.getType()
     }
 }

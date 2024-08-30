@@ -23,7 +23,7 @@ class InterpreterTester {
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(1, 1),
-            IdentifierNode("IdentifierNode", Location(1, 1), "x", "number"),
+            IdentifierNode("IdentifierNode", Location(1, 1), "x", "number", "let"),
             LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(42)),
             "let"
         )
@@ -38,7 +38,7 @@ class InterpreterTester {
             "AssignmentNode",
             Location(1, 1),
             LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(42)),
-            IdentifierNode("IdentifierNode", Location(1, 1), "x", "Number"),
+            IdentifierNode("IdentifierNode", Location(1, 1), "x", "Number", "let"),
         )
 
         val literalNode = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))

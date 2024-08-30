@@ -12,7 +12,7 @@ import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class SemanticVisitor : ASTNodeVisitor {
-    val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf()
 
     override fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
@@ -23,7 +23,8 @@ class SemanticVisitor : ASTNodeVisitor {
     override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        val tuple = Pair(variableIdentifier.kind, value.value)
+        symbolTable[variableIdentifier.name] = tuple
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -34,7 +35,8 @@ class SemanticVisitor : ASTNodeVisitor {
     override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        val tuple = Pair(variableIdentifier.kind, value.value)
+        symbolTable[variableIdentifier.name] = tuple
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -43,7 +45,7 @@ class SemanticVisitor : ASTNodeVisitor {
     }
 
     override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        val value = symbolTable[node.name]
+        val value = symbolTable[node.name]?.second // agarro el valor de la variable
         if (value != null) {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)

@@ -9,12 +9,13 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken"
 
     override fun generate(tokens: List<Token>): ASTNode {
-        if (tokens.size == 3) {
+        if (tokens.size == 4) {
             return IdentifierNode(
                 type = "IdentifierNode",
-                location = tokens[0].location,
-                name = tokens[0].value,
-                dataType = tokens[2].value
+                location = tokens[1].location,
+                name = tokens[1].value,
+                dataType = tokens[3].value,
+                kind = tokens[0].value // let o const
             )
         }
 
@@ -22,7 +23,8 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
             type = "IdentifierNode",
             location = tokens[0].location,
             name = tokens[0].value,
-            dataType = ""
+            dataType = "",
+            kind = ""
         )
     }
 
@@ -36,7 +38,8 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
                 type = "IdentifierNode",
                 location = location,
                 name = value,
-                dataType = ""
+                dataType = "",
+                kind = ""
             )
         }
     }

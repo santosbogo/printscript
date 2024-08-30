@@ -5,7 +5,7 @@ import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationCheck : SemanticCheck {
-    override fun check(node: ASTNode, symbolTable: MutableMap<String, LiteralValue>) {
+    override fun check(node: ASTNode, symbolTable: MutableMap<String, Pair<String, LiteralValue>>) {
         // check that the variable being declared is not already declared
         if (node.type == "VariableDeclarationNode") {
             val variableDeclarationNode = node as VariableDeclarationNode

@@ -1,3 +1,6 @@
+package org.v10
+
+import TestReader
 import org.Lexer
 import org.Location
 import org.Parser
@@ -22,13 +25,14 @@ class ParserTester {
     @Test
     fun testFiles() {
         val lexer = Lexer()
-        val parser = Parser()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
+
+            val parser = Parser() // nuevo parser para no mantener en memoria todas las variables.
             val parserResult = parser.parse(lexerResult.tokens)
             val nodes = parserResult.programNode!!.statements
             try {
@@ -51,7 +55,7 @@ class ParserTester {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples/variabledeclarationwithoperation.txt")
+        val file = File("src/test/resources/examples/variabledeclaration.txt")
 
         val lexer = Lexer()
         val parser = Parser()
@@ -126,7 +130,7 @@ class ParserTester {
         val exception = assertFailsWith<Exception> {
             unsupportedOperator.accept(semanticVisitor)
         }
-        val checks = SemanticAnalyzerFactory().createDefaultSemanticChecks()
+        val checks = SemanticAnalyzerFactory().createSemanticChecksV10()
         println(checks)
         assert(exception.message?.contains("Unsupported operator") == true)
     }
@@ -145,12 +149,12 @@ class ParserTester {
 
     @Test
     fun testBreakAssignmentTypeCheck() {
-        val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf("x" to LiteralValue.NumberValue(10))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
         val assignmentNode = AssignmentNode(
             "AssignmentNode",
             Location(0, 0),
             LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number")
+            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let")
         )
         val exception = assertFailsWith<Exception> {
             AssignmentTypeCheck().check(assignmentNode, symbolTable)
@@ -160,11 +164,11 @@ class ParserTester {
 
     @Test
     fun testBreakVariableDeclarationTypeCheck() {
-        val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf("x" to LiteralValue.NumberValue(10))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(0, 0),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number"),
+            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let"),
             LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
             "let"
         )
@@ -176,11 +180,11 @@ class ParserTester {
 
     @Test
     fun testBreakVariableDeclarationCheck() {
-        val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf("x" to LiteralValue.NumberValue(10))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(0, 0),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number"),
+            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let"),
             LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
             "let"
         )

@@ -5,7 +5,7 @@ import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationTypeCheck : SemanticCheck {
-    override fun check(node: ASTNode, symbolTable: MutableMap<String, LiteralValue>) {
+    override fun check(node: ASTNode, symbolTable: MutableMap<String, Pair<String, LiteralValue>>) {
         // chequeo que el tipo de la variable declarada sea el mismo que el tipo de la variable asignada
         if (node.type == "VariableDeclarationNode") {
             val variableDeclarationNode = node as VariableDeclarationNode

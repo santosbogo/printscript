@@ -12,8 +12,4 @@ class SemanticAnalyzer(private val checks: List<SemanticCheck>) {
         }
         semanticVisitor.visit(node)
     }
-
-    fun reset() {
-        semanticVisitor.symbolTable.clear()
-    }
 }

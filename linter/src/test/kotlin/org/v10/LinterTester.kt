@@ -1,3 +1,6 @@
+package org.v10
+
+import TestReader
 import org.Lexer
 import org.Linter
 import org.LinterFactory
@@ -38,7 +41,6 @@ class LinterTester {
         // declaro todas las clases q voy a usar.
         val reader = TestReader()
         val lexer = Lexer()
-        val parser = Parser()
 
         // para cada archivo de texto, corro el test. Me permite correr varios tests automaticos.
         dir.listFiles {
@@ -48,6 +50,8 @@ class LinterTester {
             file ->
             val (code, expectedWarnings, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
+
+            val parser = Parser()
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
 

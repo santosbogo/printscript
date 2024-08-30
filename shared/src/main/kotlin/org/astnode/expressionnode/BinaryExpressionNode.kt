@@ -15,7 +15,7 @@ class BinaryExpressionNode(
         return visitor.visitBinaryExpressionNode(this)
     }
 
-    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
+    override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         val leftType = left.getType(symbolTable)
         val rightType = right.getType(symbolTable)
 

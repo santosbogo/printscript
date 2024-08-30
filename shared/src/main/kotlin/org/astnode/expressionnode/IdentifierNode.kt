@@ -8,13 +8,14 @@ class IdentifierNode(
     override val type: String,
     override val location: Location,
     val name: String,
-    var dataType: String
+    var dataType: String,
+    val kind: String
 ) : ExpressionNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visitIdentifierNode(this)
     }
 
-    override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {
-        return symbolTable[name]?.getType() ?: dataType
+    override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
+        return symbolTable[name]?.second?.getType() ?: dataType
     }
 }

@@ -1,0 +1,9 @@
+const a: number = 10;
+
+#####
+
+VariableDeclarationNode
+
+#####
+
+True
