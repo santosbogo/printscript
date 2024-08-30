@@ -1,0 +1,11 @@
+const a: number = 10;
+a = 11;
+
+#####
+
+VariableDeclarationNode
+AssignmentNode
+
+#####
+
+False

@@ -9,6 +9,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken"
 
     override fun generate(tokens: List<Token>): ASTNode {
+        // cuando se llama desde declarationNodeBuilder.
         if (tokens.size == 4) {
             return IdentifierNode(
                 type = "IdentifierNode",
@@ -19,6 +20,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
             )
         }
 
+        // cuando se llama desde assignmentNodeBuilder.
         return IdentifierNode(
             type = "IdentifierNode",
             location = tokens[0].location,
