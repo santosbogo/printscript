@@ -14,6 +14,6 @@ class VariableDeclarationNode(
     val kind: String
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitVariableDeclarationNode(this)
+        return visitor.visit(this)
     }
 }

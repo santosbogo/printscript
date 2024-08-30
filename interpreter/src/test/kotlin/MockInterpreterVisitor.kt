@@ -27,20 +27,20 @@ class MockInterpreterVisitor : ASTNodeVisitor {
         }
     }
 
-    override fun visitProgramNode(node: ProgramNode): VisitorResult {
+    private fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach { it.accept(this) }
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         when (value.value) {
             is LiteralValue.StringValue ->
@@ -50,19 +50,19 @@ class MockInterpreterVisitor : ASTNodeVisitor {
         return VisitorResult.Empty
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
+    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
         // Devuelvo el valor tal cual, para que pueda ser usado en su contexto(asignacion o expresion)
         return VisitorResult.LiteralValueResult(node.value)
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
+    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         val value = symbolTable[node.name]
         if (value != null) {
             return when (value) {
@@ -76,7 +76,7 @@ class MockInterpreterVisitor : ASTNodeVisitor {
         }
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         val leftResult = node.left.accept(this) as VisitorResult.LiteralValueResult
         val rightResult = node.right.accept(this) as VisitorResult.LiteralValueResult
 

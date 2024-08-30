@@ -12,7 +12,7 @@ class IdentifierNode(
     val kind: String
 ) : ExpressionNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitIdentifierNode(this)
+        return visitor.visit(this)
     }
 
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {

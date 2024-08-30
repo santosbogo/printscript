@@ -12,7 +12,7 @@ class BinaryExpressionNode(
     val operator: String
 ) : ExpressionNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitBinaryExpressionNode(this)
+        return visitor.visit(this)
     }
 
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {

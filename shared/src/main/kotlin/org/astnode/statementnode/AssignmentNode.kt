@@ -13,6 +13,6 @@ class AssignmentNode(
     val identifier: IdentifierNode
 ) : StatementNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitAssignmentNode(this)
+        return visitor.visit(this)
     }
 }

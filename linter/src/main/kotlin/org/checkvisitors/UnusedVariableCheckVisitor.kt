@@ -1,5 +1,6 @@
 package org.checkvisitors
 
+import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.types.VisitorResult
@@ -14,7 +15,21 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
     private val declaredVariables = mutableSetOf<String>()
     private val usedVariables = mutableSetOf<String>()
     private val warnings = mutableListOf<String>()
-    override fun visitProgramNode(node: ProgramNode): VisitorResult {
+
+    override fun visit(node: ASTNode): VisitorResult {
+        return when (node) {
+            is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is LiteralNode -> visitLiteralNode(node)
+            is IdentifierNode -> visitIdentifierNode(node)
+            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            else -> VisitorResult.Empty
+        }
+    }
+
+    private fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach { visit(it) }
 
@@ -33,32 +48,32 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
         }
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         usedVariables.add(node.identifier.name)
         return VisitorResult.Empty
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         node.value.accept(this)
         return VisitorResult.Empty
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         declaredVariables.add(node.identifier.name)
         return VisitorResult.Empty
     }
 
-    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
+    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
         return VisitorResult.Empty
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         node.left.accept(this)
         node.right.accept(this)
         return VisitorResult.Empty
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
+    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         usedVariables.add(node.name)
         return VisitorResult.Empty
     }
