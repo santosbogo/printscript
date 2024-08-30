@@ -21,7 +21,6 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
 class LexiconFactory {
     fun createDefaultLexicon(): Lexicon {
-        // Create a default lexicon with some common tokens. It's the basic lexicon.
         return Lexicon(
             listOf(
                 "let" to "DeclarationToken",
@@ -51,7 +50,6 @@ class LexiconFactory {
     }
 
     fun createLexiconV11(): Lexicon {
-        // Create a default lexicon with some common tokens. It's the basic lexicon.
         return Lexicon(
             listOf(
                 "let" to "DeclarationToken",
@@ -66,12 +64,21 @@ class LexiconFactory {
                 "/" to "DivisionToken",
                 "\\(" to "OpenParenthesisToken",
                 "\\)" to "CloseParenthesisToken",
+                "\\{" to "OpenBraceToken",
+                "\\}" to "CloseBraceToken",
 
                 "println" to "PrintToken",
+                "if" to "IfToken",
+                "else" to "ElseToken",
+                "readInput" to "ReadInputToken",
+                "readEnvironment" to "ReadEnvironmentToken",
+
                 "number" to "TypeToken",
                 "string" to "TypeToken",
                 "boolean" to "TypeToken",
 
+                "True" to "BooleanToken",
+                "False" to "BooleanToken",
                 "[0-9]+" to "NumberToken",
                 "[0-9]+\\.[0-9]+" to "NumberToken",
                 "\".*\"" to "StringToken",
