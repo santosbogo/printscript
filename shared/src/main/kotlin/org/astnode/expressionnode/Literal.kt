@@ -10,7 +10,7 @@ class LiteralNode(
     val value: LiteralValue
 ) : ExpressionNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitLiteralNode(this)
+        return visitor.visit(this)
     }
 
     override fun getType(symbolTable: MutableMap<String, LiteralValue>): String {

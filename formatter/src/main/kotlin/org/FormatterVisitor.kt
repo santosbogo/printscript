@@ -1,5 +1,6 @@
 package org
 
+import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.types.VisitorResult
@@ -13,36 +14,49 @@ import org.astnode.statementnode.VariableDeclarationNode
 
 class FormatterVisitor : ASTNodeVisitor {
 
-    override fun visitProgramNode(node: ProgramNode): VisitorResult {
+    override fun visit(node: ASTNode): VisitorResult {
+        return when (node) {
+            is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is LiteralNode -> visitLiteralNode(node)
+            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            is IdentifierNode -> visitIdentifierNode(node)
+            else -> VisitorResult.Empty
+        }
+    }
+
+    private fun visitProgramNode(node: ProgramNode): VisitorResult {
         return VisitorResult.StringResult("We can't reach here")
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val result = "${node.identifier.name} = ${getExpression(node.value)};"
         return VisitorResult.StringResult(result)
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         val result = "println(${getExpression(node.value)});"
         return VisitorResult.StringResult(result)
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val result: String = node.kind + " " + node.identifier.name + ":" + node.identifier.dataType +
             "=" + getExpression(node.init) + ";"
         return VisitorResult.StringResult(result)
     }
 
-    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
+    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
         return VisitorResult.StringResult(node.value.toString() + ";")
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         val result: String = "${getExpression(node.left)} ${node.operator} ${getExpression(node.right)}" + ";"
         return VisitorResult.StringResult(result)
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
+    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         return VisitorResult.StringResult(node.name + ";")
     }
 

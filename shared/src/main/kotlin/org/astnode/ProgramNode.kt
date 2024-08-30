@@ -10,6 +10,6 @@ class ProgramNode(
     val statements: List<ASTNode>
 ) : ASTNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
-        return visitor.visitProgramNode(this)
+        return visitor.visit(this)
     }
 }

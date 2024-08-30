@@ -1,5 +1,6 @@
 package org.checkvisitors
 
+import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.types.VisitorResult
@@ -13,7 +14,20 @@ import org.astnode.statementnode.VariableDeclarationNode
 class NamingFormatCheckVisitor(private val patternName: String, private val pattern: String) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
 
-    override fun visitProgramNode(node: ProgramNode): VisitorResult {
+    override fun visit(node: ASTNode): VisitorResult {
+        return when (node) {
+            is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is LiteralNode -> visitLiteralNode(node)
+            is IdentifierNode -> visitIdentifierNode(node)
+            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            else -> VisitorResult.Empty
+        }
+    }
+
+    private fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach {
             val result = it.accept(this)
@@ -31,7 +45,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         }
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         // check that the assignment node's identifier is formated in the style of the pattern
         val patternMatch = node.identifier.name.matches(Regex(pattern))
         if (!patternMatch) {
@@ -45,11 +59,11 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         return VisitorResult.Empty
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         return VisitorResult.Empty
     }
 
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         // check that the variable declaration node's identifier is formated in the style of the pattern
         val patternMatch = node.identifier.name.matches(Regex(pattern))
         if (!patternMatch) {
@@ -63,15 +77,15 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         return VisitorResult.Empty
     }
 
-    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
+    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
         return VisitorResult.Empty
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         return VisitorResult.Empty
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
+    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         return VisitorResult.Empty
     }
 }

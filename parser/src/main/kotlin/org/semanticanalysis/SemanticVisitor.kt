@@ -1,5 +1,6 @@
 package org.semanticanalysis
 
+import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.types.VisitorResult
@@ -8,41 +9,48 @@ import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.AssignmentNode
-import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class SemanticVisitor : ASTNodeVisitor {
     val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
 
-    override fun visitProgramNode(node: ProgramNode): VisitorResult {
+    override fun visit(node: ASTNode): VisitorResult {
+        return when (node) {
+            is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is LiteralNode -> visitLiteralNode(node)
+            is IdentifierNode -> visitIdentifierNode(node)
+            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            else -> VisitorResult.Empty
+        }
+    }
+
+    private fun visitProgramNode(node: ProgramNode): VisitorResult {
         val statements = node.statements
         statements.forEach { it.accept(this) }
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        return VisitorResult.Empty
-    }
-
-    override fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
         symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
 
-    override fun visitLiteralNode(node: LiteralNode): VisitorResult {
+    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
         return VisitorResult.LiteralValueResult(node.value)
     }
 
-    override fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
+    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         val value = symbolTable[node.name]
         if (value != null) {
             return when (value) {
@@ -54,7 +62,7 @@ class SemanticVisitor : ASTNodeVisitor {
         }
     }
 
-    override fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
+    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         val leftResult = node.left.accept(this) as VisitorResult.LiteralValueResult
         val rightResult = node.right.accept(this) as VisitorResult.LiteralValueResult
 
