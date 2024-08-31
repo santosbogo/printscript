@@ -55,7 +55,7 @@ class InterpreterVisitor : ASTNodeVisitor {
                 println((value.value as LiteralValue.NumberValue).value)
             }
             is LiteralValue.BooleanValue -> {
-                println(value.value.value)
+                println((value.value as LiteralValue.BooleanValue).value)
             }
         }
         return VisitorResult.Empty

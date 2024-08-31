@@ -2,7 +2,7 @@ package org.astnode.statementnode
 
 import org.Location
 import org.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.ExpressionNode
 import org.astnode.expressionnode.LiteralValue
 
