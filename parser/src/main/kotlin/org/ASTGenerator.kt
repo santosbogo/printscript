@@ -5,6 +5,7 @@ import org.astnodebuilder.ASTNodeBuilder
 import org.astnodebuilder.AssignmentNodeBuilder
 import org.astnodebuilder.ExpressionNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
+import org.astnodebuilder.IfNodeBuilder
 import org.astnodebuilder.PrintNodeBuilder
 import org.astnodebuilder.VariableDeclarationNodeBuilder
 
@@ -35,7 +36,8 @@ class ASTGeneratorFactory {
                 PrintNodeBuilder(),
                 AssignmentNodeBuilder(),
                 ExpressionNodeBuilder(),
-                IdentifierNodeBuilder()
+                IdentifierNodeBuilder(),
+                IfNodeBuilder()
             )
         )
     }

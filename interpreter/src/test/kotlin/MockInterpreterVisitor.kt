@@ -46,6 +46,7 @@ class MockInterpreterVisitor : ASTNodeVisitor {
             is LiteralValue.StringValue ->
                 printsList.add((value.value as LiteralValue.StringValue).value)
             is LiteralValue.NumberValue -> printsList.add((value.value as LiteralValue.NumberValue).value)
+            is LiteralValue.BooleanValue -> printsList.add((value.value as LiteralValue.BooleanValue).value)
         }
         return VisitorResult.Empty
     }
