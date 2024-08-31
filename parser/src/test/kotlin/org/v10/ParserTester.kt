@@ -26,7 +26,7 @@ class ParserTester {
     fun testFiles() {
         val lexer = Lexer()
         val reader = TestReader()
-        val examplesDir = File("src/test/resources/examples")
+        val examplesDir = File("src/test/resources/examples-v10-v10")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -55,7 +55,7 @@ class ParserTester {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples/variabledeclaration.txt")
+        val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
 
         val lexer = Lexer()
         val parser = Parser()

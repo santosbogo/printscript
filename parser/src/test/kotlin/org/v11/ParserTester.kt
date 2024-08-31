@@ -10,7 +10,7 @@ import java.io.File
 class ParserTester {
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples11/constvariableassigned.txt")
+        val file = File("src/test/resources/examples-v11/constvariableassigned.txt")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11())
         val parserFactory = ParserFactory()
@@ -41,7 +41,7 @@ class ParserTester {
     @Test
     fun testFiles() {
         val reader = TestReader()
-        val examplesDir = File("src/test/resources/examples11")
+        val examplesDir = File("src/test/resources/examples-v11")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11()) // uso nueva version del lexicon.
 

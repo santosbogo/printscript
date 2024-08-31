@@ -10,7 +10,7 @@ import java.io.File
 class LexerTester {
     @Test
     fun testFile() {
-        val file = File("src/test/resources/examples11/constdeclaration.txt")
+        val file = File("src/test/resources/examples-v11/constdeclaration.txt")
         val lexer = Lexer(LexiconFactory().createLexiconV11())
         val reader = TestReader()
 
