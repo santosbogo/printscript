@@ -1,7 +1,7 @@
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode

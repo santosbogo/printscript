@@ -3,7 +3,7 @@ package org.astnode.expressionnode
 import org.Location
 import org.astnode.ASTNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.astnodevisitor.VisitorResult
 
 interface ExpressionNode : ASTNode {
     override val type: String
