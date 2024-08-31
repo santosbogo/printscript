@@ -2,7 +2,7 @@ package org.astnode
 
 import org.Location
 import org.astnode.astnodevisitor.ASTNodeVisitor
-import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.astnodevisitor.VisitorResult
 
 class ProgramNode(
     override val type: String,

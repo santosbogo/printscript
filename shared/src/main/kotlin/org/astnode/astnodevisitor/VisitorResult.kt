@@ -1,4 +1,4 @@
-package org.astnode.astnodevisitor.types
+package org.astnode.astnodevisitor
 
 import org.astnode.expressionnode.LiteralValue
 

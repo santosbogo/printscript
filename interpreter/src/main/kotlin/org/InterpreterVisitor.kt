@@ -1,8 +1,9 @@
-package org.astnode.astnodevisitor
+package org
 
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.types.VisitorResult
+import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
@@ -44,14 +45,14 @@ class InterpreterVisitor : ASTNodeVisitor {
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
         when (value.value) {
             is LiteralValue.StringValue -> {
-                val stringValue = value.value.value
+                val stringValue = (value.value as LiteralValue.StringValue).value
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
                 println(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
-                println(value.value.value)
+                println((value.value as LiteralValue.NumberValue).value)
             }
             is LiteralValue.BooleanValue -> {
                 println(value.value.value)
