@@ -17,7 +17,7 @@ class Parser(
 
         for (token in tokens) {
             buffer.add(token)
-            if (token.type == "SemicolonToken") {
+            if (token.type == "SemicolonToken" || token.type == "CloseBraceToken") {
                 try {
                     val node: ASTNode = astGenerator.generate(buffer)
                     try {

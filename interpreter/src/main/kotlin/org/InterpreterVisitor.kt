@@ -54,6 +54,9 @@ class InterpreterVisitor : ASTNodeVisitor {
             is LiteralValue.NumberValue -> {
                 println((value.value as LiteralValue.NumberValue).value)
             }
+            is LiteralValue.BooleanValue -> {
+                println((value.value as LiteralValue.BooleanValue).value)
+            }
         }
         return VisitorResult.Empty
     }
@@ -75,6 +78,7 @@ class InterpreterVisitor : ASTNodeVisitor {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
+                is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
             }
         } else {
             throw Exception("Variable ${node.name} not declared")

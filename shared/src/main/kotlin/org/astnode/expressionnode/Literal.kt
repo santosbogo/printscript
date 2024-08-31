@@ -34,4 +34,11 @@ sealed class LiteralValue {
             return value.toString()
         }
     }
+
+    data class BooleanValue(val value: Boolean) : LiteralValue() {
+        override fun getType(): String = "boolean"
+        override fun toString(): String {
+            return value.toString()
+        }
+    }
 }

@@ -58,6 +58,7 @@ class SemanticVisitor : ASTNodeVisitor {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
+                is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
             }
         } else {
             throw Exception("Variable ${node.name} not declared")
