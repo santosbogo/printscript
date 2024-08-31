@@ -14,7 +14,7 @@ class ParserSemanticTester {
         val lexer = Lexer(LexiconFactory().createDefaultLexicon())
         val parser = Parser()
         val reader = TestReader()
-        val file = File("src/test/resources/examples/variabledeclaration.txt")
+        val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
         val (code, nodes, shouldSucceed) = reader.readTokens(file.path)
         val lexerResult = lexer.tokenize(code)
 

@@ -12,7 +12,7 @@ import java.io.File
 class LinterTester {
     @Test
     fun testSingleWarning() {
-        val file = File("src/test/resources/examples/namingFormatExample2.txt")
+        val file = File("src/test/resources/examples-v10/namingFormatExample2.txt")
 
         // me devuelve el codigo que entra, la warning q tiene q devolver, y si debería funcionar.
         val reader = TestReader()
@@ -36,7 +36,7 @@ class LinterTester {
 
     @Test
     fun testMultipleWarnings() {
-        val dir = File("src/test/resources/examples")
+        val dir = File("src/test/resources/examples-v10")
 
         // declaro todas las clases q voy a usar.
         val reader = TestReader()

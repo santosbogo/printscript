@@ -11,7 +11,7 @@ class LexerTester {
 
     @Test
     fun testFile() {
-        val file = File("src/test/resources/examples/unrecognizedtoken.txt")
+        val file = File("src/test/resources/examples-v10/unrecognizedtoken.txt")
         val lexer = Lexer()
         val reader = TestReader()
 
@@ -39,7 +39,7 @@ class LexerTester {
     fun testMultipleFiles() {
         val lexer = Lexer()
         val reader = TestReader()
-        val examplesDir = File("src/test/resources/examples")
+        val examplesDir = File("src/test/resources/examples-v10")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
