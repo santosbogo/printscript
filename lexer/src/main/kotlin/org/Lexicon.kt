@@ -71,7 +71,7 @@ class LexiconFactory {
                 "if" to "IfToken",
                 "else" to "ElseToken",
                 "readInput" to "ReadInputToken",
-                "readEnvironment" to "ReadEnvironmentToken",
+                "readEnv" to "ReadEnvironmentToken",
 
                 "number" to "TypeToken",
                 "string" to "TypeToken",
