@@ -3,6 +3,7 @@ package org.semanticanalysis
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -72,52 +73,7 @@ class SemanticVisitor : ASTNodeVisitor {
         val leftValue = leftResult.value
         val rightValue = rightResult.value
 
-        val resultLiteralValue: LiteralValue = when (node.operator) {
-            "+" -> {
-                when {
-                    (leftValue is LiteralValue.StringValue) || (rightValue is LiteralValue.StringValue) ->
-                        LiteralValue.StringValue(leftValue.toString() + rightValue.toString())
-
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() + rightValue.value.toDouble())
-
-                    else -> throw UnsupportedOperationException("Unsupported types for +")
-                }
-            }
-
-            "-" -> {
-                when {
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() - rightValue.value.toDouble())
-
-                    else -> throw UnsupportedOperationException("Unsupported types for -")
-                }
-            }
-
-            "*" -> {
-                when {
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() * rightValue.value.toDouble())
-
-                    else -> throw UnsupportedOperationException("Unsupported types for *")
-                }
-            }
-
-            "/" -> {
-                when {
-                    rightValue is LiteralValue.NumberValue && rightValue.value.toDouble() == 0.0 ->
-                        throw ArithmeticException("Division by zero")
-
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(leftValue.value.toDouble() / rightValue.value.toDouble())
-
-                    else -> throw UnsupportedOperationException("Unsupported types for /")
-                }
-            }
-            else -> {
-                throw UnsupportedOperationException("Unsupported operator: ${node.operator}")
-            }
-        }
+        val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(leftValue, rightValue, node.operator)
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
     }

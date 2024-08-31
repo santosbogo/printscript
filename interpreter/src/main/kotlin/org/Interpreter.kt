@@ -1,10 +1,10 @@
 package org
 
 import org.astnode.ASTNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
 
-class Interpreter(private val visitor: ASTNodeVisitor = InterpreterVisitor()) {
-    fun interpret(node: ASTNode) {
+class Interpreter(private val visitor: InterpreterVisitor = InterpreterVisitor()) {
+    fun interpret(node: ASTNode): InterpreterResult {
         visitor.visit(node)
+        return InterpreterResult(visitor.printsList)
     }
 }

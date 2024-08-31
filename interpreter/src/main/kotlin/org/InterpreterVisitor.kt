@@ -3,6 +3,7 @@ package org
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -13,7 +14,8 @@ import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class InterpreterVisitor : ASTNodeVisitor {
-    val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    val printsList: MutableList<String> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -49,12 +51,15 @@ class InterpreterVisitor : ASTNodeVisitor {
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
+                printsList.add(cleanedStringValue)
                 println(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
+                printsList.add((value.value as LiteralValue.NumberValue).value.toString())
                 println((value.value as LiteralValue.NumberValue).value)
             }
             is LiteralValue.BooleanValue -> {
+                printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
                 println((value.value as LiteralValue.BooleanValue).value)
             }
         }
