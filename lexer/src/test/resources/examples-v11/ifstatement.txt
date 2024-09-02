@@ -1,0 +1,21 @@
+if (True) {
+    println("Hello");
+}
+
+#####
+
+IfToken
+OpenParenthesisToken
+BooleanToken
+CloseParenthesisToken
+OpenBraceToken
+PrintToken
+OpenParenthesisToken
+StringToken
+CloseParenthesisToken
+SemicolonToken
+CloseBraceToken
+
+#####
+
+True

@@ -37,7 +37,18 @@ class ASTGeneratorFactory {
                 AssignmentNodeBuilder(),
                 ExpressionNodeBuilder(),
                 IdentifierNodeBuilder(),
-                IfNodeBuilder()
+            )
+        )
+    }
+    fun createASTGeneratorV11(): ASTGenerator {
+        return ASTGenerator(
+            listOf(
+                VariableDeclarationNodeBuilder(),
+                PrintNodeBuilder(),
+                AssignmentNodeBuilder(),
+                ExpressionNodeBuilder(),
+                IdentifierNodeBuilder(),
+                IfNodeBuilder(),
             )
         )
     }

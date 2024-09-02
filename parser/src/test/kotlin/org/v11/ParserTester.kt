@@ -10,11 +10,10 @@ import java.io.File
 class ParserTester {
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/constvariableassigned.txt")
+        val file = File("src/test/resources/examples-v11/ifstatement.txt")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11())
-        val parserFactory = ParserFactory()
-        val parser = parserFactory.createParserV11()
+        val parser = ParserFactory().createParserV11()
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
