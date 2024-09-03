@@ -148,4 +148,35 @@ class InterpreterTester {
         val output = interpretAndCaptureOutputV11(input)
         assertEquals("Hello", output)
     }
+
+    @Test
+    fun testIfCompleteNode() {
+        val input = """
+            if (false) {
+                println('Hello');
+            } else {
+                println('World');
+            }
+        """.trimIndent()
+        val output = interpretAndCaptureOutputV11(input)
+        assertEquals("World", output)
+    }
+
+    @Test
+    fun testIfNestedNode() {
+        val input = """
+            if (true) {
+                if (true) {
+                    println('Hello');
+                    if (true) {
+                        println('World');
+                    }
+                } else {
+                    println('Goodbye World');
+                }
+            }
+        """.trimIndent()
+        val output = interpretAndCaptureOutputV11(input)
+        assertEquals("HelloWorld", output)
+    }
 }
