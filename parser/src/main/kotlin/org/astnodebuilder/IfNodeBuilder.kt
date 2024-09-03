@@ -1,6 +1,6 @@
 package org.astnodebuilder
 
-import org.Parser
+import org.ParserFactory
 import org.ParserResult
 import org.Token
 import org.astnode.ASTNode
@@ -20,8 +20,9 @@ class IfNodeBuilder : ASTNodeBuilder {
         val ifElseTokens = ifElseStructure.separateIfElse(tokens)
         val ifTokens = ifElseTokens.first
         val elseTokens = ifElseTokens.second
+        val parser = ParserFactory().createParserV11()
 
-        val ifStatements = checkIfError(Parser().parse(ifTokens.subList(5, ifTokens.size - 1)))
+        val ifStatements = checkIfError(parser.parse(ifTokens.subList(5, ifTokens.size - 1)))
         val booleanExpression = ExpressionNodeBuilder().generate(listOf(ifTokens[2])) as ExpressionNode
 
         val ifNode = IfNode(
@@ -32,7 +33,7 @@ class IfNodeBuilder : ASTNodeBuilder {
         )
 
         if (hasElse(elseTokens)) { // If there is an else statement
-            val elseStatements = checkIfError(Parser().parse(elseTokens.subList(2, elseTokens.size - 1)))
+            val elseStatements = checkIfError(parser.parse(elseTokens.subList(2, elseTokens.size - 1)))
 
             val elseNode = ElseNode(
                 type = "ElseNode",
@@ -54,7 +55,7 @@ class IfNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*?\\s+CloseBraceToken$"
+        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
         return Regex(pattern).matches(tokensString)
     }
 
