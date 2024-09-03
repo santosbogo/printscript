@@ -1,0 +1,23 @@
+const yes : boolean = true;
+const no : boolean = false;
+
+if (yes) {
+    println("yes");
+}
+
+if (no) {
+    println("no");
+} else {
+    println("yes");
+}
+
+#####
+
+VariableDeclarationNode
+VariableDeclarationNode
+IfNode
+CompleteIfNode
+
+#####
+
+True

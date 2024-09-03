@@ -55,7 +55,7 @@ class IfNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
+        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+(BooleanToken|IdentifierToken)\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
         return Regex(pattern).matches(tokensString)
     }
 

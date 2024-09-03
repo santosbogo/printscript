@@ -11,7 +11,7 @@ import org.structures.StructureFactory
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
     private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV10(),
-    val supportedStructures: List<Structure> = StructureFactory().createDefaultStructures()
+    private val supportedStructures: List<Structure> = StructureFactory().createDefaultStructures()
 ) {
     fun parse(tokens: List<Token>): ParserResult {
         val result = ParserResult()
@@ -39,6 +39,7 @@ class Parser(
             buffer.add(token)
             if (checkIfStructureToken(token.type)) {
                 i = handleStructure(token.type, tokens, i, buffer, statements, result)
+                i--
             } else if (token.type == "SemicolonToken") {
                 handleStatement(buffer, statements, result)
             }

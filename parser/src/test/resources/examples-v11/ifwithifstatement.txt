@@ -1,0 +1,15 @@
+if (true) {
+    if (true) {
+        println("Hello");
+    } else {
+        println("Goodbye");
+    }
+}
+
+#####
+
+IfNode
+
+#####
+
+True

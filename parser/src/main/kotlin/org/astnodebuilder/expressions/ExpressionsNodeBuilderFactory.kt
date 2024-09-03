@@ -13,7 +13,8 @@ class ExpressionsNodeBuilderFactory {
         return listOf(
             BinaryExpressionNodeBuilder(),
             ReadEnvNodeBuilder(),
-            ReadInputNodeBuilder()
+            ReadInputNodeBuilder(),
+            BooleanExpressionNodeBuilder()
         )
     }
 }
