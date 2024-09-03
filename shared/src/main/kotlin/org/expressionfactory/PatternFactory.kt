@@ -3,7 +3,7 @@ package org.expressionfactory
 class PatternFactory {
     companion object {
         fun getBinaryExpressionPattern(): String {
-            return """^(IdentifierToken|StringToken|NumberToken)(\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\s*(IdentifierToken|StringToken|NumberToken))*$"""
+            return """^(BooleanToken|IdentifierToken|StringToken|NumberToken)(\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\s*(IdentifierToken|StringToken|NumberToken))*$"""
         }
 
         fun getIfPattern(): String {

@@ -93,6 +93,11 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
                     location = tokens[0].location,
                     value = LiteralValue.StringValue(tokens[0].value)
                 )
+                "BooleanToken" -> LiteralNode(
+                    type = "Literal",
+                    location = tokens[0].location,
+                    value = LiteralValue.BooleanValue(firstToLowerCase(tokens[0].value).toBoolean()),
+                )
                 "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens) as IdentifierNode
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")
             }
@@ -112,5 +117,9 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
             }
         }
         return tokens.size // If no operator found, return the size of the list
+    }
+
+    private fun firstToLowerCase(string: String): String {
+        return string.substring(0, 1).lowercase() + string.substring(1)
     }
 }

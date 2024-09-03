@@ -1,0 +1,13 @@
+if (true) {
+    println("Hello");
+} else {
+    println("Goodbye");
+}
+
+#####
+
+CompleteIfNode
+
+#####
+
+True
