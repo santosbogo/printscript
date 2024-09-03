@@ -20,7 +20,7 @@ class IdentifierNodeBuilder : ASTNodeBuilder {
             )
         }
 
-        // cuando se llama desde assignmentNodeBuilder.
+        // cuando se llama con solo el nombre de la variable
         return IdentifierNode(
             type = "IdentifierNode",
             location = tokens[0].location,
