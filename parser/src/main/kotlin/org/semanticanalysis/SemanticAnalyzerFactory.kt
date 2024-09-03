@@ -25,16 +25,11 @@ class SemanticAnalyzerFactory {
     }
 
     fun createSemanticAnalyzerV11(): SemanticAnalyzer {
-        val checks: List<SemanticCheck> = listOf(
-            VariableDeclarationCheck(),
-            AssignmentTypeCheck(),
-            VariableDeclarationTypeCheck(),
-            AssignmentKindCheck(),
-        )
+        val checks: List<SemanticCheck> = createSemanticChecksV11()
         return SemanticAnalyzer(checks)
     }
 
-    fun createSemanticChecksV11(): List<SemanticCheck> {
+    private fun createSemanticChecksV11(): List<SemanticCheck> {
         return listOf(
             VariableDeclarationCheck(),
             AssignmentTypeCheck(),

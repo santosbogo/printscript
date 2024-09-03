@@ -175,16 +175,20 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         // busco el nombre de la variable en el environment.
         val envVar = System.getenv(node.variableName)
         if (envVar != null) {
-            when (node.type as String) {
+            return when (node.type as String) {
                 "string" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.StringValue(envVar))
+                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(envVar))
                 }
+
                 "number" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.NumberValue(envVar.toDouble()))
+                    // si es double agrego normal, si es int le saco el .0
+                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(checkIfInteger(envVar.toDouble())))
                 }
+
                 "boolean" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(envVar.toBoolean()))
+                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(envVar.toBoolean()))
                 }
+
                 else -> {
                     throw Exception("Unsupported type")
                 }
@@ -192,5 +196,9 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         } else {
             throw Exception("Environment variable ${node.variableName} not found")
         }
+    }
+
+    private fun checkIfInteger(num: Double): Number {
+        return if (num % 1 == 0.0) num.toInt() else num
     }
 }

@@ -5,7 +5,7 @@ import org.interpretervisitors.InterpreterVisitor
 import org.interpretervisitors.InterpreterVisitorV10
 import org.interpretervisitors.InterpreterVisitorV11
 
-class Interpreter(private val visitor: InterpreterVisitor = InterpreterVisitorV10()) {
+class Interpreter(private val visitor: InterpreterVisitor = InterpreterVisitorV11()) {
     fun interpret(node: ASTNode): InterpreterResult {
         visitor.visit(node)
         return InterpreterResult(visitor.printsList)
