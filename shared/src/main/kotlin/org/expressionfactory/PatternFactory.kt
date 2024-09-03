@@ -3,7 +3,6 @@ package org.expressionfactory
 class PatternFactory {
     companion object {
         fun getBinaryExpressionPattern(): String {
-            // id or literal token, added by more of these.
             return """^(IdentifierToken|StringToken|NumberToken)(\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\s*(IdentifierToken|StringToken|NumberToken))*$"""
         }
 
@@ -14,6 +13,14 @@ class PatternFactory {
         fun getIfWithElsePattern(): String {
             return "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*?\\s+" +
                 "CloseBraceToken\\s+ElseToken\\s+OpenBraceToken\\s+.*?\\s+CloseBraceToken$"
+        }
+
+        fun getReadInputPattern(): String {
+            return "^ReadInputToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken$"
+        }
+
+        fun getReadEnvironmentPattern(): String {
+            return "^ReadEnvironmentToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken$"
         }
 
         fun getNamingFormatPattern(namingPatternName: String): String {
