@@ -1,15 +1,14 @@
-if (True) {
-    if (True) {
+if (true) {
+    if (true) {
         println("Hello");
     } else {
         println("Goodbye");
     }
-} else {
 }
 
 #####
 
-CompleteIfNode
+IfNode
 
 #####
 
