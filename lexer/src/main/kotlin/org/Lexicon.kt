@@ -77,8 +77,8 @@ class LexiconFactory {
                 "string" to "TypeToken",
                 "boolean" to "TypeToken",
 
-                "True" to "BooleanToken",
-                "False" to "BooleanToken",
+                "true" to "BooleanToken",
+                "false" to "BooleanToken",
                 "[0-9]+" to "NumberToken",
                 "[0-9]+\\.[0-9]+" to "NumberToken",
                 "\".*\"" to "StringToken",

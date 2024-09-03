@@ -14,7 +14,7 @@ import org.structures.IfElseStructure
 class IfNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IfToken OpenParenthesisToken BooleanToken CloseParenthesisToken OpenBraceToken ExpressionNode CloseBraceToken " +
         "ElseToken OpenBraceToken ExpressionNode CloseBraceToken"
-    val ifElseStructure = IfElseStructure()
+    private val ifElseStructure = IfElseStructure()
 
     override fun generate(tokens: List<Token>): ASTNode {
         val ifElseTokens = ifElseStructure.separateIfElse(tokens)

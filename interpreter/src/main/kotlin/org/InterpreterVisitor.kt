@@ -3,6 +3,7 @@ package org
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -13,7 +14,8 @@ import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class InterpreterVisitor : ASTNodeVisitor {
-    val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    val printsList: MutableList<String> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -49,12 +51,15 @@ class InterpreterVisitor : ASTNodeVisitor {
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
+                printsList.add(cleanedStringValue)
                 println(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
+                printsList.add((value.value as LiteralValue.NumberValue).value.toString())
                 println((value.value as LiteralValue.NumberValue).value)
             }
             is LiteralValue.BooleanValue -> {
+                printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
                 println((value.value as LiteralValue.BooleanValue).value)
             }
         }
@@ -92,67 +97,8 @@ class InterpreterVisitor : ASTNodeVisitor {
         val leftValue = leftResult.value
         val rightValue = rightResult.value
 
-        val resultLiteralValue: LiteralValue = when (node.operator) {
-            "+" -> {
-                when {
-                    (leftValue is LiteralValue.StringValue) || (rightValue is LiteralValue.StringValue) ->
-                        LiteralValue.StringValue(leftValue.toString() + rightValue.toString())
-
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(
-                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a + b }
-                        )
-
-                    else -> throw UnsupportedOperationException("Unsupported types for +")
-                }
-            }
-
-            "-" -> {
-                when {
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(
-                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a - b }
-                        )
-
-                    else -> throw UnsupportedOperationException("Unsupported types for -")
-                }
-            }
-
-            "*" -> {
-                when {
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(
-                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a * b }
-                        )
-
-                    else -> throw UnsupportedOperationException("Unsupported types for *")
-                }
-            }
-
-            "/" -> {
-                when {
-                    rightValue is LiteralValue.NumberValue && rightValue.value.toDouble() == 0.0 ->
-                        throw ArithmeticException("Division by zero")
-
-                    leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
-                        LiteralValue.NumberValue(
-                            handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a / b }
-                        )
-
-                    else -> throw UnsupportedOperationException("Unsupported types for /")
-                }
-            }
-
-            else -> {
-                throw UnsupportedOperationException("Unsupported operator: ${node.operator}")
-            }
-        }
+        val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(leftValue, rightValue, node.operator)
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
-    }
-
-    private fun handleNumberCase(left: Double, right: Double, operator: (Double, Double) -> Double): Number {
-        return if (left % 1 == 0.0 && right % 1 == 0.0) operator(left, right).toInt()
-        else operator(left, right)
     }
 }

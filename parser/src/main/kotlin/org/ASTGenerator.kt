@@ -2,12 +2,6 @@ package org
 
 import org.astnode.ASTNode
 import org.astnodebuilder.ASTNodeBuilder
-import org.astnodebuilder.AssignmentNodeBuilder
-import org.astnodebuilder.ExpressionNodeBuilder
-import org.astnodebuilder.IdentifierNodeBuilder
-import org.astnodebuilder.IfNodeBuilder
-import org.astnodebuilder.PrintNodeBuilder
-import org.astnodebuilder.VariableDeclarationNodeBuilder
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
     fun generate(buffer: ArrayList<Token>): ASTNode {
@@ -25,31 +19,5 @@ class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
 
     private fun getFormula(buffer: ArrayList<Token>): String {
         return buffer.joinToString(" ") { it.type }
-    }
-}
-
-class ASTGeneratorFactory {
-    fun createDefaultASTGenerator(): ASTGenerator {
-        return ASTGenerator(
-            listOf(
-                VariableDeclarationNodeBuilder(),
-                PrintNodeBuilder(),
-                AssignmentNodeBuilder(),
-                ExpressionNodeBuilder(),
-                IdentifierNodeBuilder(),
-            )
-        )
-    }
-    fun createASTGeneratorV11(): ASTGenerator {
-        return ASTGenerator(
-            listOf(
-                VariableDeclarationNodeBuilder(),
-                PrintNodeBuilder(),
-                AssignmentNodeBuilder(),
-                ExpressionNodeBuilder(),
-                IdentifierNodeBuilder(),
-                IfNodeBuilder(),
-            )
-        )
     }
 }
