@@ -102,7 +102,7 @@ class ParserTester {
         val parserResult = parser.parse(lexerResult.tokens)
 
         assert(parserResult.hasErrors())
-        assert(parserResult.errors[0].contains("Unexpected end of input. Missing semicolon at the end of the file."))
+        assert(parserResult.errors[0].contains("Unexpected end of input. Missing semicolon or brace at the end of the file."))
     }
 
     @Test

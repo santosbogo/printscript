@@ -7,6 +7,15 @@ class PatternFactory {
             return """^(IdentifierToken|StringToken|NumberToken)(\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\s*(IdentifierToken|StringToken|NumberToken))*$"""
         }
 
+        fun getIfPattern(): String {
+            return "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*?\\s+CloseBraceToken$"
+        }
+
+        fun getIfWithElsePattern(): String {
+            return "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*?\\s+" +
+                "CloseBraceToken\\s+ElseToken\\s+OpenBraceToken\\s+.*?\\s+CloseBraceToken$"
+        }
+
         fun getNamingFormatPattern(namingPatternName: String): String {
             return when (namingPatternName) {
                 "camelCase" -> {
