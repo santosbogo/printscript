@@ -41,4 +41,11 @@ sealed class LiteralValue {
             return value.toString()
         }
     }
+
+    data object PromiseValue : LiteralValue() {
+        override fun getType(): String = "promise"
+        override fun toString(): String {
+            return "Promise"
+        }
+    }
 }

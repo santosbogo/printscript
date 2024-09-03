@@ -13,10 +13,11 @@ class VariableDeclarationTypeCheck : SemanticCheck {
             val variableType = variableDeclarationNode.identifier.dataType
             val expressionType = expressionNode.getType(symbolTable)
 
-            if (expressionType != variableType) {
+            if (expressionType != variableType && expressionType != "Undefined") {
                 throw Exception(
                     "Variable ${variableDeclarationNode.identifier.name}" +
-                        " no es del tipo $variableType"
+                        " no es del tipo $variableType " +
+                        "y no puede ser asignada con un valor de tipo $expressionType"
                 )
             }
         }
