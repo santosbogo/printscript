@@ -1,8 +1,7 @@
-package org
+package org.interpretervisitors
 
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
@@ -13,9 +12,9 @@ import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
-class InterpreterVisitor : ASTNodeVisitor {
+class InterpreterVisitorV10 : InterpreterVisitor {
     private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
-    val printsList: MutableList<String> = mutableListOf()
+    override val printsList: MutableList<String> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
