@@ -93,11 +93,6 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
                     location = tokens[0].location,
                     value = LiteralValue.StringValue(tokens[0].value)
                 )
-                "BooleanToken" -> LiteralNode(
-                    type = "Literal",
-                    location = tokens[0].location,
-                    value = LiteralValue.BooleanValue(tokens[0].value.toBoolean()),
-                )
                 "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens) as IdentifierNode
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")
             }
