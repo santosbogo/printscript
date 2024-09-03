@@ -4,11 +4,14 @@ import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.semanticanalysis.SemanticAnalyzer
 import org.semanticanalysis.SemanticAnalyzerFactory
+import org.structures.Structure
+import org.structures.StructureFactory
 
 // With structure, we refer to operators like if, for, while
 class Parser(
     private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
-    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV10()
+    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV10(),
+    val supportedStructures: List<Structure> = StructureFactory().createDefaultStructures()
 ) {
     fun parse(tokens: List<Token>): ParserResult {
         val result = ParserResult()
@@ -52,10 +55,9 @@ class Parser(
 
     // Simply get all the tokens concerning that structure and handle them
     private fun handleStructure(type: String, tokens: List<Token>, i: Int, buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult): Int {
-        if (type == "IfToken") {
-            // FIXME(Por ahora modularize con utils, pero se podría hacer una interfaz Structure para for, while y IF y que tengan un método getTokens() )
-            buffer.addAll(Utils().getIfTokens(tokens, i))
-        } // Here you could add other structures as while or for
+        supportedStructures.forEach {
+            if (it.type == type) { it.getTokens(tokens, i, buffer) }
+        }
         val b = handleStatement(buffer, statements, result)
         return i + b
     }
@@ -79,7 +81,7 @@ class Parser(
     }
 
     private fun checkIfStructureToken(string: String): Boolean {
-        val structureTokens = listOf("IfToken", "ForToken", "WhileToken")
+        val structureTokens = supportedStructures.map { it.type }
         return structureTokens.contains(string)
     }
 }
