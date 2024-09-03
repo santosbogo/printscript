@@ -1,6 +1,6 @@
 package org.v10
 
-import TestReader
+import org.TestReader
 import org.Lexer
 import org.LexiconFactory
 import org.Parser
