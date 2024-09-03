@@ -6,9 +6,10 @@ import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnodebuilder.ASTNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
+import org.expressionfactory.PatternFactory
 
 class BooleanExpressionNodeBuilder : ASTNodeBuilder {
-    override val formula = "BooleanToken|IdentifierToken"
+    override val formula = PatternFactory.getBooleanExpressionPattern()
 
     override fun generate(tokens: List<Token>): ASTNode {
         if (tokens.size != 1) {

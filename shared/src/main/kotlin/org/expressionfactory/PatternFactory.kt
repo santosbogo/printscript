@@ -3,11 +3,17 @@ package org.expressionfactory
 class PatternFactory {
     companion object {
         fun getBinaryExpressionPattern(): String {
-            return """^(IdentifierToken|StringToken|NumberToken)(\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\s*(IdentifierToken|StringToken|NumberToken))*$"""
+            return "(IdentifierToken|StringToken|NumberToken)(\\s*(PlusToken|MinusToken|MultiplyToken|DivisionToken)\\s*(IdentifierToken|StringToken|NumberToken))*"
         }
 
-        fun getIfPattern(): String {
-            return "^IfToken\\s+OpenParenthesisToken\\s+BooleanToken\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*?\\s+CloseBraceToken$"
+        fun getBooleanExpressionPattern(): String {
+            return "(BooleanToken|IdentifierToken)"
+        }
+
+        fun getExpressionPattern(): String {
+            val binaryExpressionPattern = getBinaryExpressionPattern()
+            val booleanExpressionPattern = getBooleanExpressionPattern()
+            return "($binaryExpressionPattern|$booleanExpressionPattern)"
         }
 
         fun getIfWithElsePattern(): String {

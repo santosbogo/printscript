@@ -1,6 +1,6 @@
 package org.v11
 
-import TestReader
+import org.TestReader
 import org.Lexer
 import org.LexiconFactory
 import org.ParserFactory
@@ -10,7 +10,7 @@ import java.io.File
 class ParserTester {
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/2completeIfs.txt")
+        val file = File("src/test/resources/examples-v11/ifWithIdentifier.txt")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11())
         val parser = ParserFactory().createParserV11()

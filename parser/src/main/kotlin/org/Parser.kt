@@ -39,6 +39,7 @@ class Parser(
             buffer.add(token)
             if (checkIfStructureToken(token.type)) {
                 i = handleStructure(token.type, tokens, i, buffer, statements, result)
+                i--
             } else if (token.type == "SemicolonToken") {
                 handleStatement(buffer, statements, result)
             }
