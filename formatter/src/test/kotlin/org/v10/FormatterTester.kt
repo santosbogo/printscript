@@ -1,4 +1,4 @@
-package test.kotlin
+package test.kotlin.org.v10
 
 import java.io.File
 import kotlinx.serialization.json.Json
@@ -17,6 +17,7 @@ import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
+import test.kotlin.TestReader
 
 class FormatterTester {
 
@@ -64,7 +65,7 @@ class FormatterTester {
             val lexerResult = lexer.tokenize(code)
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
-            val formater = Formatter(programNode, json)
+            val formater = Formatter(programNode, json, RulesFactory().createRulesForV11(json))
             compareResults(formater, shouldSucceed, file, solution)
         }
     }
@@ -105,15 +106,6 @@ class FormatterTester {
 
         val formatter = Formatter(programNode, json)
         println(formatter.format())
-    }
-
-    @Test // Obtiene las reglas desde un archivo JSON
-    fun getRulesFromJson() {
-        val rulesFactory = RulesFactory()
-        val filePath = "src/test/resources/rulesExample.json"
-        val jsonContent = File(filePath).readText()
-        println(jsonContent)
-        rulesFactory.createRules(Json.parseToJsonElement(jsonContent).jsonObject)
     }
 
     @Test

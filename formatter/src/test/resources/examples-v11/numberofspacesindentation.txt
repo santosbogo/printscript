@@ -1,0 +1,24 @@
+if (true) {
+println("Hello");
+}
+
+#####
+
+if (true) {
+    println("Hello");
+}
+
+#####
+
+True
+
+#####
+
+{
+  "space_before_colon": true,
+  "space_after_colon": true,
+  "space_around_equals": true,
+  "newline_before_println": 0,
+  "same_line_for_if_brace": true,
+  "number_of_spaces_indentation": 4
+}
