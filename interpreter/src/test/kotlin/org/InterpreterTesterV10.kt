@@ -36,7 +36,7 @@ class InterpreterTesterV10 {
             )
         )
 
-        val interpreter = Interpreter()
+        val interpreter = InterpreterFactory.createInterpreterV10()
 
         val interpreterResult = interpreter.interpret(programNode)
 
@@ -47,7 +47,7 @@ class InterpreterTesterV10 {
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = LexerFactory.createLexerV10()
         val parser = ParserFactory.createParserV10()
-        val interpreter = InterpreterFactory().createInterpreterV10()
+        val interpreter = InterpreterFactory.createInterpreterV10()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)

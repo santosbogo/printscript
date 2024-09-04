@@ -13,7 +13,7 @@ class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
         val lexer = LexerFactory.createLexerV11()
         val parser = ParserFactory.createParserV11()
-        val interpreter = InterpreterFactory().createInterpreterV11()
+        val interpreter = InterpreterFactory.createInterpreterV11()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)
@@ -47,7 +47,7 @@ class InterpreterTesterV11 {
             )
         )
 
-        val interpreter = Interpreter()
+        val interpreter = InterpreterFactory.createInterpreterV11()
 
         val interpreterResult = interpreter.interpret(programNode)
 
@@ -58,7 +58,7 @@ class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = LexerFactory.createLexerV10()
         val parser = ParserFactory.createParserV10()
-        val interpreter = InterpreterFactory().createInterpreterV10()
+        val interpreter = InterpreterFactory.createInterpreterV10()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)
