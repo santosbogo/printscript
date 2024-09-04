@@ -16,6 +16,7 @@ class BinaryExpressionNode(
     }
 
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
+        // me aseguro que la binary expression sea entre strings o números.
         val leftType = left.getType(symbolTable)
         val rightType = right.getType(symbolTable)
         val validTypes = listOf("string", "number")

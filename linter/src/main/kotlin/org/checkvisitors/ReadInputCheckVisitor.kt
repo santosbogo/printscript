@@ -4,6 +4,8 @@ import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.ReadInputNode
 
 class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
@@ -35,13 +37,18 @@ class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     }
 
     private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+        // si esta activado, debe ser un literal o un identificador la expresión dentro de readInput.
         if (enabled) {
-            return VisitorResult.ListResult(
-                listOf(
-                    "Location:${node.location}, " +
-                        "ReadInput statement should be called as a variable or Literal."
+            val isLiteralOrIdentifier = node.message is LiteralNode || node.message is IdentifierNode
+            return if (isLiteralOrIdentifier) {
+                VisitorResult.Empty
+            } else {
+                VisitorResult.ListResult(
+                    listOf(
+                        "Location:${node.location}, readInput message must be a variable or literal"
+                    )
                 )
-            )
+            }
         }
         return VisitorResult.Empty
     }

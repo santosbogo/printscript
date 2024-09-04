@@ -14,6 +14,6 @@ class ReadInputNode(
     }
 
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
-        return "Undefined"
+        return message.getType(symbolTable)
     }
 }
