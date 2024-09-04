@@ -16,6 +16,7 @@ class Runner(version: String) {
                 linter = LinterFactory().createLinterV10()
                 formatter = FormatterFactory().createFormatterV10()
             }
+
             "1.1" -> {
                 lexer = LexerFactory.createLexerV11()
                 parser = ParserFactory.createParserV11()
@@ -23,10 +24,12 @@ class Runner(version: String) {
                 linter = LinterFactory().createLinterV11()
                 formatter = FormatterFactory().createFormatterV11()
             }
+
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
-    fun execute(str: String) {
+
+    fun execute(str: String): Triple<List<String>, List<String>, List<String>> {
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -34,12 +37,14 @@ class Runner(version: String) {
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { errorsList.add(it) }
+            return Triple(printList, errorsList, listOf())
         }
 
         val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { errorsList.add(it) }
+            return Triple(printList, errorsList, listOf())
         }
 
         val interpreterResult = interpreter.interpret(parserResult.programNode!!)
@@ -47,6 +52,7 @@ class Runner(version: String) {
         if (interpreterResult.printsList.isNotEmpty()) {
             interpreterResult.printsList.forEach { printList.add(it) }
         }
+        return Triple(printList, errorsList, listOf())
     }
 
     fun analyze(str: String) {
