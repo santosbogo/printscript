@@ -32,7 +32,7 @@ class Format : CliktCommand() {
         }
 
         echo("Formatting...\n", trailingNewline = true)
-        val formatResult = Formatter(parserResult.programNode!!, rules).format()
+        val formatResult = Formatter(rules).format(parserResult.programNode!!)
         File(filePath).writeText(formatResult.code)
 
         echo("Format successful")

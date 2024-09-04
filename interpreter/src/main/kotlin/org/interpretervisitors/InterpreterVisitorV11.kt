@@ -48,6 +48,16 @@ class InterpreterVisitorV11 : InterpreterVisitor {
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
+
+        // check that the new value is of the same type as the variable
+        if (symbolTable[variableIdentifier.name] != null) {
+            val variableType = symbolTable[variableIdentifier.name]
+            val valueType = value.value
+            if (variableType != valueType) {
+                throw Exception("Variable ${variableIdentifier.name} is of type $variableType, but tried to assign a value of type $valueType")
+            }
+        }
+
         symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
@@ -80,9 +90,40 @@ class InterpreterVisitorV11 : InterpreterVisitor {
 
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
+
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+
+        // casteo el valor a string, boolean or number. si no es casteable, debería romper.
+        try {
+            castValueAsExpected(variableIdentifier, value)
+        } catch (e: Exception) {
+            throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
+        }
+
         return VisitorResult.MapResult(symbolTable)
+    }
+
+    private fun castValueAsExpected(
+        variableIdentifier: IdentifierNode,
+        value: VisitorResult.LiteralValueResult
+    ) {
+        when (variableIdentifier.dataType) {
+            "string" -> {
+                symbolTable[variableIdentifier.name] = value.value as LiteralValue.StringValue
+            }
+
+            "number" -> {
+                symbolTable[variableIdentifier.name] = value.value as LiteralValue.NumberValue
+            }
+
+            "boolean" -> {
+                symbolTable[variableIdentifier.name] = value.value as LiteralValue.BooleanValue
+            }
+
+            else -> {
+                throw Exception("Unsupported data type")
+            }
+        }
     }
 
     private fun visitLiteralNode(node: LiteralNode): VisitorResult {
@@ -148,57 +189,17 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val message = node.message
         println(message)
 
-        // siempre entra un String?, casteo a partir de lo que espero.
-        val input = readLine()
-
-        if (input != null) {
-            return when (node.type as String) {
-                "string" -> {
-                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
-                }
-
-                "number" -> {
-                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
-                }
-
-                "boolean" -> {
-                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
-                }
-
-                else -> {
-                    throw Exception("Unsupported type")
-                }
-            }
-        } else {
-            throw Exception("Input is null")
-        }
+        // siempre entra un String?, leo y paso al q lo haya llamado.
+        val input = readlnOrNull()
+        return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input ?: ""))
     }
 
     private fun visitReadEnvNode(node: ReadEnvNode): VisitorResult {
         // busco el nombre de la variable en el environment.
         val envVar = System.getenv(node.variableName)
-        if (envVar != null) {
-            return when (node.type as String) {
-                "string" -> {
-                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(envVar))
-                }
-
-                "number" -> {
-                    // si es double agrego normal, si es int le saco el .0
-                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(checkIfInteger(envVar.toDouble())))
-                }
-
-                "boolean" -> {
-                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(envVar.toBoolean()))
-                }
-
-                else -> {
-                    throw Exception("Unsupported type")
-                }
-            }
-        } else {
-            throw Exception("Environment variable ${node.variableName} not found")
-        }
+        return VisitorResult.LiteralValueResult(
+            LiteralValue.StringValue(envVar ?: "")
+        )
     }
 
     private fun checkIfInteger(num: Double): Number {

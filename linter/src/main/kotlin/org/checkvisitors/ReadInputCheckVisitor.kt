@@ -38,7 +38,7 @@ class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
         if (enabled) {
             return VisitorResult.ListResult(
                 listOf(
-                    "Future warning. Location:${node.location}, " +
+                    "Location:${node.location}, " +
                         "ReadInput statement should be called as a variable or Literal."
                 )
             )

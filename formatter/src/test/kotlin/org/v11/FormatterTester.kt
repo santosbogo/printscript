@@ -6,19 +6,21 @@ import org.Lexer
 import org.LexiconFactory
 import org.ParserFactory
 import org.RulesFactory
+import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
 import test.kotlin.TestReader
 
 class FormatterTester {
 
     private fun compareResults(
+        node: ProgramNode,
         formater: Formatter,
         shouldSucceed: Boolean,
         file: File,
         solution: List<String>
     ) {
         try {
-            val result = formater.format().toString().split("\n")
+            val result = formater.format(node).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -48,8 +50,8 @@ class FormatterTester {
             val lexerResult = lexer.tokenize(code)
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
-            val formater = Formatter(programNode, json, RulesFactory().createRulesForV11(json))
-            compareResults(formater, shouldSucceed, file, solution)
+            val formater = Formatter(json, RulesFactory().createRulesForV11(json))
+            compareResults(programNode, formater, shouldSucceed, file, solution)
         }
     }
 
@@ -67,7 +69,7 @@ class FormatterTester {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val formater = Formatter(programNode, json, RulesFactory().createRulesForV11(json))
-        compareResults(formater, shouldSucceed, file, solution)
+        val formater = Formatter(json, RulesFactory().createRulesForV11(json))
+        compareResults(programNode, formater, shouldSucceed, file, solution)
     }
 }

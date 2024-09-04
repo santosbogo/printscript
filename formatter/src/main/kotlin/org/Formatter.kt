@@ -1,6 +1,8 @@
 package org
 
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import ruleBuilder.NewlineBeforePrintlnBuilder
@@ -16,15 +18,15 @@ import rules.NewLineAfterSemiColon
 import rules.OnlyOneSpacePermited
 import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
+import java.io.File
 
 class Formatter(
-    private val node: ProgramNode,
     json: JsonObject,
     private val rules: List<Rule> = RulesFactory().createRulesForV10(json),
     private val visitor: ASTNodeVisitor = FormatterVisitor(),
 ) {
 
-    fun format(): FormatResult {
+    fun format(node: ProgramNode): FormatResult {
         val code: MutableList<String> = mutableListOf()
         var result = ""
 
@@ -47,6 +49,19 @@ class Formatter(
             modifiedLine = rule.applyRule(modifiedLine)
         }
         return modifiedLine
+    }
+}
+
+class FormatterFactory() {
+
+    fun createFormatterV10(): Formatter {
+        val json = Json.parseToJsonElement(File("src/test/resources/analyzeJsons/defaultJson.json").readText()).jsonObject
+        return Formatter(json, RulesFactory().createRulesForV10(json))
+    }
+
+    fun createFormatterV11(): Formatter {
+        val json = Json.parseToJsonElement(File("src/test/resources/analyzeJsons/defaultJson.json").readText()).jsonObject
+        return Formatter(json, RulesFactory().createRulesForV11(json))
     }
 }
 
