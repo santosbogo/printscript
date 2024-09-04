@@ -1,0 +1,13 @@
+let a: number;
+a = 10;
+println(a);
+
+#####
+
+VariableDeclarationNode
+AssignmentNode
+PrintStatementNode
+
+#####
+
+True

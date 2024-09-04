@@ -33,7 +33,10 @@ class CommandTester {
     fun testExecuteFailingParser() {
         val command = Execute()
         val result = command.test("src/test/resources/examples-v10/failingParser.txt")
-        assert(result.stderr == "Semantic error: Variable a no es del tipo string\n")
+        assert(
+            result.stderr == "Semantic error: Variable a no es del tipo string" +
+                " y no puede ser asignada con un valor de tipo number\n"
+        )
     }
 
     @Test
@@ -72,7 +75,10 @@ class CommandTester {
             "src/test/resources/examples-v10/failingParser.txt " +
                 "src/test/resources/analyzeJsons/defaultJson.json"
         )
-        assert(result.stderr == "Semantic error: Variable a no es del tipo string\n")
+        assert(
+            result.stderr == "Semantic error: Variable a no es del tipo string" +
+                " y no puede ser asignada con un valor de tipo number\n"
+        )
     }
 
     @Test
@@ -100,7 +106,10 @@ class CommandTester {
     fun testValidateFailingParser() {
         val command = Validate()
         val result = command.test("src/test/resources/examples-v10/failingParser.txt")
-        assert(result.stderr == "Semantic error: Variable a no es del tipo string\n")
+        assert(
+            result.stderr == "Semantic error: Variable a no es del tipo string" +
+                " y no puede ser asignada con un valor de tipo number\n"
+        )
     }
 
     @Test
@@ -139,7 +148,10 @@ class CommandTester {
             "src/test/resources/examples-v10/failingParser.txt " +
                 "src/test/resources/formatJsons/rulesExample.json"
         )
-        assert(result.stderr == "Semantic error: Variable a no es del tipo string\n")
+        assert(
+            result.stderr == "Semantic error: Variable a no es del tipo string" +
+                " y no puede ser asignada con un valor de tipo number\n"
+        )
     }
 
     @Test

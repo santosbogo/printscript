@@ -13,7 +13,12 @@ class PatternFactory {
         fun getExpressionPattern(): String {
             val binaryExpressionPattern = getBinaryExpressionPattern()
             val booleanExpressionPattern = getBooleanExpressionPattern()
-            return "($binaryExpressionPattern|$booleanExpressionPattern)"
+            val inputExpressionPattern = getReadInputPattern()
+            val environmentExpressionPattern = getReadEnvironmentPattern()
+            return "($binaryExpressionPattern" +
+                "|$booleanExpressionPattern" +
+                "|$inputExpressionPattern" +
+                "|$environmentExpressionPattern)"
         }
 
         fun getIfWithElsePattern(): String {
@@ -22,11 +27,11 @@ class PatternFactory {
         }
 
         fun getReadInputPattern(): String {
-            return "^ReadInputToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken$"
+            return "(ReadInputToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken)"
         }
 
         fun getReadEnvironmentPattern(): String {
-            return "^ReadEnvironmentToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken$"
+            return "(ReadEnvironmentToken\\s+OpenParenthesisToken\\s+StringToken\\s+CloseParenthesisToken)"
         }
 
         fun getNamingFormatPattern(namingPatternName: String): String {

@@ -1,0 +1,11 @@
+let a: string = readInput("how are you?");
+println(a);
+
+#####
+
+VariableDeclarationNode
+PrintStatementNode
+
+#####
+
+True

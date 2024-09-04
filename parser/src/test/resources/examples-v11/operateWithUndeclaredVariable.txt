@@ -1,0 +1,13 @@
+let a: number;
+let b: number = a + 1;
+println(a + 1);
+
+#####
+
+VariableDeclarationNode
+VariableDeclarationNode
+PrintStatementNode
+
+#####
+
+False

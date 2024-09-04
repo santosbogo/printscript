@@ -5,10 +5,12 @@ import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
-import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.LiteralValue
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
-import org.astnode.expressionnode.LiteralValue
+import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.ReadEnvNode
+import org.astnode.expressionnode.ReadInputNode
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.VariableDeclarationNode
 
@@ -23,6 +25,8 @@ class SemanticVisitor : ASTNodeVisitor {
             is LiteralNode -> visitLiteralNode(node)
             is IdentifierNode -> visitIdentifierNode(node)
             is BinaryExpressionNode -> visitBinaryExpressionNode(node)
+            is ReadInputNode -> visitFutureValue()
+            is ReadEnvNode -> visitFutureValue()
             else -> VisitorResult.Empty
         }
     }
@@ -36,7 +40,8 @@ class SemanticVisitor : ASTNodeVisitor {
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
-        val tuple = Pair(variableIdentifier.kind, value.value)
+        val expectedType = symbolTable[variableIdentifier.name]?.second?.getType() ?: "Undefined"
+        val tuple = Pair(variableIdentifier.kind, getFuturePlaceholder(value, expectedType))
         symbolTable[variableIdentifier.name] = tuple
         return VisitorResult.MapResult(symbolTable)
     }
@@ -44,7 +49,8 @@ class SemanticVisitor : ASTNodeVisitor {
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        val tuple = Pair(variableIdentifier.kind, value.value)
+        val expectedType = variableIdentifier.dataType
+        val tuple = Pair(variableIdentifier.kind, getFuturePlaceholder(value, expectedType))
         symbolTable[variableIdentifier.name] = tuple
         return VisitorResult.MapResult(symbolTable)
     }
@@ -54,12 +60,13 @@ class SemanticVisitor : ASTNodeVisitor {
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        val value = symbolTable[node.name]?.second // agarro el valor de la variable
+        val value = symbolTable[node.name]?.second
         if (value != null) {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
+                else -> VisitorResult.LiteralValueResult(value)
             }
         } else {
             throw Exception("Variable ${node.name} not declared")
@@ -76,5 +83,24 @@ class SemanticVisitor : ASTNodeVisitor {
         val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(leftValue, rightValue, node.operator)
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
+    }
+
+    private fun visitFutureValue(): VisitorResult {
+        return VisitorResult.LiteralValueResult(LiteralValue.PromiseValue)
+    }
+
+    private fun getFuturePlaceholder(
+        result: VisitorResult.LiteralValueResult,
+        expectedType: String
+    ): LiteralValue {
+        if (result.value !is LiteralValue.PromiseValue) {
+            return result.value
+        }
+        return when (expectedType) {
+            "string" -> LiteralValue.StringValue("FutureValue")
+            "number" -> LiteralValue.NumberValue(1)
+            "boolean" -> LiteralValue.BooleanValue(true)
+            else -> throw Exception("Type $expectedType not supported")
+        }
     }
 }
