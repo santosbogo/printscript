@@ -1,5 +1,6 @@
 package org.astnodebuilder.expressions
 
+import org.Parser
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.LiteralNode
@@ -11,7 +12,7 @@ import org.expressionfactory.PatternFactory
 class BooleanExpressionNodeBuilder : ASTNodeBuilder {
     override val formula = PatternFactory.getBooleanExpressionPattern()
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         if (tokens.size != 1) {
             throw IllegalArgumentException("Not supporting boolean expressions with more than one token")
         }
@@ -25,7 +26,7 @@ class BooleanExpressionNodeBuilder : ASTNodeBuilder {
                     value = LiteralValue.BooleanValue(value)
                 )
             }
-            "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens)
+            "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens, parser)
             else -> throw IllegalArgumentException("Unexpected token type ${tokens[0].type}")
         }
     }

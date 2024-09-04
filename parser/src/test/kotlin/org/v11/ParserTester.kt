@@ -10,7 +10,7 @@ import java.io.File
 class ParserTester {
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/operateWithUndeclaredVariable.txt")
+        val file = File("src/test/resources/examples-v11/ifExamplePrinting.txt")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11())
         val parser = ParserFactory().createParserV11()

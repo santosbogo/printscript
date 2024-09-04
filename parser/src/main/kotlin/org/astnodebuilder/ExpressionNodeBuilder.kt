@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.Parser
 import org.Token
 import org.astnode.ASTNode
 import org.astnodebuilder.expressions.ExpressionsNodeBuilderFactory
@@ -9,10 +10,10 @@ class ExpressionNodeBuilder(
 ) : ASTNodeBuilder {
     override val formula: String = ""
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         for (builder in expressionsBuilders) {
             if (builder.checkFormula(tokens.joinToString(" ") { it.type })) {
-                return builder.generate(tokens)
+                return builder.generate(tokens, parser)
             }
         }
         throw IllegalArgumentException("Invalid expression generation at ${tokens[0].location}")

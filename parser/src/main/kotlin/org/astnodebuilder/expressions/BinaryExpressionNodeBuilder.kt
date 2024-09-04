@@ -1,5 +1,6 @@
 package org.astnodebuilder.expressions
 
+import org.Parser
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.ExpressionNode
@@ -14,10 +15,10 @@ import org.expressionfactory.PatternFactory
 class BinaryExpressionNodeBuilder : ASTNodeBuilder {
     override val formula = PatternFactory.getBinaryExpressionPattern()
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         if (tokens.isEmpty()) throw IllegalArgumentException("Empty token list")
 
-        return parseAdditiveExpression(tokens)
+        return parseAdditiveExpression(tokens, parser)
     }
 
     override fun checkFormula(tokensString: String): Boolean {
@@ -25,19 +26,20 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
     }
 
     // Separo recursivamente por cada operador de suma o resta
-    private fun parseAdditiveExpression(tokens: List<Token>): ExpressionNode {
+    private fun parseAdditiveExpression(tokens: List<Token>, parser: Parser): ExpressionNode {
         var left = parseMultiplicativeExpression(
             tokens.subList(
                 0,
                 findOperatorIndex(tokens, setOf("PlusToken", "MinusToken"))
-            )
+            ),
+            parser
         )
 
         for (i in tokens.indices) {
             if (tokens[i].type == "PlusToken" || tokens[i].type == "MinusToken") {
                 val operatorToken = tokens[i]
                 val rightTokens = tokens.subList(i + 1, tokens.size)
-                val right = parseMultiplicativeExpression(rightTokens)
+                val right = parseMultiplicativeExpression(rightTokens, parser)
 
                 left = BinaryExpressionNode(
                     type = "BinaryExpression",
@@ -53,19 +55,20 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
     }
 
     // Separo recursivamente por cada operador de multiplicación o división
-    private fun parseMultiplicativeExpression(tokens: List<Token>): ExpressionNode {
+    private fun parseMultiplicativeExpression(tokens: List<Token>, parser: Parser): ExpressionNode {
         var left = parsePrimaryExpression(
             tokens.subList(
                 0,
                 findOperatorIndex(tokens, setOf("MultiplyToken", "DivisionToken"))
-            )
+            ),
+            parser
         )
 
         for (i in tokens.indices) {
             if (tokens[i].type == "MultiplyToken" || tokens[i].type == "DivisionToken") {
                 val operatorToken = tokens[i]
                 val rightTokens = tokens.subList(i + 1, tokens.size)
-                val right = parsePrimaryExpression(rightTokens)
+                val right = parsePrimaryExpression(rightTokens, parser)
 
                 left = BinaryExpressionNode(
                     type = "BinaryExpression",
@@ -80,7 +83,7 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
         return left
     }
 
-    private fun parsePrimaryExpression(tokens: List<Token>): ExpressionNode {
+    private fun parsePrimaryExpression(tokens: List<Token>, parser: Parser): ExpressionNode {
         if (tokens.size == 1) {
             return when (tokens[0].type) {
                 "NumberToken" -> LiteralNode(
@@ -93,11 +96,11 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
                     location = tokens[0].location,
                     value = LiteralValue.StringValue(tokens[0].value)
                 )
-                "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens) as IdentifierNode
+                "IdentifierToken" -> IdentifierNodeBuilder().generate(tokens, parser) as IdentifierNode
                 else -> throw IllegalArgumentException("Unexpected token type: ${tokens[0].type}")
             }
         } else {
-            return generate(tokens) as ExpressionNode
+            return generate(tokens, parser) as ExpressionNode
         }
     }
 

@@ -1,6 +1,7 @@
 package org.astnodebuilder
 
 import org.Location
+import org.Parser
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.IdentifierNode
@@ -8,7 +9,7 @@ import org.astnode.expressionnode.IdentifierNode
 class IdentifierNodeBuilder : ASTNodeBuilder {
     override val formula: String = "IdentifierToken"
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         // cuando se llama desde declarationNodeBuilder.
         if (tokens.size == 4) {
             return IdentifierNode(

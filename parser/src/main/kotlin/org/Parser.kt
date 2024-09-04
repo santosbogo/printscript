@@ -66,7 +66,7 @@ class Parser(
     // If the token is a semicolon, generate an AST node from the buffer and analyze it.
     private fun handleStatement(buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult): Int {
         try {
-            val node: ASTNode = astGenerator.generate(buffer)
+            val node: ASTNode = astGenerator.generate(buffer, this)
             try {
                 semanticAnalyzer.analyze(node)
                 statements.add(node)

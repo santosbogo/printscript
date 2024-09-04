@@ -4,10 +4,10 @@ import org.astnode.ASTNode
 import org.astnodebuilder.ASTNodeBuilder
 
 class ASTGenerator(private val builders: List<ASTNodeBuilder>) {
-    fun generate(buffer: ArrayList<Token>): ASTNode {
+    fun generate(buffer: ArrayList<Token>, parser: Parser): ASTNode {
         for (builder in builders) {
             if (builder.checkFormula(getFormula(buffer))) {
-                return builder.generate(buffer)
+                return builder.generate(buffer, parser)
             }
         }
 
