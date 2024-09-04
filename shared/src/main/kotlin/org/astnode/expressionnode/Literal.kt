@@ -48,4 +48,12 @@ sealed class LiteralValue {
             return "Promise"
         }
     }
+
+    data object NullValue : LiteralValue() {
+        val value = null
+        override fun getType(): String = "null"
+        override fun toString(): String {
+            return "null"
+        }
+    }
 }
