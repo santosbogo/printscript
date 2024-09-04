@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Test
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
-        val parser = ParserFactory().createParserV11()
+        val lexer = LexerFactory.createLexerV11()
+        val parser = ParserFactory.createParserV11()
         val interpreter = InterpreterFactory().createInterpreterV11()
 
         // Perform the interpretation
@@ -57,7 +57,7 @@ class InterpreterTesterV11 {
 
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = LexerFactory.createLexerV10()
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val interpreter = InterpreterFactory().createInterpreterV10()
 
         // Perform the interpretation

@@ -1,14 +1,9 @@
-package test.kotlin.org.v11
+package org
 
-import org.Formatter
-import org.LexerFactory
-import org.ParserFactory
-import org.RulesFactory
 import java.io.File
 import org.junit.jupiter.api.Test
-import test.kotlin.TestReader
 
-class FormatterTester {
+class FormatterTesterV11 {
 
     private fun compareResults(
         formater: Formatter,
@@ -40,7 +35,7 @@ class FormatterTester {
         val examplesDir = File("src/test/resources/examples-v11/")
         val reader = TestReader()
         val lexer = LexerFactory.createLexerV11()
-        val parser = ParserFactory().createParserV11()
+        val parser = ParserFactory.createParserV11()
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
@@ -62,7 +57,7 @@ class FormatterTester {
         val lexer = LexerFactory.createLexerV11()
         val lexerResult = lexer.tokenize(code)
 
-        val parser = ParserFactory().createParserV11()
+        val parser = ParserFactory.createParserV11()
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 

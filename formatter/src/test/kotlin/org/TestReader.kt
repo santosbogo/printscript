@@ -1,4 +1,4 @@
-package test.kotlin
+package org
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject

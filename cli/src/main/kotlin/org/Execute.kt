@@ -20,7 +20,8 @@ class Execute : CliktCommand() {
         }
 
         echo("Parsing...\n", trailingNewline = true)
-        val parserResult = Parser().parse(lexerResult.tokens)
+        val parser = ParserFactory.createParserV11()
+        val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { echo(it, err = true) }

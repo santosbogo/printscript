@@ -1,15 +1,9 @@
-package test.kotlin.org.v10
+package org
 
 import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
-import org.Location
-import org.Formatter
-import org.FormatterVisitor
-import org.LexerFactory
-import org.Parser
-import org.RulesFactory
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -17,9 +11,8 @@ import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
-import test.kotlin.TestReader
 
-class FormatterTester {
+class FormatterTesterV10 {
 
     private fun getJsonFromFile(): JsonObject {
         val jsonContent = File("src/test/resources/rulesExample.json").readText()
@@ -56,7 +49,7 @@ class FormatterTester {
         val examplesDir = File("src/test/resources/rulesExample.json")
         val reader = TestReader()
         val lexer = LexerFactory.createLexerV10()
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
 
         val json = getJsonFromFile()
 
@@ -80,7 +73,7 @@ class FormatterTester {
         val lexer = LexerFactory.createLexerV10()
         val lexerResult = lexer.tokenize(code)
 
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
@@ -111,7 +104,7 @@ class FormatterTester {
     @Test
     fun testWholeProgram() {
         val lexer = LexerFactory.createLexerV10()
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val input = "let b: number = 10;b = 5;println(4);" +
             "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
 
@@ -130,7 +123,7 @@ class FormatterTester {
     @Test
     fun testDoubleQuotes() {
         val lexer = LexerFactory.createLexerV10()
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val input = "let a: string = \"hola\";"
 
         val lexerResult = lexer.tokenize(input)

@@ -1,18 +1,14 @@
-package org.v10
+package org
 
-import org.TestReader
-import org.Lexer
-import org.LexiconFactory
-import org.Parser
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class ParserSemanticTester {
+class ParserSemanticTesterV10 {
 
     @Test
     fun testSingleFile() {
         val lexer = Lexer(LexiconFactory().createLexiconV10())
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val reader = TestReader()
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
         val (code, nodes, shouldSucceed) = reader.readTokens(file.path)

@@ -46,7 +46,7 @@ class InterpreterTesterV10 {
 
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = LexerFactory.createLexerV10()
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val interpreter = InterpreterFactory().createInterpreterV10()
 
         // Perform the interpretation

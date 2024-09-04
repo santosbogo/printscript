@@ -3,15 +3,12 @@ package org
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.semanticanalysis.SemanticAnalyzer
-import org.semanticanalysis.SemanticAnalyzerFactory
 import org.structures.Structure
-import org.structures.StructureFactory
 
-// With structure, we refer to operators like if, for, while
 class Parser(
-    private val astGenerator: ASTGenerator = ASTGeneratorFactory().createASTGeneratorV11(),
-    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV11(),
-    private val supportedStructures: List<Structure> = StructureFactory().createDefaultStructures()
+    private val astGenerator: ASTGenerator,
+    private val semanticAnalyzer: SemanticAnalyzer,
+    private val supportedStructures: List<Structure>
 ) {
     fun parse(tokens: List<Token>): ParserResult {
         val result = ParserResult()
@@ -84,21 +81,5 @@ class Parser(
     private fun checkIfStructureToken(string: String): Boolean {
         val structureTokens = supportedStructures.map { it.type }
         return structureTokens.contains(string)
-    }
-}
-
-class ParserFactory {
-    fun createParserV10(): Parser {
-        return Parser(
-            ASTGeneratorFactory().createDefaultASTGenerator(),
-            SemanticAnalyzerFactory().createSemanticAnalyzerV10()
-        )
-    }
-
-    fun createParserV11(): Parser {
-        return Parser(
-            ASTGeneratorFactory().createASTGeneratorV11(),
-            SemanticAnalyzerFactory().createSemanticAnalyzerV11()
-        )
     }
 }

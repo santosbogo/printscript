@@ -1,15 +1,11 @@
-package org.v10
+package org
 
 import TestReader
-import org.LexerFactory
-import org.Linter
-import org.LinterFactory
-import org.Parser
 import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class LinterTester {
+class LinterTesterV10 {
     @Test
     fun testSingleWarning() {
         val file = File("src/test/resources/examples-v10/namingFormatExample2.txt")
@@ -23,7 +19,7 @@ class LinterTester {
         val lexerResult = lexer.tokenize(code)
 
         // meto tokens en el parser, obtengo los nodos.
-        val parser = Parser()
+        val parser = ParserFactory.createParserV10()
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
@@ -51,7 +47,7 @@ class LinterTester {
             val (code, expectedWarnings, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
 
-            val parser = Parser()
+            val parser = ParserFactory.createParserV10()
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
 
