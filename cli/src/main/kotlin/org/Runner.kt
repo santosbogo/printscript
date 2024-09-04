@@ -29,7 +29,7 @@ class Runner(version: String) {
         }
     }
 
-    fun execute(str: String): Triple<List<String>, List<String>, List<String>> {
+    fun execute(str: String): RunnerResult.Execute {
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -37,14 +37,14 @@ class Runner(version: String) {
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { errorsList.add(it) }
-            return Triple(printList, errorsList, listOf())
+            return RunnerResult.Execute(printList, errorsList)
         }
 
         val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { errorsList.add(it) }
-            return Triple(printList, errorsList, listOf())
+            return RunnerResult.Execute(printList, errorsList)
         }
 
         val interpreterResult = interpreter.interpret(parserResult.programNode!!)
@@ -52,10 +52,10 @@ class Runner(version: String) {
         if (interpreterResult.printsList.isNotEmpty()) {
             interpreterResult.printsList.forEach { printList.add(it) }
         }
-        return Triple(printList, errorsList, listOf())
+        return RunnerResult.Execute(printList, errorsList)
     }
 
-    fun analyze(str: String) {
+    fun analyze(str: String): RunnerResult.Analyze {
         val warningsList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -63,51 +63,58 @@ class Runner(version: String) {
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Analyze(warningsList, errorsList)
         }
 
         val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Analyze(warningsList, errorsList)
         }
 
         val linterResult = linter.lint(parserResult.programNode!!)
         linterResult.getList().forEach { warningsList.add(it) }
+        return RunnerResult.Analyze(warningsList, errorsList)
     }
 
-    fun validate(str: String) {
+    fun validate(str: String): RunnerResult.Validate {
         val errorsList = mutableListOf<String>()
 
         val lexerResult = lexer.tokenize(str)
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Validate(errorsList)
         }
 
         val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Validate(errorsList)
         }
+        return RunnerResult.Validate(errorsList)
     }
 
-    fun format(str: String) {
-        val printList = mutableListOf<String>()
+    fun format(str: String): RunnerResult.Format {
         val errorsList = mutableListOf<String>()
 
         val lexerResult = lexer.tokenize(str)
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Format("", errorsList)
         }
 
         val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { errorsList.add(it) }
+            return RunnerResult.Format("", errorsList)
         }
 
         val formatterResult = formatter.format(parserResult.programNode!!)
-        printList.add(formatterResult.code)
+        return RunnerResult.Format(formatterResult.code, errorsList)
     }
 }
