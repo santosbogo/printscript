@@ -4,10 +4,10 @@ import java.io.File
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
+import org.Location
 import org.Formatter
 import org.FormatterVisitor
-import org.Lexer
-import org.Location
+import org.LexerFactory
 import org.Parser
 import org.RulesFactory
 import org.astnode.ProgramNode
@@ -55,7 +55,7 @@ class FormatterTester {
     fun testFiles() {
         val examplesDir = File("src/test/resources/rulesExample.json")
         val reader = TestReader()
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
 
         val json = getJsonFromFile()
@@ -77,7 +77,7 @@ class FormatterTester {
         val reader = TestReader()
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
 
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val lexerResult = lexer.tokenize(code)
 
         val parser = Parser()
@@ -110,7 +110,7 @@ class FormatterTester {
 
     @Test
     fun testWholeProgram() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
         val input = "let b: number = 10;b = 5;println(4);" +
             "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
@@ -129,7 +129,7 @@ class FormatterTester {
 
     @Test
     fun testDoubleQuotes() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
         val input = "let a: string = \"hola\";"
 

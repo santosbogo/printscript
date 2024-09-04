@@ -165,15 +165,15 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val input = readLine()
 
         if (input != null) {
-            when (node.type as String) {
+            return when (node.type as String) {
                 "string" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
+                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
                 }
                 "number" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
+                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
                 }
                 "boolean" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
+                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
                 }
                 else -> {
                     throw Exception("Unsupported type")
@@ -192,16 +192,14 @@ class InterpreterVisitorV11 : InterpreterVisitor {
                 "string" -> {
                     VisitorResult.LiteralValueResult(LiteralValue.StringValue(envVar))
                 }
-
                 "number" -> {
-                    // si es double agrego normal, si es int le saco el .0
-                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(checkIfInteger(envVar.toDouble())))
+                    VisitorResult.LiteralValueResult(
+                        LiteralValue.NumberValue(checkIfInteger(envVar.toDouble()))
+                    )
                 }
-
                 "boolean" -> {
                     VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(envVar.toBoolean()))
                 }
-
                 else -> {
                     throw Exception("Unsupported type")
                 }

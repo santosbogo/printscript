@@ -1,9 +1,9 @@
 package org.v10
 
-import org.TestReader
-import org.Lexer
+import org.LexerFactory
 import org.Location
 import org.Parser
+import org.TestReader
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -24,7 +24,7 @@ class ParserTester {
 
     @Test
     fun testFiles() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples-v10-v10")
 
@@ -57,7 +57,7 @@ class ParserTester {
     fun testSingleFile() {
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
 
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
         val reader = TestReader()
 
@@ -85,7 +85,7 @@ class ParserTester {
 
     @Test
     fun testNoMatchingFormula() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
         val lexerResult = lexer.tokenize("let let a: number = 10;")
         val parserResult = parser.parse(lexerResult.tokens)
@@ -95,7 +95,7 @@ class ParserTester {
 
     @Test
     fun testMissingSemicolon() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
 
         val lexerResult = lexer.tokenize("let a: number = 10; a = 5")

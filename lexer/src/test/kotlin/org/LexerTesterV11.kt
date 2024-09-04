@@ -1,17 +1,14 @@
-package org.v11
+package org
 
 import TestReader
-import org.Lexer
-import org.LexiconFactory
-import org.Token
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class LexerTester {
+class LexerTesterV11 {
     @Test
     fun testFile() {
         val file = File("src/test/resources/examples-v11/ifstatement.txt")
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
+        val lexer = LexerFactory.createLexerV11()
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -36,7 +33,7 @@ class LexerTester {
 
     @Test
     fun testMultipleFiles() {
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
+        val lexer = LexerFactory.createLexerV11()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples-v11")
 

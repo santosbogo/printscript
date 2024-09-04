@@ -1,11 +1,10 @@
 package test.kotlin.org.v11
 
-import java.io.File
 import org.Formatter
-import org.Lexer
-import org.LexiconFactory
+import org.LexerFactory
 import org.ParserFactory
 import org.RulesFactory
+import java.io.File
 import org.junit.jupiter.api.Test
 import test.kotlin.TestReader
 
@@ -40,7 +39,7 @@ class FormatterTester {
     fun testFiles() {
         val examplesDir = File("src/test/resources/examples-v11/")
         val reader = TestReader()
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
+        val lexer = LexerFactory.createLexerV11()
         val parser = ParserFactory().createParserV11()
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
@@ -60,7 +59,7 @@ class FormatterTester {
         val reader = TestReader()
         val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
 
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
+        val lexer = LexerFactory.createLexerV11()
         val lexerResult = lexer.tokenize(code)
 
         val parser = ParserFactory().createParserV11()

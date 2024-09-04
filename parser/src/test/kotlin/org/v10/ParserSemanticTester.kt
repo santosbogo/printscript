@@ -11,7 +11,7 @@ class ParserSemanticTester {
 
     @Test
     fun testSingleFile() {
-        val lexer = Lexer(LexiconFactory().createDefaultLexicon())
+        val lexer = Lexer(LexiconFactory().createLexiconV10())
         val parser = Parser()
         val reader = TestReader()
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")

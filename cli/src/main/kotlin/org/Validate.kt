@@ -11,7 +11,8 @@ class Validate : CliktCommand() {
         val code = File(filePath).readText()
 
         echo("Lexing...\n", trailingNewline = true)
-        val lexerResult = Lexer().tokenize(code)
+        val lexer = LexerFactory.createLexerV11()
+        val lexerResult = lexer.tokenize(code)
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { echo(it, err = true) }

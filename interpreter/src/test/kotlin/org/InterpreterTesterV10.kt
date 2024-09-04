@@ -1,8 +1,5 @@
-import org.Interpreter
-import org.InterpreterFactory
-import org.Lexer
-import org.Location
-import org.Parser
+package org
+
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
@@ -48,7 +45,7 @@ class InterpreterTesterV10 {
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val parser = Parser()
         val interpreter = InterpreterFactory().createInterpreterV10()
 

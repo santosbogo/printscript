@@ -16,7 +16,8 @@ class Analyze : CliktCommand() {
         val rules = Json.parseToJsonElement(rulesContent).jsonObject
 
         echo("Lexing...\n", trailingNewline = true)
-        val lexerResult = Lexer().tokenize(code)
+        val lexer = LexerFactory.createLexerV11()
+        val lexerResult = lexer.tokenize(code)
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { echo(it, err = true) }
