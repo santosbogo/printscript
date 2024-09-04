@@ -7,7 +7,7 @@ import org.astnode.astnodevisitor.VisitorResult
 class ReadInputNode(
     override val type: String,
     override val location: Location,
-    val message: String
+    val message: ExpressionNode
 ) : ExpressionNode {
     override fun accept(visitor: ASTNodeVisitor): VisitorResult {
         return visitor.visit(this)

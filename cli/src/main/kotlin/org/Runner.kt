@@ -16,7 +16,13 @@ class Runner(version: String) {
                 linter = LinterFactory().createLinterV10()
                 formatter = FormatterFactory().createFormatterV10()
             }
-            // TODO agregar version 1.1
+            "1.1" -> {
+                lexer = LexerFactory.createLexerV11()
+                parser = ParserFactory.createParserV11()
+                interpreter = InterpreterFactory.createInterpreterV11()
+                linter = LinterFactory().createLinterV11()
+                formatter = FormatterFactory().createFormatterV11()
+            }
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
@@ -43,7 +49,7 @@ class Runner(version: String) {
         }
     }
 
-    fun analyze(str: String, version: String) {
+    fun analyze(str: String) {
         val warningsList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -61,5 +67,41 @@ class Runner(version: String) {
 
         val linterResult = linter.lint(parserResult.programNode!!)
         linterResult.getList().forEach { warningsList.add(it) }
+    }
+
+    fun validate(str: String) {
+        val errorsList = mutableListOf<String>()
+
+        val lexerResult = lexer.tokenize(str)
+
+        if (lexerResult.hasErrors()) {
+            lexerResult.errors.forEach { errorsList.add(it) }
+        }
+
+        val parserResult = parser.parse(lexerResult.tokens)
+
+        if (parserResult.programNode == null) {
+            parserResult.errors.forEach { errorsList.add(it) }
+        }
+    }
+
+    fun format(str: String) {
+        val printList = mutableListOf<String>()
+        val errorsList = mutableListOf<String>()
+
+        val lexerResult = lexer.tokenize(str)
+
+        if (lexerResult.hasErrors()) {
+            lexerResult.errors.forEach { errorsList.add(it) }
+        }
+
+        val parserResult = parser.parse(lexerResult.tokens)
+
+        if (parserResult.programNode == null) {
+            parserResult.errors.forEach { errorsList.add(it) }
+        }
+
+        val formatterResult = formatter.format(parserResult.programNode!!)
+        printList.add(formatterResult.code)
     }
 }
