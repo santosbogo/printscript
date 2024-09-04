@@ -1,4 +1,4 @@
-let a: string = readInput("how are you?");
+let a: string = readInput(readInput("pone numero mayor a " + "?"));
 println(a);
 
 #####

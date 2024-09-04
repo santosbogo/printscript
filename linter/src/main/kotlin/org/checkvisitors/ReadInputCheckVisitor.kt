@@ -4,13 +4,21 @@ import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
+import org.astnode.expressionnode.IdentifierNode
+import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.ReadInputNode
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
             is ReadInputNode -> visitReadInputNode(node)
             else -> VisitorResult.Empty
         }
@@ -34,14 +42,46 @@ class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
         }
     }
 
-    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         if (enabled) {
-            return VisitorResult.ListResult(
-                listOf(
-                    "Location:${node.location}, " +
-                        "ReadInput statement should be called as a variable or Literal."
+            if (node.value is ReadInputNode) {
+                return node.value.accept(this)
+            }
+        }
+        return VisitorResult.Empty
+    }
+
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+        if (enabled) {
+            if (node.value is ReadInputNode) {
+                return node.value.accept(this)
+            }
+        }
+        return VisitorResult.Empty
+    }
+
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+        if (enabled) {
+            if (node.init is ReadInputNode) {
+                return node.init.accept(this)
+            }
+        }
+        return VisitorResult.Empty
+    }
+
+    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+        // si esta activado, debe ser un literal o un identificador la expresión dentro de readInput.
+        if (enabled) {
+            val isLiteralOrIdentifier = node.message is LiteralNode || node.message is IdentifierNode
+            return if (isLiteralOrIdentifier) {
+                VisitorResult.Empty
+            } else {
+                VisitorResult.ListResult(
+                    listOf(
+                        "Location:${node.location}, readInput message must be a variable or literal"
+                    )
                 )
-            )
+            }
         }
         return VisitorResult.Empty
     }

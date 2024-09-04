@@ -6,13 +6,14 @@ import org.astnodebuilder.AssignmentNodeBuilder
 import org.astnodebuilder.ExpressionNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.IfNodeBuilder
-import org.semanticanalysis.semanticchecks.SemanticCheck
 import org.astnodebuilder.expressions.ExpressionsNodeBuilderFactory
 import org.semanticanalysis.SemanticAnalyzer
-import org.semanticanalysis.semanticchecks.AssignmentKindCheck
-import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
+import org.semanticanalysis.semanticchecks.ReadInputTypeCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
+import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
+import org.semanticanalysis.semanticchecks.AssignmentKindCheck
+import org.semanticanalysis.semanticchecks.SemanticCheck
 import org.structures.IfElseStructure
 
 object ParserFactory {
@@ -72,6 +73,7 @@ object ParserFactory {
             AssignmentTypeCheck(),
             VariableDeclarationTypeCheck(),
             AssignmentKindCheck(),
+            ReadInputTypeCheck(),
         )
         return SemanticAnalyzer(checks)
     }

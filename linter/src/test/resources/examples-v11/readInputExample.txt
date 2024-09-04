@@ -1,0 +1,10 @@
+let aBa : string = readInput("hola" + "?");
+aBa = "h";
+
+##
+
+Location:(line: 1, column: 20), readInput message must be a variable or literal
+
+##
+
+True

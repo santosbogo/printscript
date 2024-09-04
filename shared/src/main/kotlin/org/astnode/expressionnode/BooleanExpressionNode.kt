@@ -15,7 +15,6 @@ class BooleanExpressionNode(
     }
 
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
-        val boolType = bool.getType(symbolTable)
-        return boolType
+        return bool.getType(symbolTable)
     }
 }

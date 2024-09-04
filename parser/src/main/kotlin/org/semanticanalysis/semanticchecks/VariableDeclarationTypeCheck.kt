@@ -2,6 +2,7 @@ package org.semanticanalysis.semanticchecks
 
 import org.astnode.ASTNode
 import org.astnode.expressionnode.LiteralValue
+import org.astnode.expressionnode.ReadInputNode
 import org.astnode.statementnode.VariableDeclarationNode
 
 class VariableDeclarationTypeCheck : SemanticCheck {
@@ -15,6 +16,10 @@ class VariableDeclarationTypeCheck : SemanticCheck {
 
             if (expressionType == "null") {
                 return
+            }
+
+            if (expressionNode is ReadInputNode && expressionType != "string") {
+                throw Exception("ReadInputNode message must be of type string")
             }
 
             if (expressionType != variableType && expressionType != "Undefined") {
