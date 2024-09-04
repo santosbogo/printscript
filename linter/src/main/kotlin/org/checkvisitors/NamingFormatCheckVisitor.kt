@@ -4,9 +4,6 @@ import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
-import org.astnode.expressionnode.BinaryExpressionNode
-import org.astnode.expressionnode.IdentifierNode
-import org.astnode.expressionnode.LiteralNode
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
@@ -20,9 +17,6 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
             is AssignmentNode -> visitAssignmentNode(node)
             is PrintStatementNode -> visitPrintStatementNode(node)
             is VariableDeclarationNode -> visitVariableDeclarationNode(node)
-            is LiteralNode -> visitLiteralNode(node)
-            is IdentifierNode -> visitIdentifierNode(node)
-            is BinaryExpressionNode -> visitBinaryExpressionNode(node)
             else -> VisitorResult.Empty
         }
     }
@@ -74,18 +68,6 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
                 )
             )
         }
-        return VisitorResult.Empty
-    }
-
-    private fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult.Empty
-    }
-
-    private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        return VisitorResult.Empty
-    }
-
-    private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         return VisitorResult.Empty
     }
 }

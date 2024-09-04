@@ -28,7 +28,7 @@ class LinterTester {
         val programNode = parserResult.programNode!!
 
         val linterFactory = LinterFactory()
-        val linter = linterFactory.createDefaultLinter("src/test/kotlin/org/jsons/defaultJson.json")
+        val linter = linterFactory.createLinterV10("src/test/kotlin/org/jsons/jsonV10.json")
 
         // compare the linter output with the expectedWarning.
         compareResults(linter, code, programNode, expectedWarning, shouldSucceed)
@@ -56,7 +56,7 @@ class LinterTester {
             val programNode = parserResult.programNode!!
 
             val linterFactory = LinterFactory()
-            val linter = linterFactory.createDefaultLinter("src/test/kotlin/org/jsons/defaultJson.json")
+            val linter = linterFactory.createLinterV10("src/test/kotlin/org/jsons/jsonV10.json")
 
             compareResults(linter, code, programNode, expectedWarnings, shouldSucceed)
         }

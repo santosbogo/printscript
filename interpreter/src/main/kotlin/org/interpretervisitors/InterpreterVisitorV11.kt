@@ -152,16 +152,19 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val input = readLine()
 
         if (input != null) {
-            when (node.type as String) {
+            return when (node.type as String) {
                 "string" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
+                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
                 }
+
                 "number" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
+                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
                 }
+
                 "boolean" -> {
-                    return VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
+                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
                 }
+
                 else -> {
                     throw Exception("Unsupported type")
                 }

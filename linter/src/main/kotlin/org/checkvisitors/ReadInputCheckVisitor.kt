@@ -4,20 +4,14 @@ import org.astnode.ASTNode
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
-import org.astnode.expressionnode.BinaryExpressionNode
-import org.astnode.statementnode.AssignmentNode
-import org.astnode.statementnode.PrintStatementNode
-import org.astnode.statementnode.VariableDeclarationNode
+import org.astnode.expressionnode.ReadInputNode
 
-class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
+class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
-
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
-            is AssignmentNode -> visitAssignmentNode(node)
-            is PrintStatementNode -> visitPrintStatementNode(node)
-            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
+            is ReadInputNode -> visitReadInputNode(node)
             else -> VisitorResult.Empty
         }
     }
@@ -40,23 +34,15 @@ class PrintUseCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
         }
     }
 
-    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
-        return VisitorResult.Empty
-    }
-
-    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
-        if (enabled && node.value is BinaryExpressionNode) {
+    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+        if (enabled) {
             return VisitorResult.ListResult(
                 listOf(
-                    "Location:${node.location}, " +
-                        "Print statement should be called as a variable or Literal."
+                    "Future warning. Location:${node.location}, " +
+                        "ReadInput statement should be called as a variable or Literal."
                 )
             )
         }
-        return VisitorResult.Empty
-    }
-
-    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         return VisitorResult.Empty
     }
 }
