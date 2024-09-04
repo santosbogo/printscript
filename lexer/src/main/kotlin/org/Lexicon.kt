@@ -3,7 +3,6 @@ package org
 class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
     fun getToken(component: String, location: Location): Token {
-        // Get the token type for a given component from its tokenMap
         val tokenType = tokenMap.firstOrNull { (pattern, _) ->
             component.matches(Regex(pattern))
         }?.second ?: throw Exception(
@@ -20,7 +19,7 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 }
 
 class LexiconFactory {
-    fun createDefaultLexicon(): Lexicon {
+    fun createLexiconV10(): Lexicon {
         return Lexicon(
             listOf(
                 "let" to "DeclarationToken",

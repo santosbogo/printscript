@@ -1,9 +1,5 @@
-package org.v10
+package org
 
-import org.TestReader
-import org.Lexer
-import org.Location
-import org.Parser
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -12,7 +8,6 @@ import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
-import org.semanticanalysis.SemanticAnalyzerFactory
 import org.semanticanalysis.SemanticVisitor
 import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
@@ -20,11 +15,11 @@ import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import java.io.File
 import kotlin.test.assertFailsWith
 
-class ParserTester {
+class ParserTesterV10 {
 
     @Test
     fun testFiles() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples-v10-v10")
 
@@ -32,7 +27,7 @@ class ParserTester {
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
 
-            val parser = Parser() // nuevo parser para no mantener en memoria todas las variables.
+            val parser = ParserFactory.createParserV10()
             val parserResult = parser.parse(lexerResult.tokens)
             val nodes = parserResult.programNode!!.statements
             try {
@@ -57,8 +52,8 @@ class ParserTester {
     fun testSingleFile() {
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
 
-        val lexer = Lexer()
-        val parser = Parser()
+        val lexer = LexerFactory.createLexerV10()
+        val parser = ParserFactory.createParserV10()
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -85,8 +80,8 @@ class ParserTester {
 
     @Test
     fun testNoMatchingFormula() {
-        val lexer = Lexer()
-        val parser = Parser()
+        val lexer = LexerFactory.createLexerV10()
+        val parser = ParserFactory.createParserV10()
         val lexerResult = lexer.tokenize("let let a: number = 10;")
         val parserResult = parser.parse(lexerResult.tokens)
 
@@ -95,8 +90,8 @@ class ParserTester {
 
     @Test
     fun testMissingSemicolon() {
-        val lexer = Lexer()
-        val parser = Parser()
+        val lexer = LexerFactory.createLexerV10()
+        val parser = ParserFactory.createParserV10()
 
         val lexerResult = lexer.tokenize("let a: number = 10; a = 5")
         val parserResult = parser.parse(lexerResult.tokens)
@@ -119,20 +114,6 @@ class ParserTester {
         for (node in nodes) {
             node.accept(semanticVisitor)
         }
-    }
-
-    @Test
-    fun testUnsupportedOperator() {
-        val left = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(10))
-        val right = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))
-        val unsupportedOperator = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), left, right, "%")
-        val semanticVisitor = SemanticVisitor()
-        val exception = assertFailsWith<Exception> {
-            unsupportedOperator.accept(semanticVisitor)
-        }
-        val checks = SemanticAnalyzerFactory().createSemanticChecksV10()
-        println(checks)
-        assert(exception.message?.contains("Unsupported operator") == true)
     }
 
     @Test

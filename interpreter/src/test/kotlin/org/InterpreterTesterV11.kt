@@ -1,10 +1,5 @@
-import org.Interpreter
-import org.InterpreterFactory
-import org.Lexer
-import org.LexiconFactory
-import org.Parser
-import org.ParserFactory
-import org.Location
+package org
+
 import org.astnode.ProgramNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
@@ -16,9 +11,9 @@ import org.junit.jupiter.api.Test
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
-        val parser = ParserFactory().createParserV11()
-        val interpreter = InterpreterFactory().createInterpreterV11()
+        val lexer = LexerFactory.createLexerV11()
+        val parser = ParserFactory.createParserV11()
+        val interpreter = InterpreterFactory.createInterpreterV11()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)
@@ -52,7 +47,7 @@ class InterpreterTesterV11 {
             )
         )
 
-        val interpreter = Interpreter()
+        val interpreter = InterpreterFactory.createInterpreterV11()
 
         val interpreterResult = interpreter.interpret(programNode)
 
@@ -61,9 +56,9 @@ class InterpreterTesterV11 {
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
-        val lexer = Lexer()
-        val parser = Parser()
-        val interpreter = InterpreterFactory().createInterpreterV10()
+        val lexer = LexerFactory.createLexerV10()
+        val parser = ParserFactory.createParserV10()
+        val interpreter = InterpreterFactory.createInterpreterV10()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)

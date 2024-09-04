@@ -21,6 +21,10 @@ class InterpreterVisitorV11 : InterpreterVisitor {
     private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
     override val printsList: MutableList<String> = mutableListOf()
 
+    private fun putSymbolTable(symbolTable: MutableMap<String, LiteralValue>) {
+        this.symbolTable.putAll(symbolTable)
+    }
+
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
@@ -90,7 +94,6 @@ class InterpreterVisitorV11 : InterpreterVisitor {
 
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
-
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
 
         // casteo el valor a string, boolean or number. si no es casteable, debería romper.
@@ -163,8 +166,11 @@ class InterpreterVisitorV11 : InterpreterVisitor {
     private fun visitIfNode(node: IfNode): VisitorResult {
         val bool = node.boolean.accept(this) as VisitorResult.LiteralValueResult
         val statements = node.ifStatements
-        if (bool.value is LiteralValue.BooleanValue) {
-            statements.forEach { it.accept(this) }
+        if ((bool.value as LiteralValue.BooleanValue).value) {
+            val interpreter = InterpreterVisitorV11()
+            interpreter.putSymbolTable(symbolTable)
+            statements.forEach { it.accept(interpreter) }
+            printsList.addAll(interpreter.printsList)
         }
         return VisitorResult.Empty
     }
@@ -174,9 +180,15 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val ifStatements = node.ifNode.ifStatements
         val elseStatements = node.elseNode?.elseStatements
         if ((bool.value as LiteralValue.BooleanValue).value) {
-            ifStatements.forEach { it.accept(this) }
+            val interpreter = InterpreterVisitorV11()
+            interpreter.putSymbolTable(symbolTable)
+            ifStatements.forEach { it.accept(interpreter) }
+            printsList.addAll(interpreter.printsList)
         } else {
-            elseStatements?.forEach { it.accept(this) }
+            val interpreter = InterpreterVisitorV11()
+            interpreter.putSymbolTable(symbolTable)
+            elseStatements?.forEach { it.accept(interpreter) }
+            printsList.addAll(interpreter.printsList)
         }
         return VisitorResult.Empty
     }

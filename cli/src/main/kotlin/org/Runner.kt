@@ -10,9 +10,9 @@ class Runner(version: String) {
     init {
         when (version) {
             "1.0" -> {
-                lexer = Lexer()
-                parser = Parser()
-                interpreter = Interpreter()
+                lexer = LexerFactory.createLexerV10()
+                parser = ParserFactory.createParserV10()
+                interpreter = InterpreterFactory.createInterpreterV10()
                 linter = LinterFactory().createLinterV10()
                 formatter = FormatterFactory().createFormatterV10()
             }

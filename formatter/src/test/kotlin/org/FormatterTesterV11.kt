@@ -1,16 +1,10 @@
-package test.kotlin.org.v11
+package org
 
 import java.io.File
-import org.Formatter
-import org.Lexer
-import org.LexiconFactory
-import org.ParserFactory
-import org.RulesFactory
 import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
-import test.kotlin.TestReader
 
-class FormatterTester {
+class FormatterTesterV11 {
 
     private fun compareResults(
         node: ProgramNode,
@@ -42,8 +36,8 @@ class FormatterTester {
     fun testFiles() {
         val examplesDir = File("src/test/resources/examples-v11/")
         val reader = TestReader()
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
-        val parser = ParserFactory().createParserV11()
+        val lexer = LexerFactory.createLexerV11()
+        val parser = ParserFactory.createParserV11()
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
@@ -62,10 +56,10 @@ class FormatterTester {
         val reader = TestReader()
         val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
 
-        val lexer = Lexer(LexiconFactory().createLexiconV11())
+        val lexer = LexerFactory.createLexerV11()
         val lexerResult = lexer.tokenize(code)
 
-        val parser = ParserFactory().createParserV11()
+        val parser = ParserFactory.createParserV11()
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 

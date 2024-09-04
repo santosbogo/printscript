@@ -1,0 +1,6 @@
+let a: string;
+if (true) {
+    a = "Hello World!";
+    println(a);
+}
+println(a);

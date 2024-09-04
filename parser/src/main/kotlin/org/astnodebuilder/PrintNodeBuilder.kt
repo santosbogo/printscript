@@ -1,5 +1,6 @@
 package org.astnodebuilder
 
+import org.Parser
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.ExpressionNode
@@ -9,11 +10,11 @@ import org.expressionfactory.PatternFactory
 class PrintNodeBuilder : ASTNodeBuilder {
     override val formula: String = "PrintToken OpenParenthesisToken ExpressionNode CloseParenthesisToken SemicolonToken"
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         return PrintStatementNode(
             type = "PrintStatementNode",
             location = tokens[0].location,
-            value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 2)) as ExpressionNode
+            value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 2), parser) as ExpressionNode
         )
     }
 

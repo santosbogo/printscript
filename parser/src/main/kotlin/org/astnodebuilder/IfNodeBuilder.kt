@@ -1,6 +1,6 @@
 package org.astnodebuilder
 
-import org.ParserFactory
+import org.Parser
 import org.ParserResult
 import org.Token
 import org.astnode.ASTNode
@@ -16,14 +16,13 @@ class IfNodeBuilder : ASTNodeBuilder {
         "ElseToken OpenBraceToken ExpressionNode CloseBraceToken"
     private val ifElseStructure = IfElseStructure()
 
-    override fun generate(tokens: List<Token>): ASTNode {
+    override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         val ifElseTokens = ifElseStructure.separateIfElse(tokens)
         val ifTokens = ifElseTokens.first
         val elseTokens = ifElseTokens.second
-        val parser = ParserFactory().createParserV11()
 
         val ifStatements = checkIfError(parser.parse(ifTokens.subList(5, ifTokens.size - 1)))
-        val booleanExpression = ExpressionNodeBuilder().generate(listOf(ifTokens[2])) as ExpressionNode
+        val booleanExpression = ExpressionNodeBuilder().generate(listOf(ifTokens[2]), parser) as ExpressionNode
 
         val ifNode = IfNode(
             type = "IfNode",

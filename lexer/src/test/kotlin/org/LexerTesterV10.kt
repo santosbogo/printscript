@@ -1,18 +1,15 @@
-package org.v10
+package org
 
 import TestReader
-import org.Lexer
-import org.Location
-import org.Token
 import org.junit.jupiter.api.Test
 import java.io.File
 
-class LexerTester {
+class LexerTesterV10 {
 
     @Test
     fun testFile() {
         val file = File("src/test/resources/examples-v10/unrecognizedtoken.txt")
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
@@ -37,7 +34,7 @@ class LexerTester {
 
     @Test
     fun testMultipleFiles() {
-        val lexer = Lexer()
+        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples-v10")
 

@@ -11,7 +11,8 @@ class Execute : CliktCommand() {
         val code = File(filePath).readText()
 
         echo("Lexing...\n", trailingNewline = true)
-        val lexerResult = Lexer().tokenize(code)
+        val lexer = LexerFactory.createLexerV11()
+        val lexerResult = lexer.tokenize(code)
 
         if (lexerResult.hasErrors()) {
             lexerResult.errors.forEach { echo(it, err = true) }
@@ -19,7 +20,8 @@ class Execute : CliktCommand() {
         }
 
         echo("Parsing...\n", trailingNewline = true)
-        val parserResult = Parser().parse(lexerResult.tokens)
+        val parser = ParserFactory.createParserV11()
+        val parserResult = parser.parse(lexerResult.tokens)
 
         if (parserResult.programNode == null) {
             parserResult.errors.forEach { echo(it, err = true) }
@@ -27,7 +29,8 @@ class Execute : CliktCommand() {
         }
 
         echo("Executing...\n", trailingNewline = true)
-        Interpreter().interpret(parserResult.programNode!!)
+        val interpreter = InterpreterFactory.createInterpreterV11()
+        val interpreterResult = interpreter.interpret(parserResult.programNode!!)
 
         echo("Execution successful")
     }
