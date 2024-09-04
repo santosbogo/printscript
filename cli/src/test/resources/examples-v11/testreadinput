@@ -1,0 +1,6 @@
+let ho_la: string = "Hola Mundo";
+println(hola);
+
+let a: number = 1;
+let b: number = 5 + 2 * a;
+println(b + 1);

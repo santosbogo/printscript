@@ -1,6 +1,6 @@
 package org
 
-class Lexer(private val lexicon: Lexicon = LexiconFactory().createDefaultLexicon()) {
+class Lexer(private val lexicon: Lexicon = LexiconFactory().createLexiconV11()) {
 
     fun tokenize(input: String): LexerResult {
         val result = LexerResult()

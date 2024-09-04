@@ -1,4 +1,5 @@
 import org.Interpreter
+import org.InterpreterFactory
 import org.Lexer
 import org.Location
 import org.Parser
@@ -11,7 +12,7 @@ import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class InterpreterTester {
+class InterpreterTesterV10 {
 
     @Test
     fun testInterpretAssignment() {
@@ -46,10 +47,10 @@ class InterpreterTester {
         assertEquals(printsList, listOf("42"))
     }
 
-    private fun interpretAndCaptureOutput(input: String): String {
+    private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = Lexer()
         val parser = Parser()
-        val interpreter = Interpreter()
+        val interpreter = InterpreterFactory().createInterpreterV10()
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)
@@ -62,63 +63,63 @@ class InterpreterTester {
     @Test
     fun testPrintlnWithNumber() {
         val input = "println(4);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("4", output)
     }
 
     @Test
     fun testPrintlnWithString() {
         val input = "let a: string = 'hola'; println(a);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("hola", output)
     }
 
     @Test
     fun testPrintlnWithStringAndQuotes() {
         val input = "println(\"hola\");"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("hola", output)
     }
 
     @Test
     fun testPrintlnWithVariableAssignment() {
         val input = "let b: number = 10; b = 5; println(b);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("5", output)
     }
 
     @Test
     fun testPrintlnWithStringConcatenation() {
         val input = "let a: string = 'hola'; let b: number = 5; println(a + b);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("hola5", output)
     }
 
     @Test
     fun testPrintlnWithAddition() {
         val input = "println(1 + 4);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("5", output)
     }
 
     @Test
     fun testPrintlnWithSubtraction() {
         val input = "println(5 - 1);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("4", output)
     }
 
     @Test
     fun testPrintlnWithMultiplication() {
         val input = "println(5 * 2);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("10", output)
     }
 
     @Test
     fun testPrintlnWithDivision() {
         val input = "println(10 / 2);"
-        val output = interpretAndCaptureOutput(input)
+        val output = interpretAndCaptureOutputV10(input)
         assertEquals("5", output)
     }
 }

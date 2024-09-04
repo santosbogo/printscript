@@ -1,9 +1,9 @@
 package org.v11
 
-import org.TestReader
 import org.Lexer
 import org.LexiconFactory
 import org.ParserFactory
+import org.TestReader
 import org.junit.jupiter.api.Test
 import java.io.File
 
