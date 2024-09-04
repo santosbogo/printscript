@@ -17,7 +17,7 @@ import java.io.File
 
 class Linter(jsonFile: JsonObject) {
     private val warnings = mutableListOf<String>()
-    private val checkVisitors: List<ASTNodeVisitor> = LinterFactory().createLinterVisitorsV10(jsonFile)
+    private val checkVisitors: List<ASTNodeVisitor> = LinterFactory().createLinterVisitorsV11(jsonFile)
 
     fun lint(node: ProgramNode): LinterResult {
         checkVisitors.forEach { visitor ->

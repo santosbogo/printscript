@@ -29,7 +29,8 @@ class PatternFactory {
         fun getReadInputPattern(): String {
             // ReadInputToken ( ExpressionNode )
             val binaryExpressionPattern = getBinaryExpressionPattern()
-            return "(ReadInputToken\\s+OpenParenthesisToken\\s+($binaryExpressionPattern)\\s+CloseParenthesisToken)"
+            val readInputPattern = "(ReadInputToken\\s+OpenParenthesisToken\\s+($binaryExpressionPattern)\\s+CloseParenthesisToken)"
+            return "(ReadInputToken\\s+OpenParenthesisToken\\s+($binaryExpressionPattern|$readInputPattern)\\s+CloseParenthesisToken)"
         }
 
         fun getReadEnvironmentPattern(): String {

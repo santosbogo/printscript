@@ -1,0 +1,9 @@
+let aBa: number = 10;
+
+##
+
+Variable 'aBa' is declared but never used.
+
+##
+
+True

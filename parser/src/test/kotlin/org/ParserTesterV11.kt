@@ -6,7 +6,7 @@ import java.io.File
 class ParserTesterV11 {
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/ifExamplePrinting.txt")
+        val file = File("src/test/resources/examples-v11/simpleReadInput.txt")
 
         val lexer = Lexer(LexiconFactory().createLexiconV11())
         val parser = ParserFactory.createParserV11()

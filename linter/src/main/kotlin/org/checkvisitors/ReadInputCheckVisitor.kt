@@ -7,12 +7,18 @@ import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.ReadInputNode
+import org.astnode.statementnode.AssignmentNode
+import org.astnode.statementnode.PrintStatementNode
+import org.astnode.statementnode.VariableDeclarationNode
 
 class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
     private val warnings: MutableList<String> = mutableListOf()
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
             is ProgramNode -> visitProgramNode(node)
+            is AssignmentNode -> visitAssignmentNode(node)
+            is PrintStatementNode -> visitPrintStatementNode(node)
+            is VariableDeclarationNode -> visitVariableDeclarationNode(node)
             is ReadInputNode -> visitReadInputNode(node)
             else -> VisitorResult.Empty
         }
@@ -34,6 +40,33 @@ class ReadInputCheckVisitor(private val enabled: Boolean) : ASTNodeVisitor {
         } else {
             VisitorResult.Empty
         }
+    }
+
+    private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
+        if (enabled) {
+            if (node.value is ReadInputNode) {
+                return node.value.accept(this)
+            }
+        }
+        return VisitorResult.Empty
+    }
+
+    private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
+        if (enabled) {
+            if (node.value is ReadInputNode) {
+                return node.value.accept(this)
+            }
+        }
+        return VisitorResult.Empty
+    }
+
+    private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
+        if (enabled) {
+            if (node.init is ReadInputNode) {
+                return node.init.accept(this)
+            }
+        }
+        return VisitorResult.Empty
     }
 
     private fun visitReadInputNode(node: ReadInputNode): VisitorResult {

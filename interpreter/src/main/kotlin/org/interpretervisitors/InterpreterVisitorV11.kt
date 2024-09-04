@@ -210,8 +210,4 @@ class InterpreterVisitorV11 : InterpreterVisitor {
             LiteralValue.StringValue(envVar ?: "")
         )
     }
-
-    private fun checkIfInteger(num: Double): Number {
-        return if (num % 1 == 0.0) num.toInt() else num
-    }
 }

@@ -1,0 +1,10 @@
+let BaBa: number = 10;
+BaBa = 20;
+
+##
+
+Location:(line: 1, column: 5), Identifier 'BaBa' does not match the pattern camelCase
+
+##
+
+True
