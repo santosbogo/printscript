@@ -49,16 +49,16 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
 
-        // check that the new value is of the same type as the variable
-        if (symbolTable[variableIdentifier.name] != null) {
-            val variableType = symbolTable[variableIdentifier.name]
-            val valueType = value.value
-            if (variableType != valueType) {
-                throw Exception("Variable ${variableIdentifier.name} is of type $variableType, but tried to assign a value of type $valueType")
-            }
+        val variableValue = symbolTable[variableIdentifier.name] as LiteralValue
+        val variableType = variableValue.getType()
+
+        // caso readInput -> rompe si no se pasa el tipo que se espera.
+        try {
+            symbolTable[variableIdentifier.name] = castValueAsExpected(variableType, value)
+        } catch (e: Exception) {
+            throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
         }
 
-        symbolTable[variableIdentifier.name] = value.value
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -95,7 +95,7 @@ class InterpreterVisitorV11 : InterpreterVisitor {
 
         // casteo el valor a string, boolean or number. si no es casteable, debería romper.
         try {
-            castValueAsExpected(variableIdentifier, value)
+            symbolTable[variableIdentifier.name] = castValueAsExpected(variableIdentifier.dataType, value)
         } catch (e: Exception) {
             throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
         }
@@ -104,22 +104,19 @@ class InterpreterVisitorV11 : InterpreterVisitor {
     }
 
     private fun castValueAsExpected(
-        variableIdentifier: IdentifierNode,
+        dataType: String,
         value: VisitorResult.LiteralValueResult
-    ) {
-        when (variableIdentifier.dataType) {
+    ): LiteralValue {
+        return when (dataType) {
             "string" -> {
-                symbolTable[variableIdentifier.name] = value.value as LiteralValue.StringValue
+                value.value as LiteralValue.StringValue
             }
-
             "number" -> {
-                symbolTable[variableIdentifier.name] = value.value as LiteralValue.NumberValue
+                value.value as LiteralValue.NumberValue
             }
-
             "boolean" -> {
-                symbolTable[variableIdentifier.name] = value.value as LiteralValue.BooleanValue
+                value.value as LiteralValue.BooleanValue
             }
-
             else -> {
                 throw Exception("Unsupported data type")
             }
