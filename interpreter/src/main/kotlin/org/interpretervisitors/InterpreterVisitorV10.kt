@@ -61,6 +61,10 @@ class InterpreterVisitorV10 : InterpreterVisitor {
                 printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
                 println((value.value as LiteralValue.BooleanValue).value)
             }
+
+            else -> {
+                throw Exception("Unsupported print value type at ${node.location}")
+            }
         }
         return VisitorResult.Empty
     }
@@ -83,6 +87,9 @@ class InterpreterVisitorV10 : InterpreterVisitor {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
+                else -> {
+                    throw Exception("Unsupported value type at ${node.location}")
+                }
             }
         } else {
             throw Exception("Variable ${node.name} not declared")

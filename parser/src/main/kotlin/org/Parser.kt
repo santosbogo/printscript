@@ -9,8 +9,8 @@ import org.structures.StructureFactory
 
 // With structure, we refer to operators like if, for, while
 class Parser(
-    private val astGenerator: ASTGenerator = ASTGeneratorFactory().createDefaultASTGenerator(),
-    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV10(),
+    private val astGenerator: ASTGenerator = ASTGeneratorFactory().createASTGeneratorV11(),
+    private val semanticAnalyzer: SemanticAnalyzer = SemanticAnalyzerFactory().createSemanticAnalyzerV11(),
     private val supportedStructures: List<Structure> = StructureFactory().createDefaultStructures()
 ) {
     fun parse(tokens: List<Token>): ParserResult {

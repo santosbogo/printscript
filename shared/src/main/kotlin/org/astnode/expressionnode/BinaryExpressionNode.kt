@@ -18,6 +18,13 @@ class BinaryExpressionNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         val leftType = left.getType(symbolTable)
         val rightType = right.getType(symbolTable)
+        val validTypes = listOf("string", "number")
+
+        for (type in listOf(leftType, rightType)) {
+            if (type !in validTypes) {
+                throw Exception("Invalid type $type in binary expression")
+            }
+        }
 
         return if (leftType == "string" || rightType == "string") {
             "string"

@@ -9,6 +9,8 @@ import org.astnode.expressionnode.BooleanExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
+import org.astnode.expressionnode.ReadEnvNode
+import org.astnode.expressionnode.ReadInputNode
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.CompleteIfNode
 import org.astnode.statementnode.IfNode
@@ -31,6 +33,8 @@ class InterpreterVisitorV11 : InterpreterVisitor {
             is BooleanExpressionNode -> visitBooleanExpressionNode(node)
             is CompleteIfNode -> visitCompleteIfNode(node)
             is IfNode -> visitIfNode(node)
+            is ReadInputNode -> visitReadInputNode(node)
+            is ReadEnvNode -> visitReadEnvNode(node)
             else -> throw UnsupportedOperationException("Unsupported node: ${node::class}")
         }
     }
@@ -67,6 +71,9 @@ class InterpreterVisitorV11 : InterpreterVisitor {
                 printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
                 println((value.value as LiteralValue.BooleanValue).value)
             }
+            else -> {
+                throw Exception("Unsupported value type")
+            }
         }
         return VisitorResult.Empty
     }
@@ -89,6 +96,9 @@ class InterpreterVisitorV11 : InterpreterVisitor {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
+                else -> {
+                    throw Exception("Unsupported value type")
+                }
             }
         } else {
             throw Exception("Variable ${node.name} not declared")
@@ -131,5 +141,64 @@ class InterpreterVisitorV11 : InterpreterVisitor {
             elseStatements?.forEach { it.accept(this) }
         }
         return VisitorResult.Empty
+    }
+
+    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+        // printeo el mensaje, y leo el input del usuario.
+        val message = node.message
+        println(message)
+
+        // siempre entra un String?, casteo a partir de lo que espero.
+        val input = readLine()
+
+        if (input != null) {
+            when (node.type as String) {
+                "string" -> {
+                    return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
+                }
+                "number" -> {
+                    return VisitorResult.LiteralValueResult(LiteralValue.NumberValue(input.toDouble()))
+                }
+                "boolean" -> {
+                    return VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(input.toBoolean()))
+                }
+                else -> {
+                    throw Exception("Unsupported type")
+                }
+            }
+        } else {
+            throw Exception("Input is null")
+        }
+    }
+
+    private fun visitReadEnvNode(node: ReadEnvNode): VisitorResult {
+        // busco el nombre de la variable en el environment.
+        val envVar = System.getenv(node.variableName)
+        if (envVar != null) {
+            return when (node.type as String) {
+                "string" -> {
+                    VisitorResult.LiteralValueResult(LiteralValue.StringValue(envVar))
+                }
+
+                "number" -> {
+                    // si es double agrego normal, si es int le saco el .0
+                    VisitorResult.LiteralValueResult(LiteralValue.NumberValue(checkIfInteger(envVar.toDouble())))
+                }
+
+                "boolean" -> {
+                    VisitorResult.LiteralValueResult(LiteralValue.BooleanValue(envVar.toBoolean()))
+                }
+
+                else -> {
+                    throw Exception("Unsupported type")
+                }
+            }
+        } else {
+            throw Exception("Environment variable ${node.variableName} not found")
+        }
+    }
+
+    private fun checkIfInteger(num: Double): Number {
+        return if (num % 1 == 0.0) num.toInt() else num
     }
 }
