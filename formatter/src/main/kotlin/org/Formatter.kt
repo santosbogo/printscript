@@ -139,6 +139,7 @@ class RulesFactory() {
             "mandatory-single-space-separation" to "",
             "mandatory-space-surrounding-operations" to "",
             "mandatory-line-break-after-statement" to "",
+            "line-breaks-after-println" to "line-breaks-after-println",
 
 
         )
