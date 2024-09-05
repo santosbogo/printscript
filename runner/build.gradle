@@ -1,0 +1,24 @@
+plugins {
+    id 'kotlin-common-conventions'
+}
+
+dependencies {
+    implementation project(':shared')
+    implementation project(':lexer')
+    implementation project(':parser')
+    implementation project(':interpreter')
+    implementation project(':linter')
+    implementation project(':formatter')
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
