@@ -16,7 +16,7 @@ class Runner(version: String) {
                 parser = ParserFactory.createParserV10()
                 interpreter = InterpreterFactory.createInterpreterV10()
                 linter = LinterFactory().createFormatterV10()
-                formatter = FormatterFactory().createFormatterV10()
+                formatter = Formatter()
             }
 
             "1.1" -> {
@@ -24,7 +24,7 @@ class Runner(version: String) {
                 parser = ParserFactory.createParserV11()
                 interpreter = InterpreterFactory.createInterpreterV11()
                 linter = LinterFactory().createFormatterV11()
-                formatter = FormatterFactory().createFormatterV11()
+                formatter = Formatter()
             }
 
             else -> throw IllegalArgumentException("Unsupported version: $version")
@@ -99,7 +99,7 @@ class Runner(version: String) {
         return RunnerResult.Validate(errorsList)
     }
 
-    fun format(str: String, json: JsonObject): RunnerResult.Format {
+    fun format(str: String, json: String, version: String): RunnerResult.Format {
         val errorsList = mutableListOf<String>()
 
         val lexerResult = lexer.tokenize(str)
@@ -115,8 +115,8 @@ class Runner(version: String) {
             parserResult.errors.forEach { errorsList.add(it) }
             return RunnerResult.Format("", errorsList)
         }
-
-        val formatterResult = formatter.format(parserResult.programNode!!, json)
+        val rules = RulesFactory().getRules(json, version)
+        val formatterResult = formatter.format(parserResult.programNode!!, rules)
         return RunnerResult.Format(formatterResult.code, errorsList)
     }
 }
