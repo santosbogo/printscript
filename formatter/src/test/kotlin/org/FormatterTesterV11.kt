@@ -52,7 +52,7 @@ class FormatterTesterV11 {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/ifelsestatement.txt")
+        val file = File("src/test/resources/examples-v11/linesafterprintln.txt")
 
         val reader = TestReader()
         val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)

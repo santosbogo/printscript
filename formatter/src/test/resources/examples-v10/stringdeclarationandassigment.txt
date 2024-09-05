@@ -13,6 +13,6 @@ True
 {
   "space_before_colon": false,
   "space_after_colon": true,
-  "space_around_equals": true,
+  "enforce-spacing-around-equals": true,
   "newline_before_println": 1
 }

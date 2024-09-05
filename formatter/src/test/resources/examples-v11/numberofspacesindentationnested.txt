@@ -25,7 +25,7 @@ True
 {
   "space_before_colon": true,
   "space_after_colon": true,
-  "space_around_equals": true,
+  "enforce-spacing-around-equals": true,
   "same_line_for_if_brace": true,
   "number_of_spaces_indentation": 4
 }

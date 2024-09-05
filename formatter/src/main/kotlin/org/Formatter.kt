@@ -3,7 +3,9 @@ package org
 import kotlinx.serialization.json.JsonObject
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import ruleBuilder.NewlineAfterPrintlnBuilder
 import ruleBuilder.NewlineBeforePrintlnBuilder
+import ruleBuilder.NoSpaceAroundEqualsBuilder
 import ruleBuilder.NumberOfSpacesIndentationBuilder
 import ruleBuilder.RuleBuilder
 import ruleBuilder.SameLineForElseAndBraceBuilder
@@ -77,9 +79,11 @@ class RulesFactory() {
     fun createRulesForV10(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
+            "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
             "newline_before_println" to NewlineBeforePrintlnBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
-            "space_around_equals" to SpaceAroundEqualsBuilder(),
+            "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
+            "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
         )
         return createRules(json, rulesMap)
     }
@@ -87,9 +91,11 @@ class RulesFactory() {
     fun createRulesForV11(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
+            "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
             "newline_before_println" to NewlineBeforePrintlnBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
-            "space_around_equals" to SpaceAroundEqualsBuilder(),
+            "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
+            "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
             "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),
             "same_line_for_if_brace" to SameLineForIfAndBraceBuilder(),
             "same_line_for_else_brace" to SameLineForElseAndBraceBuilder(),
@@ -106,6 +112,7 @@ class RulesFactory() {
         rules.add(NewLineAfterSemiColon())
         rules.add(SpaceAfterAndBeforeOperators())
         rules.add(NewLineAfterBrace())
+        rules.add(OnlyOneSpacePermited())
 
         for ((key, value) in json) {
             if (value.toString() == "false") {
