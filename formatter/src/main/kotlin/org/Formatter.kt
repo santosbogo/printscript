@@ -137,6 +137,8 @@ class RulesFactory() {
             "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
             "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
             "mandatory-single-space-separation" to "",
+            "mandatory-space-surrounding-operations" to "",
+
         )
     }
 }
