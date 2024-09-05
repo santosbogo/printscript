@@ -129,4 +129,14 @@ class RulesFactory() {
         }
         return rules
     }
+
+    private fun getMapOfTCK(): Map<String, String> {
+        return mapOf(
+            "enforce-spacing-around-equals" to "space_around_equals",
+            "enforce-no-spacing-around-equals" to "no_space_around_equals",
+            "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
+            "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
+            "mandatory-single-space-separation" to "",
+        )
+    }
 }
