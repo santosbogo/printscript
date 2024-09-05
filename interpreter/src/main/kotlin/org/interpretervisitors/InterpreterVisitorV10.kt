@@ -11,10 +11,14 @@ import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
+import org.inputers.InputProvider
+import org.printers.Printer
 
-class InterpreterVisitorV10 : InterpreterVisitor {
+class InterpreterVisitorV10(
+    override val printer: Printer,
+    override val inputProvider: InputProvider
+) : InterpreterVisitor {
     private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
-    override val printsList: MutableList<String> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -50,16 +54,13 @@ class InterpreterVisitorV10 : InterpreterVisitor {
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
-                printsList.add(cleanedStringValue)
-                println(cleanedStringValue)
+                printer.print(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
-                printsList.add((value.value as LiteralValue.NumberValue).value.toString())
-                println((value.value as LiteralValue.NumberValue).value)
+                printer.print((value.value as LiteralValue.NumberValue).value.toString())
             }
             is LiteralValue.BooleanValue -> {
-                printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
-                println((value.value as LiteralValue.BooleanValue).value)
+                printer.print((value.value as LiteralValue.BooleanValue).value.toString())
             }
 
             else -> {

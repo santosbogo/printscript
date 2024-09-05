@@ -8,7 +8,7 @@ class LexerTesterV10 {
 
     @Test
     fun testFile() {
-        val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
+        val file = File("src/test/resources/examples-v10/manywhitespaces.txt")
         val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
 

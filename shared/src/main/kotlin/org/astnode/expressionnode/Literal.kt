@@ -16,6 +16,10 @@ class LiteralNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return value.getType()
     }
+
+    override fun toString(): String {
+        return value.toString()
+    }
 }
 
 sealed class LiteralValue {

@@ -17,4 +17,8 @@ class BooleanExpressionNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return bool.getType(symbolTable)
     }
+
+    override fun toString(): String {
+        return bool.toString()
+    }
 }

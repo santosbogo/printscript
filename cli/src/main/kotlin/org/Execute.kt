@@ -29,7 +29,7 @@ class Execute : CliktCommand() {
         }
 
         echo("Executing...\n", trailingNewline = true)
-        val interpreter = InterpreterFactory.createInterpreterV11()
+        val interpreter = InterpreterFactory.createCliInterpreterV11()
         val interpreterResult = interpreter.interpret(parserResult.programNode!!)
 
         echo("Execution successful")

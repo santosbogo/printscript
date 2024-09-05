@@ -16,10 +16,14 @@ import org.astnode.statementnode.CompleteIfNode
 import org.astnode.statementnode.IfNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
+import org.inputers.InputProvider
+import org.printers.Printer
 
-class InterpreterVisitorV11 : InterpreterVisitor {
+class InterpreterVisitorV11(
+    override val printer: Printer,
+    override val inputProvider: InputProvider
+) : InterpreterVisitor {
     private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
-    override val printsList: MutableList<String> = mutableListOf()
 
     private fun putSymbolTable(symbolTable: MutableMap<String, LiteralValue>) {
         this.symbolTable.putAll(symbolTable)
@@ -74,16 +78,13 @@ class InterpreterVisitorV11 : InterpreterVisitor {
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
-                printsList.add(cleanedStringValue)
-                println(cleanedStringValue)
+                printer.print(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
-                printsList.add((value.value as LiteralValue.NumberValue).value.toString())
-                println((value.value as LiteralValue.NumberValue).value)
+                printer.print((value.value as LiteralValue.NumberValue).value.toString())
             }
             is LiteralValue.BooleanValue -> {
-                printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
-                println((value.value as LiteralValue.BooleanValue).value)
+                printer.print((value.value as LiteralValue.BooleanValue).value.toString())
             }
             else -> {
                 throw Exception("Unsupported value type")
@@ -167,10 +168,7 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val bool = node.boolean.accept(this) as VisitorResult.LiteralValueResult
         val statements = node.ifStatements
         if ((bool.value as LiteralValue.BooleanValue).value) {
-            val interpreter = InterpreterVisitorV11()
-            interpreter.putSymbolTable(symbolTable)
-            statements.forEach { it.accept(interpreter) }
-            printsList.addAll(interpreter.printsList)
+            subInterpret(statements)
         }
         return VisitorResult.Empty
     }
@@ -180,31 +178,29 @@ class InterpreterVisitorV11 : InterpreterVisitor {
         val ifStatements = node.ifNode.ifStatements
         val elseStatements = node.elseNode?.elseStatements
         if ((bool.value as LiteralValue.BooleanValue).value) {
-            val interpreter = InterpreterVisitorV11()
-            interpreter.putSymbolTable(symbolTable)
-            ifStatements.forEach { it.accept(interpreter) }
-            printsList.addAll(interpreter.printsList)
+            subInterpret(ifStatements)
         } else {
-            val interpreter = InterpreterVisitorV11()
-            interpreter.putSymbolTable(symbolTable)
-            elseStatements?.forEach { it.accept(interpreter) }
-            printsList.addAll(interpreter.printsList)
+            subInterpret(elseStatements!!)
         }
         return VisitorResult.Empty
     }
 
-    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
-        // printeo el mensaje, y leo el input del usuario.
-        val message = node.message
-        println(message)
+    private fun subInterpret(statements: List<ASTNode>) {
+        val interpreter = InterpreterVisitorV11(printer, inputProvider)
+        interpreter.putSymbolTable(symbolTable)
+        statements.forEach { it.accept(interpreter) }
+    }
 
-        // siempre entra un String?, leo y paso al q lo haya llamado.
-        val input = readlnOrNull()
-        return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input ?: ""))
+    private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
+        val message = node.message
+        printer.print(message.toString())
+
+        val input = inputProvider.input()
+
+        return VisitorResult.LiteralValueResult(LiteralValue.StringValue(input))
     }
 
     private fun visitReadEnvNode(node: ReadEnvNode): VisitorResult {
-        // busco el nombre de la variable en el environment.
         val envVar = System.getenv(node.variableName)
         return VisitorResult.LiteralValueResult(
             LiteralValue.StringValue(envVar ?: "")
