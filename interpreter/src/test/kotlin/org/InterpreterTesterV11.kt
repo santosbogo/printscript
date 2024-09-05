@@ -6,15 +6,15 @@ import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
+import org.inputers.NoInputProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.util.LinkedList
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
         val lexer = LexerFactory.createLexerV11()
         val parser = ParserFactory.createParserV11()
-        val interpreter = InterpreterFactory.createTestInterpreterV11(LinkedList())
+        val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider())
 
         // Perform the interpretation
         val lexerResult = lexer.tokenize(input)
@@ -48,7 +48,7 @@ class InterpreterTesterV11 {
             )
         )
 
-        val interpreter = InterpreterFactory.createTestInterpreterV11(LinkedList())
+        val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider())
 
         val interpreterResult = interpreter.interpret(programNode)
 

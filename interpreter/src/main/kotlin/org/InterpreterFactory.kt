@@ -1,19 +1,18 @@
 package org
 
 import org.inputers.CliInputProvider
+import org.inputers.InputProvider
 import org.inputers.NoInputProvider
-import org.inputers.TestInputProvider
 import org.interpretervisitors.InterpreterVisitorV10
 import org.interpretervisitors.InterpreterVisitorV11
 import org.printers.CliPrinter
 import org.printers.TestPrinter
-import java.util.Queue
 
 object InterpreterFactory {
-    fun createRunnerInterpreter(version: String, input: Queue<String>): Interpreter {
+    fun createRunnerInterpreter(version: String, inputProvider: InputProvider): Interpreter {
         return when (version) {
             "1.0" -> createTestInterpreterV10()
-            "1.1" -> createTestInterpreterV11(input)
+            "1.1" -> createTestInterpreterV11(inputProvider)
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
@@ -45,10 +44,10 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV11(queue: Queue<String>): Interpreter {
+    fun createTestInterpreterV11(inputProvider: InputProvider): Interpreter {
         return Interpreter(
             InterpreterVisitorV11(
-                inputProvider = TestInputProvider(queue),
+                inputProvider = inputProvider,
                 printer = TestPrinter()
             )
         )

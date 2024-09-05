@@ -1,7 +1,7 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
-import java.util.Queue
+import org.inputers.InputProvider
 
 class Runner(version: String) {
     private val lexer: Lexer
@@ -29,8 +29,8 @@ class Runner(version: String) {
         }
     }
 
-    fun execute(str: String, version: String, input: Queue<String>): RunnerResult.Execute {
-        val interpreter = InterpreterFactory.createRunnerInterpreter(version, input)
+    fun execute(str: String, version: String, inputProvider: InputProvider): RunnerResult.Execute {
+        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
