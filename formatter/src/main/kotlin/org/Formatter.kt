@@ -141,6 +141,9 @@ class RulesFactory() {
             "mandatory-line-break-after-statement" to "",
             "line-breaks-after-println" to "line-breaks-after-println",
             "if-brace-below-line" to "same_line_for_if_brace",
+            "if-brace-same-line" to "same_line_for_else_brace",
+            "indent-inside-if" to "number_of_spaces_indentation"
+
         )
     }
 }
