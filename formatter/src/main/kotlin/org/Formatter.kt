@@ -1,6 +1,9 @@
 package org
 
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.jsonObject
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import ruleBuilder.NewlineAfterPrintlnBuilder
@@ -20,12 +23,11 @@ import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
 import kotlin.collections.forEach
 
-class Formatter(private val version: String) {
+class Formatter() {
     private val visitor: ASTNodeVisitor = FormatterVisitor()
 
-    fun format(node: ProgramNode, json: JsonObject): FormatResult {
+    fun format(node: ProgramNode, rules: List<Rule>): FormatResult {
         val code: MutableList<String> = mutableListOf()
-        val rules = RulesFactory().getRules(json, version)
         var result = ""
 
         // Takes each AST and gets its string representation
@@ -50,21 +52,12 @@ class Formatter(private val version: String) {
     }
 }
 
-class FormatterFactory() {
-
-    fun createFormatterV10(): Formatter {
-        return Formatter("1.0")
-    }
-
-    fun createFormatterV11(): Formatter {
-        return Formatter("1.1")
-    }
-}
-
+// This class creates from the JSON the rules that will be applied to the code
 class RulesFactory() {
 
-    fun getRules(json: JsonObject, string: String): List<Rule> {
-        when (string) {
+    fun getRules(content: String, version: String): List<Rule> {
+        val json = RulesParser().parse(content)
+        when (version) {
             "1.0" -> {
                 return createRulesForV10(json)
             }
@@ -79,11 +72,11 @@ class RulesFactory() {
     fun createRulesForV10(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
-            "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
-            "newline_before_println" to NewlineBeforePrintlnBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
-            "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
-            "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
+            "newline_after_println" to NewlineAfterPrintlnBuilder(),
+            "newline_before_println" to NewlineBeforePrintlnBuilder(),
+            "space_around_equals" to SpaceAroundEqualsBuilder(),
+            "no_space_around_equals" to NoSpaceAroundEqualsBuilder(),
         )
         return createRules(json, rulesMap)
     }
@@ -91,11 +84,11 @@ class RulesFactory() {
     fun createRulesForV11(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
-            "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
-            "newline_before_println" to NewlineBeforePrintlnBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
-            "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
-            "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
+            "newline_after_println" to NewlineAfterPrintlnBuilder(),
+            "newline_before_println" to NewlineBeforePrintlnBuilder(),
+            "space_around_equals" to SpaceAroundEqualsBuilder(),
+            "no_space_around_equals" to NoSpaceAroundEqualsBuilder(),
             "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),
             "same_line_for_if_brace" to SameLineForIfAndBraceBuilder(),
             "same_line_for_else_brace" to SameLineForElseAndBraceBuilder(),
@@ -129,4 +122,62 @@ class RulesFactory() {
         }
         return rules
     }
+
+    private fun getMapOfTCK(): Map<String, String> {
+        return mapOf(
+            "enforce-spacing-around-equals" to "space_around_equals",
+            "enforce-no-spacing-around-equals" to "no_space_around_equals",
+            "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
+            "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
+            "mandatory-single-space-separation" to "",
+            "mandatory-space-surrounding-operations" to "",
+            "mandatory-line-break-after-statement" to "",
+            "line-breaks-after-println" to "line-breaks-after-println",
+            "if-brace-below-line" to "same_line_for_if_brace",
+            "if-brace-same-line" to "same_line_for_else_brace",
+            "indent-inside-if" to "number_of_spaces_indentation"
+
+        )
+    }
+}
+
+// This class is intended to parse their name for the variables to our names, so that any TCK may be implemented
+class RulesParser() {
+    fun parse(content: String): JsonObject {
+        val theirJson: JsonObject = Json.parseToJsonElement(content).jsonObject
+        val map = getMapOfTCK()
+
+        val ourJson = buildJsonObject {
+            for ((key, value) in theirJson) {
+                if (key in ourFormat) { // If the key is already in our format
+                    put(key, value)
+                } else if (key in map) { // If the key isn't in our format, but expected
+                    put(map[key]!!, value)
+                }
+            }
+        }
+
+        return ourJson
+    }
+
+    private fun getMapOfTCK(): Map<String, String> {
+        return mapOf(
+            "enforce-spacing-around-equals" to "space_around_equals",
+            "enforce-no-spacing-around-equals" to "no_space_around_equals",
+            "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
+            "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
+        )
+    }
+
+    private val ourFormat = listOf(
+        "space_before_colon",
+        "space_after_colon",
+        "newline_after_println",
+        "newline_before_println",
+        "space_around_equals",
+        "no_space_around_equals",
+        "number_of_spaces_indentation",
+        "same_line_for_if_brace",
+        "same_line_for_else_brace"
+    )
 }
