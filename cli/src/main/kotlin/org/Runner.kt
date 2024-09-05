@@ -1,5 +1,7 @@
 package org
 
+import kotlinx.serialization.json.JsonObject
+
 class Runner(version: String) {
     private val lexer: Lexer
     private val parser: Parser
@@ -13,7 +15,7 @@ class Runner(version: String) {
                 lexer = LexerFactory.createLexerV10()
                 parser = ParserFactory.createParserV10()
                 interpreter = InterpreterFactory.createInterpreterV10()
-                linter = LinterFactory().createLinterV10()
+                linter = Linter("1.0")
                 formatter = FormatterFactory().createFormatterV10()
             }
 
@@ -21,7 +23,7 @@ class Runner(version: String) {
                 lexer = LexerFactory.createLexerV11()
                 parser = ParserFactory.createParserV11()
                 interpreter = InterpreterFactory.createInterpreterV11()
-                linter = LinterFactory().createLinterV11()
+                linter = Linter("1.1")
                 formatter = FormatterFactory().createFormatterV11()
             }
 
@@ -55,7 +57,7 @@ class Runner(version: String) {
         return RunnerResult.Execute(printList, errorsList)
     }
 
-    fun analyze(str: String): RunnerResult.Analyze {
+    fun analyze(str: String, jsonFile: JsonObject): RunnerResult.Analyze {
         val warningsList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -73,7 +75,7 @@ class Runner(version: String) {
             return RunnerResult.Analyze(warningsList, errorsList)
         }
 
-        val linterResult = linter.lint(parserResult.programNode!!)
+        val linterResult = linter.lint(parserResult.programNode!!, jsonFile)
         linterResult.getList().forEach { warningsList.add(it) }
         return RunnerResult.Analyze(warningsList, errorsList)
     }

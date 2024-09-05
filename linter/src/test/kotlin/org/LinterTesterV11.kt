@@ -1,6 +1,9 @@
 package org
 
 import TestReader
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonObject
 import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -12,7 +15,7 @@ class LinterTesterV11 {
 
         // me devuelve el codigo que entra, la warning q tiene q devolver, y si debería funcionar.
         val reader = TestReader()
-        val (code, expectedWarning, shouldSucceed) = reader.readTokens(file.path)
+        val (code, expectedWarnings, shouldSucceed) = reader.readTokens(file.path)
 
         // meto el codigo en el lexer, obtengo tokens
         val lexer = LexerFactory.createLexerV11()
@@ -23,11 +26,12 @@ class LinterTesterV11 {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val linterFactory = LinterFactory()
-        val linter = linterFactory.createLinterV11("src/test/kotlin/org/jsons/jsonV11.json")
+        val linter = Linter("1.1")
 
-        // compare the linter output with the expectedWarning.
-        compareResults(linter, code, programNode, expectedWarning, shouldSucceed)
+        val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
+        val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
+
+        compareResults(linter, code, programNode, expectedWarnings, shouldSucceed, jsonObject)
     }
 
     @Test
@@ -51,10 +55,12 @@ class LinterTesterV11 {
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
 
-            val linterFactory = LinterFactory()
-            val linter = linterFactory.createLinterV10("src/test/kotlin/org/jsons/jsonV10.json")
+            val linter = Linter("1.1")
 
-            compareResults(linter, code, programNode, expectedWarnings, shouldSucceed)
+            val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
+            val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
+
+            compareResults(linter, code, programNode, expectedWarnings, shouldSucceed, jsonObject)
         }
     }
 
@@ -63,9 +69,10 @@ class LinterTesterV11 {
         code: String,
         programNode: ProgramNode,
         expectedWarnings: List<String>,
-        shouldSucceed: Boolean
+        shouldSucceed: Boolean,
+        jsonFile: JsonObject
     ) {
-        val reportList = linter.lint(programNode).getList()
+        val reportList = linter.lint(programNode, jsonFile).getList()
         if (!shouldSucceed) {
             assert(false) { "Expected an error but test passed for code $code" }
         }
