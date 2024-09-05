@@ -122,3 +122,14 @@ class LinterVisitorsFactory {
         return visitors
     }
 }
+
+class LinterFactory() {
+
+    fun createFormatterV10(): Linter {
+        return Linter("1.0")
+    }
+
+    fun createFormatterV11(): Linter {
+        return Linter("1.1")
+    }
+}

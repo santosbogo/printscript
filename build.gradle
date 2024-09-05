@@ -16,6 +16,7 @@ dependencies {
     kover(project(":linter"))
     kover(project(":formatter"))
     kover(project(":cli"))
+    kover(project(":runner"))
 }
 
 

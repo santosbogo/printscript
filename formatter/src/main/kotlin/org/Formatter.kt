@@ -78,10 +78,10 @@ class RulesFactory() {
 
     fun createRulesForV10(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
-            "space_before_colon" to SpaceBeforeColonBuilder(),
+            "space_before_colon" to SpaceBeforeColonBuilder(), // enforce-spacing-before-colon-in-declaration
             "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
             "newline_before_println" to NewlineBeforePrintlnBuilder(),
-            "space_after_colon" to SpaceAfterColonBuilder(),
+            "enforce-spacing-after-colon-in-declaration" to SpaceAfterColonBuilder(),
             "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
             "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
         )
@@ -93,7 +93,7 @@ class RulesFactory() {
             "space_before_colon" to SpaceBeforeColonBuilder(),
             "line-breaks-after-println" to NewlineAfterPrintlnBuilder(),
             "newline_before_println" to NewlineBeforePrintlnBuilder(),
-            "space_after_colon" to SpaceAfterColonBuilder(),
+            "enforce-spacing-after-colon-in-declaration" to SpaceAfterColonBuilder(),
             "enforce-spacing-around-equals" to SpaceAroundEqualsBuilder(),
             "enforce-no-spacing-around-equals" to NoSpaceAroundEqualsBuilder(),
             "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),

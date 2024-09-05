@@ -13,11 +13,11 @@ class LinterTesterV11 {
     fun testSingleWarning() {
         val file = File("src/test/resources/examples-v11/readInputExample.txt")
 
-        // me devuelve el codigo que entra, la warning q tiene q devolver, y si debería funcionar.
+        // me devuelve el código que entra, la warning q tiene q devolver, y si debería funcionar.
         val reader = TestReader()
         val (code, expectedWarnings, shouldSucceed) = reader.readTokens(file.path)
 
-        // meto el codigo en el lexer, obtengo tokens
+        // meto el código en el lexer, obtengo tokens
         val lexer = LexerFactory.createLexerV11()
         val lexerResult = lexer.tokenize(code)
 
@@ -26,7 +26,7 @@ class LinterTesterV11 {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val linter = Linter("1.1")
+        val linter = LinterFactory().createFormatterV11()
 
         val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
         val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
@@ -38,11 +38,11 @@ class LinterTesterV11 {
     fun testMultipleWarnings() {
         val dir = File("src/test/resources/examples-v10")
 
-        // declaro todas las clases q voy a usar.
+        // declaro todas las clases que voy a usar.
         val reader = TestReader()
         val lexer = LexerFactory.createLexerV10()
 
-        // para cada archivo de texto, corro el test. Me permite correr varios tests automaticos.
+        // para cada archivo de texto, corro el test. Me permite correr varios tests automáticos.
         dir.listFiles {
             file ->
             file.isFile && file.extension == "txt" // debe ser un txt y un file.
@@ -55,7 +55,7 @@ class LinterTesterV11 {
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
 
-            val linter = Linter("1.1")
+            val linter = LinterFactory().createFormatterV11()
 
             val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
             val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
@@ -78,7 +78,7 @@ class LinterTesterV11 {
         }
 
         // voy chequeando q los warnings q me devuelve el linter sean los q espero.
-        expectedWarnings.forEachIndexed() {
+        expectedWarnings.forEachIndexed {
             index, expectedWarning ->
             assert(reportList[index] == expectedWarning) {
                 "Mismatch in code \"$code\": expected \"$expectedWarning\", found \"${reportList[index]}\""
