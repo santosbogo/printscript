@@ -1,5 +1,6 @@
 package org
 
+import kotlinx.serialization.json.JsonObject
 import java.io.File
 import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
@@ -8,13 +9,14 @@ class FormatterTesterV11 {
 
     private fun compareResults(
         node: ProgramNode,
-        formater: Formatter,
         shouldSucceed: Boolean,
         file: File,
-        solution: List<String>
+        solution: List<String>,
+        json: JsonObject
     ) {
+        val formater = FormatterFactory().createFormatterV11()
         try {
-            val result = formater.format(node).toString().split("\n")
+            val result = formater.format(node, json).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -44,8 +46,7 @@ class FormatterTesterV11 {
             val lexerResult = lexer.tokenize(code)
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
-            val formater = Formatter(json, RulesFactory().createRulesForV11(json))
-            compareResults(programNode, formater, shouldSucceed, file, solution)
+            compareResults(programNode, shouldSucceed, file, solution, json)
         }
     }
 
@@ -63,7 +64,6 @@ class FormatterTesterV11 {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val formater = Formatter(json, RulesFactory().createRulesForV11(json))
-        compareResults(programNode, formater, shouldSucceed, file, solution)
+        compareResults(programNode, shouldSucceed, file, solution, json)
     }
 }

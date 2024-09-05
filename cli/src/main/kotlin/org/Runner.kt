@@ -1,5 +1,7 @@
 package org
 
+import kotlinx.serialization.json.JsonObject
+
 class Runner(version: String) {
     private val lexer: Lexer
     private val parser: Parser
@@ -91,7 +93,7 @@ class Runner(version: String) {
         }
     }
 
-    fun format(str: String) {
+    fun format(str: String, json: JsonObject): String {
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -107,7 +109,8 @@ class Runner(version: String) {
             parserResult.errors.forEach { errorsList.add(it) }
         }
 
-        val formatterResult = formatter.format(parserResult.programNode!!)
+        val formatterResult = formatter.format(parserResult.programNode!!, json)
         printList.add(formatterResult.code)
+        return formatterResult.code
     }
 }

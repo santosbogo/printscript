@@ -27,7 +27,7 @@ class FormatterTesterV10 {
         solution: List<String>
     ) {
         try {
-            val result = formater.format(node).toString().split("\n")
+            val result = formater.format(node, getJsonFromFile()).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -52,14 +52,12 @@ class FormatterTesterV10 {
         val lexer = LexerFactory.createLexerV10()
         val parser = ParserFactory.createParserV10()
 
-        val json = getJsonFromFile()
-
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val lexerResult = lexer.tokenize(code)
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
-            val formater = Formatter(json, RulesFactory().createRulesForV11(json))
+            val formater = FormatterFactory().createFormatterV11()
             compareResults(programNode, formater, shouldSucceed, file, solution)
         }
     }
@@ -78,8 +76,8 @@ class FormatterTesterV10 {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val formater = Formatter(getJsonFromFile())
-        compareResults(programNode, formater, shouldSucceed, file, solution)
+        val formatter = FormatterFactory().createFormatterV10()
+        println(formatter.format(programNode, getJsonFromFile()))
     }
     @Test
     fun testFormat() {
@@ -98,8 +96,8 @@ class FormatterTesterV10 {
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
-        val formatter = Formatter(json)
-        println(formatter.format(programNode))
+        val formatter = FormatterFactory().createFormatterV10()
+        println(formatter.format(programNode, json))
     }
 
     @Test
@@ -117,8 +115,8 @@ class FormatterTesterV10 {
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
-        val formatter = Formatter(json)
-        println(formatter.format(programNode))
+        val formatter = FormatterFactory().createFormatterV10()
+        println(formatter.format(programNode, json))
     }
 
     @Test
@@ -133,8 +131,8 @@ class FormatterTesterV10 {
 
         val json = getJsonFromFile()
 
-        val formatter = Formatter(json)
-        println(formatter.format(programNode))
+        val formatter = FormatterFactory().createFormatterV10()
+        println(formatter.format(programNode, json))
     }
 
     @Test

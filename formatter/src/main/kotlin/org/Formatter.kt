@@ -1,8 +1,6 @@
 package org
 
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import ruleBuilder.NewlineBeforePrintlnBuilder
@@ -18,16 +16,14 @@ import rules.NewLineAfterSemiColon
 import rules.OnlyOneSpacePermited
 import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
-import java.io.File
+import kotlin.collections.forEach
 
-class Formatter(
-    json: JsonObject,
-    private val rules: List<Rule> = RulesFactory().createRulesForV10(json),
-    private val visitor: ASTNodeVisitor = FormatterVisitor(),
-) {
+class Formatter(private val version: String) {
+    private val visitor: ASTNodeVisitor = FormatterVisitor()
 
-    fun format(node: ProgramNode): FormatResult {
+    fun format(node: ProgramNode, json: JsonObject): FormatResult {
         val code: MutableList<String> = mutableListOf()
+        val rules = RulesFactory().getRules(json, version)
         var result = ""
 
         // Takes each AST and gets its string representation
@@ -37,13 +33,13 @@ class Formatter(
 
         // Applies rules to each statement of code
         code.forEach { line ->
-            result += applyRules(line)
+            result += applyRules(line, rules)
         }
 
         return FormatResult(result)
     }
 
-    private fun applyRules(line: String): String {
+    private fun applyRules(line: String, rules: List<Rule>): String {
         var modifiedLine = line
         rules.forEach { rule ->
             modifiedLine = rule.applyRule(modifiedLine)
@@ -55,25 +51,49 @@ class Formatter(
 class FormatterFactory() {
 
     fun createFormatterV10(): Formatter {
-        val json = Json.parseToJsonElement(File("src/test/resources/analyzeJsons/defaultJson.json").readText()).jsonObject
-        return Formatter(json, RulesFactory().createRulesForV10(json))
+        return Formatter("1.0")
     }
 
     fun createFormatterV11(): Formatter {
-        val json = Json.parseToJsonElement(File("src/test/resources/analyzeJsons/defaultJson.json").readText()).jsonObject
-        return Formatter(json, RulesFactory().createRulesForV11(json))
+        return Formatter("1.1")
     }
 }
 
 class RulesFactory() {
 
+    fun getRules(json: JsonObject, string: String): List<Rule> {
+        when (string) {
+            "1.0" -> {
+                return createRulesForV10(json)
+            }
+
+            "1.1" -> {
+                return createRulesForV11(json)
+            }
+        }
+        return error("Unsupported version")
+    }
+
     fun createRulesForV10(json: JsonObject): List<Rule> {
-        val rulesMap = rulesForV10()
+        val rulesMap = listOf(
+            "space_before_colon" to SpaceBeforeColonBuilder(),
+            "newline_before_println" to NewlineBeforePrintlnBuilder(),
+            "space_after_colon" to SpaceAfterColonBuilder(),
+            "space_around_equals" to SpaceAroundEqualsBuilder(),
+        )
         return createRules(json, rulesMap)
     }
 
     fun createRulesForV11(json: JsonObject): List<Rule> {
-        val rulesMap = rulesForV11()
+        val rulesMap = listOf(
+            "space_before_colon" to SpaceBeforeColonBuilder(),
+            "newline_before_println" to NewlineBeforePrintlnBuilder(),
+            "space_after_colon" to SpaceAfterColonBuilder(),
+            "space_around_equals" to SpaceAroundEqualsBuilder(),
+            "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),
+            "same_line_for_if_brace" to SameLineForIfAndBraceBuilder(),
+            "same_line_for_else_brace" to SameLineForElseAndBraceBuilder(),
+        )
         return createRules(json, rulesMap)
     }
 
@@ -101,26 +121,5 @@ class RulesFactory() {
             }
         }
         return rules
-    }
-
-    private fun rulesForV10(): List<Pair<String, RuleBuilder>> {
-        return listOf(
-            "space_before_colon" to SpaceBeforeColonBuilder(),
-            "newline_before_println" to NewlineBeforePrintlnBuilder(),
-            "space_after_colon" to SpaceAfterColonBuilder(),
-            "space_around_equals" to SpaceAroundEqualsBuilder(),
-        )
-    }
-
-    private fun rulesForV11(): List<Pair<String, RuleBuilder>> {
-        return listOf(
-            "space_before_colon" to SpaceBeforeColonBuilder(),
-            "newline_before_println" to NewlineBeforePrintlnBuilder(),
-            "space_after_colon" to SpaceAfterColonBuilder(),
-            "space_around_equals" to SpaceAroundEqualsBuilder(),
-            "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),
-            "same_line_for_if_brace" to SameLineForIfAndBraceBuilder(),
-            "same_line_for_else_brace" to SameLineForElseAndBraceBuilder(),
-        )
     }
 }
