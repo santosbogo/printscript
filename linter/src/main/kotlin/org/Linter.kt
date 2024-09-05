@@ -1,6 +1,5 @@
 package org
 
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
@@ -13,13 +12,13 @@ import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.ReadInputCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor
 import org.expressionfactory.PatternFactory
-import java.io.File
 
-class Linter(jsonFile: JsonObject) {
+class Linter(private val version: String) {
     private val warnings = mutableListOf<String>()
-    private val checkVisitors: List<ASTNodeVisitor> = LinterFactory().createLinterVisitorsV11(jsonFile)
 
-    fun lint(node: ProgramNode): LinterResult {
+    fun lint(node: ProgramNode, jsonFile: JsonObject): LinterResult {
+        val checkVisitors: List<ASTNodeVisitor> = LinterVisitorsFactory().createLinterVisitorsFromJson(version, jsonFile)
+
         checkVisitors.forEach { visitor ->
             val result: VisitorResult = visitor.visit(node) // estoy seguro q voy a recibir un listResult.
 
@@ -31,16 +30,41 @@ class Linter(jsonFile: JsonObject) {
     }
 }
 
-class LinterFactory {
-    fun createLinterV10(jsonFilePath: String = "src/test/kotlin/org/jsons/jsonV10.json"): Linter {
-        // use the default json file in test
-        val jsonContent = File(jsonFilePath).readText()
-        val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
-
-        return Linter(jsonObject)
+class LinterVisitorsFactory {
+    fun createDefaultLinterVisitors(version: String): List<ASTNodeVisitor> {
+        return when (version) {
+            "1.0" -> createAvailableLinterVisitorsV10()
+            "1.1" -> createAvailableLinterVisitorsV11()
+            else -> throw IllegalArgumentException("Unknown version: $version")
+        }
     }
 
-    fun createLinterVisitorsV10(jsonFile: JsonObject): List<ASTNodeVisitor> {
+    fun createLinterVisitorsFromJson(version: String, jsonFile: JsonObject): List<ASTNodeVisitor> {
+        return when (version) {
+            "1.0" -> createLinterVisitorsV10(jsonFile)
+            "1.1" -> createLinterVisitorsV11(jsonFile)
+            else -> throw IllegalArgumentException("Unknown version: $version")
+        }
+    }
+
+    private fun createAvailableLinterVisitorsV10(): List<ASTNodeVisitor> {
+        val visitors = mutableListOf<ASTNodeVisitor>()
+        visitors.add(UnusedVariableCheckVisitor())
+        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
+        visitors.add(PrintUseCheckVisitor(false))
+        return visitors
+    }
+
+    private fun createAvailableLinterVisitorsV11(): List<ASTNodeVisitor> {
+        val visitors = mutableListOf<ASTNodeVisitor>()
+        visitors.add(UnusedVariableCheckVisitor())
+        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
+        visitors.add(PrintUseCheckVisitor(false))
+        visitors.add(ReadInputCheckVisitor(false))
+        return visitors
+    }
+
+    private fun createLinterVisitorsV10(jsonFile: JsonObject): List<ASTNodeVisitor> {
         val visitors = mutableListOf<ASTNodeVisitor>()
 
         // pass jsonObject to string
@@ -67,15 +91,7 @@ class LinterFactory {
         return visitors
     }
 
-    fun createLinterV11(jsonFilePath: String = "src/test/kotlin/org/jsons/jsonV11.json"): Linter {
-        // use the default json file in test
-        val jsonContent = File(jsonFilePath).readText()
-        val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
-
-        return Linter(jsonObject)
-    }
-
-    fun createLinterVisitorsV11(jsonFile: JsonObject): List<ASTNodeVisitor> {
+    private fun createLinterVisitorsV11(jsonFile: JsonObject): List<ASTNodeVisitor> {
         val visitors = mutableListOf<ASTNodeVisitor>()
 
         // pass jsonObject to string
