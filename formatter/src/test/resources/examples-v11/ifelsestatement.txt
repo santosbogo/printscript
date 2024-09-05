@@ -20,7 +20,7 @@ True
 
 {
   "space_before_colon": true,
-  "space_after_colon": true,
+  "enforce-spacing-after-colon-in-declaration": true,
   "enforce-spacing-around-equals": true,
   "newline_before_println": 0,
   "same_line_for_if_brace": true,

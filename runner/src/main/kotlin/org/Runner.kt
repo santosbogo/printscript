@@ -15,7 +15,7 @@ class Runner(version: String) {
                 lexer = LexerFactory.createLexerV10()
                 parser = ParserFactory.createParserV10()
                 interpreter = InterpreterFactory.createInterpreterV10()
-                linter = Linter("1.0")
+                linter = LinterFactory().createFormatterV10()
                 formatter = FormatterFactory().createFormatterV10()
             }
 
@@ -23,7 +23,7 @@ class Runner(version: String) {
                 lexer = LexerFactory.createLexerV11()
                 parser = ParserFactory.createParserV11()
                 interpreter = InterpreterFactory.createInterpreterV11()
-                linter = Linter("1.1")
+                linter = LinterFactory().createFormatterV11()
                 formatter = FormatterFactory().createFormatterV11()
             }
 

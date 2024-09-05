@@ -1,6 +1,6 @@
 {
   "space_before_colon": true,
-  "space_after_colon": true,
+  "enforce-spacing-after-colon-in-declaration": true,
   "enforce-spacing-around-equals": true,
-  "newline_before_println": 2
+  "line-breaks-after-println": 2
 }
