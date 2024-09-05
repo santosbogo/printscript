@@ -122,6 +122,23 @@ class RulesFactory() {
         }
         return rules
     }
+
+    private fun getMapOfTCK(): Map<String, String> {
+        return mapOf(
+            "enforce-spacing-around-equals" to "space_around_equals",
+            "enforce-no-spacing-around-equals" to "no_space_around_equals",
+            "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
+            "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
+            "mandatory-single-space-separation" to "",
+            "mandatory-space-surrounding-operations" to "",
+            "mandatory-line-break-after-statement" to "",
+            "line-breaks-after-println" to "line-breaks-after-println",
+            "if-brace-below-line" to "same_line_for_if_brace",
+            "if-brace-same-line" to "same_line_for_else_brace",
+            "indent-inside-if" to "number_of_spaces_indentation"
+
+        )
+    }
 }
 
 // This class is intended to parse their name for the variables to our names, so that any TCK may be implemented
