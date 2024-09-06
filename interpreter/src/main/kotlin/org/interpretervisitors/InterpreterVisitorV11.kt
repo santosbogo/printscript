@@ -23,9 +23,9 @@ class InterpreterVisitorV11(
     override val printer: Printer,
     override val inputProvider: InputProvider
 ) : InterpreterVisitor {
-    private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    private val symbolTable: MutableMap<String, VariableTripleData> = mutableMapOf()
 
-    private fun putSymbolTable(symbolTable: MutableMap<String, LiteralValue>) {
+    private fun putSymbolTable(symbolTable: MutableMap<String, VariableTripleData>) {
         this.symbolTable.putAll(symbolTable)
     }
 
@@ -56,13 +56,11 @@ class InterpreterVisitorV11(
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
+        val dataType = symbolTable[variableIdentifier.name]!!.dataType
 
-        val variableValue = symbolTable[variableIdentifier.name] as LiteralValue
-        val variableType = variableValue.getType()
-
-        // caso readInput -> rompe si no se pasa el tipo que se espera.
         try {
-            symbolTable[variableIdentifier.name] = castValueAsExpected(variableType, value)
+            symbolTable[variableIdentifier.name] = symbolTable[variableIdentifier.name]!!
+                .changeValue(castValueAsExpected(dataType, value))
         } catch (e: Exception) {
             throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
         }
@@ -97,9 +95,13 @@ class InterpreterVisitorV11(
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
 
-        // casteo el valor a string, boolean or number. si no es casteable, debería romper.
         try {
-            symbolTable[variableIdentifier.name] = castValueAsExpected(variableIdentifier.dataType, value)
+            val tripleData = VariableTripleData(
+                variableIdentifier.kind,
+                variableIdentifier.dataType,
+                castValueAsExpected(variableIdentifier.dataType, value)
+            )
+            symbolTable[variableIdentifier.name] = tripleData
         } catch (e: Exception) {
             throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
         }
@@ -111,6 +113,10 @@ class InterpreterVisitorV11(
         dataType: String,
         value: VisitorResult.LiteralValueResult
     ): LiteralValue {
+        if (value.value is LiteralValue.NullValue) {
+            return value.value
+        }
+
         return when (dataType) {
             "string" -> {
                 value.value as LiteralValue.StringValue
@@ -132,7 +138,7 @@ class InterpreterVisitorV11(
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        val value = symbolTable[node.name]
+        val value = symbolTable[node.name]?.literalValue
         if (value != null) {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)

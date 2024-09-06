@@ -18,7 +18,7 @@ class InterpreterVisitorV10(
     override val printer: Printer,
     override val inputProvider: InputProvider
 ) : InterpreterVisitor {
-    private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
+    private val symbolTable: MutableMap<String, VariableTripleData> = mutableMapOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -42,7 +42,8 @@ class InterpreterVisitorV10(
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        symbolTable[variableIdentifier.name] = symbolTable[variableIdentifier.name]!!
+            .changeValue(value.value)
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -73,7 +74,12 @@ class InterpreterVisitorV10(
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        val tripleData = VariableTripleData(
+            variableIdentifier.kind,
+            variableIdentifier.dataType,
+            value.value
+        )
+        symbolTable[variableIdentifier.name] = tripleData
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -82,12 +88,13 @@ class InterpreterVisitorV10(
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        val value = symbolTable[node.name]
+        val value = symbolTable[node.name]?.literalValue
         if (value != null) {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
+                is LiteralValue.NullValue -> VisitorResult.LiteralValueResult(value)
                 else -> {
                     throw Exception("Unsupported value type at ${node.location}")
                 }
