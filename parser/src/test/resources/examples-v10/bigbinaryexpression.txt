@@ -1,0 +1,9 @@
+let a: number = 10 + 5 + 8 * 4 - 1;
+
+#####
+
+VariableDeclarationNode
+
+#####
+
+True
