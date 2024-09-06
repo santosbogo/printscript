@@ -3,11 +3,12 @@ package org
 import org.astnode.ASTNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
+import org.astnode.expressionnode.LiteralNode
+import org.astnode.expressionnode.LiteralValue
 import org.astnode.expressionnode.BinaryExpressionNode
+import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.BooleanExpressionNode
 import org.astnode.expressionnode.ExpressionNode
-import org.astnode.expressionnode.IdentifierNode
-import org.astnode.expressionnode.LiteralNode
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.CompleteIfNode
 import org.astnode.statementnode.ElseNode
@@ -80,7 +81,13 @@ class FormatterVisitor : ASTNodeVisitor {
 
     private fun getExpression(init: ExpressionNode): String {
         return when (init) {
-            is LiteralNode -> init.value.toString()
+            is LiteralNode -> {
+                if (init.value is LiteralValue.StringValue) {
+                    "\"${init.value}\""
+                } else {
+                    init.value.toString()
+                }
+            }
             is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
             is IdentifierNode -> init.name
             is BooleanExpressionNode -> getExpression(init.bool)

@@ -209,7 +209,7 @@ class InterpreterVisitorV11(
     private fun visitReadEnvNode(node: ReadEnvNode): VisitorResult {
         val envVar = System.getenv(node.variableName)
         return VisitorResult.LiteralValueResult(
-            LiteralValue.StringValue(envVar ?: "")
+            LiteralValue.StringValue(envVar)
         )
     }
 }
