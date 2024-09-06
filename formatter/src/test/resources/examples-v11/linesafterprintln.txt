@@ -15,5 +15,5 @@ True
 #####
 
 {
-  "line-breaks-after-println": 2
+  "newline_after_println": 2
 }

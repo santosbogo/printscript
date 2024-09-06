@@ -18,7 +18,7 @@ True
 {
   "space_before_colon": true,
   "space_after_colon": true,
-  "enforce-spacing-around-equals": true,
+  "space_around_equals": true,
   "newline_before_println": 0,
   "same_line_for_if_brace": true
 }

@@ -8,12 +8,14 @@ import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.IfNodeBuilder
 import org.astnodebuilder.expressions.ExpressionsNodeBuilderFactory
 import org.semanticanalysis.SemanticAnalyzer
-import org.semanticanalysis.semanticchecks.ReadInputTypeCheck
-import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
-import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
-import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import org.semanticanalysis.semanticchecks.AssignmentKindCheck
+import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
+import org.semanticanalysis.semanticchecks.CompleteIfBooleanExpressionCheck
+import org.semanticanalysis.semanticchecks.IfBooleanExpressionCheck
+import org.semanticanalysis.semanticchecks.ReadInputTypeCheck
 import org.semanticanalysis.semanticchecks.SemanticCheck
+import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
+import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import org.structures.IfElseStructure
 
 object ParserFactory {
@@ -74,6 +76,8 @@ object ParserFactory {
             VariableDeclarationTypeCheck(),
             AssignmentKindCheck(),
             ReadInputTypeCheck(),
+            CompleteIfBooleanExpressionCheck(),
+            IfBooleanExpressionCheck()
         )
         return SemanticAnalyzer(checks)
     }

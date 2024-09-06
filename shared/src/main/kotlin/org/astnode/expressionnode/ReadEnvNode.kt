@@ -16,4 +16,8 @@ class ReadEnvNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return "Undefined"
     }
+
+    override fun toString(): String {
+        return "readEnv($variableName)"
+    }
 }

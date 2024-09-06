@@ -14,9 +14,10 @@ class FormatterTesterV11 {
         solution: List<String>,
         json: JsonObject
     ) {
-        val formater = FormatterFactory().createFormatterV11()
+        val formater = Formatter()
+        val rules = RulesFactory().getRules(json.toString(), "1.1")
         try {
-            val result = formater.format(node, json).toString().split("\n")
+            val result = formater.format(node, rules).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -52,7 +53,7 @@ class FormatterTesterV11 {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/linesafterprintln.txt")
+        val file = File("src/test/resources/examples-v11/ifelsestatement.txt")
 
         val reader = TestReader()
         val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)

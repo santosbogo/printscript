@@ -49,9 +49,9 @@ class Lexer(private val lexicon: Lexicon) {
     private fun splitStatements(input: String): List<String> {
         var result: List<String> = ArrayList()
         var statement = ""
-        for (word in input) {
-            statement += word
-            if (word == ';') {
+        for (character in input) {
+            statement += character
+            if (character == ';') {
                 result = ArrayList(result + statement)
                 statement = ""
             }

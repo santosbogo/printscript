@@ -12,7 +12,7 @@ class Lexicon(private val tokenMap: List<Pair<String, String>>) {
 
         return Token(
             type = tokenType,
-            value = component,
+            value = component.replace("\"", "").replace("'", ""),
             location = location
         )
     }

@@ -1,11 +1,11 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
+import org.inputers.InputProvider
 
 class Runner(version: String) {
     private val lexer: Lexer
     private val parser: Parser
-    private val interpreter: Interpreter
     private val linter: Linter
     private val formatter: Formatter
 
@@ -14,24 +14,23 @@ class Runner(version: String) {
             "1.0" -> {
                 lexer = LexerFactory.createLexerV10()
                 parser = ParserFactory.createParserV10()
-                interpreter = InterpreterFactory.createInterpreterV10()
-                linter = Linter("1.0")
-                formatter = FormatterFactory().createFormatterV10()
+                linter = LinterFactory().createFormatterV10()
+                formatter = Formatter()
             }
 
             "1.1" -> {
                 lexer = LexerFactory.createLexerV11()
                 parser = ParserFactory.createParserV11()
-                interpreter = InterpreterFactory.createInterpreterV11()
-                linter = Linter("1.1")
-                formatter = FormatterFactory().createFormatterV11()
+                linter = LinterFactory().createFormatterV11()
+                formatter = Formatter()
             }
 
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
 
-    fun execute(str: String): RunnerResult.Execute {
+    fun execute(str: String, version: String, inputProvider: InputProvider): RunnerResult.Execute {
+        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -99,7 +98,7 @@ class Runner(version: String) {
         return RunnerResult.Validate(errorsList)
     }
 
-    fun format(str: String, json: JsonObject): RunnerResult.Format {
+    fun format(str: String, json: String, version: String): RunnerResult.Format {
         val errorsList = mutableListOf<String>()
 
         val lexerResult = lexer.tokenize(str)
@@ -115,8 +114,8 @@ class Runner(version: String) {
             parserResult.errors.forEach { errorsList.add(it) }
             return RunnerResult.Format("", errorsList)
         }
-
-        val formatterResult = formatter.format(parserResult.programNode!!, json)
+        val rules = RulesFactory().getRules(json, version)
+        val formatterResult = formatter.format(parserResult.programNode!!, rules)
         return RunnerResult.Format(formatterResult.code, errorsList)
     }
 }
