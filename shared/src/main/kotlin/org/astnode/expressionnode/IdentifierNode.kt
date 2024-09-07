@@ -18,4 +18,8 @@ class IdentifierNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return symbolTable[name]?.second?.getType() ?: dataType
     }
+
+    override fun toString(): String {
+        return name
+    }
 }

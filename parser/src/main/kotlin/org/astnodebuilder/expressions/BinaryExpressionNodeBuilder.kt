@@ -25,7 +25,6 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
         return Regex(formula).matches(tokensString)
     }
 
-    // Separo recursivamente por cada operador de suma o resta
     private fun parseAdditiveExpression(tokens: List<Token>, parser: Parser): ExpressionNode {
         var left = parseMultiplicativeExpression(
             tokens.subList(
@@ -54,7 +53,6 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
         return left
     }
 
-    // Separo recursivamente por cada operador de multiplicación o división
     private fun parseMultiplicativeExpression(tokens: List<Token>, parser: Parser): ExpressionNode {
         var left = parsePrimaryExpression(
             tokens.subList(

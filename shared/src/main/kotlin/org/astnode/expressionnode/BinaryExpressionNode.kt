@@ -32,4 +32,8 @@ class BinaryExpressionNode(
             "number"
         }
     }
+
+    override fun toString(): String {
+        return left.toString() + " " + operator + " " + right.toString()
+    }
 }

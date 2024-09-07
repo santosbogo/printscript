@@ -11,10 +11,14 @@ import org.astnode.expressionnode.LiteralValue
 import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
+import org.inputers.InputProvider
+import org.printers.Printer
 
-class InterpreterVisitorV10 : InterpreterVisitor {
-    private val symbolTable: MutableMap<String, LiteralValue> = mutableMapOf()
-    override val printsList: MutableList<String> = mutableListOf()
+class InterpreterVisitorV10(
+    override val printer: Printer,
+    override val inputProvider: InputProvider
+) : InterpreterVisitor {
+    private val symbolTable: MutableMap<String, VariableTripleData> = mutableMapOf()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -38,7 +42,8 @@ class InterpreterVisitorV10 : InterpreterVisitor {
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.value.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        symbolTable[variableIdentifier.name] = symbolTable[variableIdentifier.name]!!
+            .changeValue(value.value)
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -50,16 +55,13 @@ class InterpreterVisitorV10 : InterpreterVisitor {
                 val cleanedStringValue = stringValue
                     .replace("'", "")
                     .replace("\"", "")
-                printsList.add(cleanedStringValue)
-                println(cleanedStringValue)
+                printer.print(cleanedStringValue)
             }
             is LiteralValue.NumberValue -> {
-                printsList.add((value.value as LiteralValue.NumberValue).value.toString())
-                println((value.value as LiteralValue.NumberValue).value)
+                printer.print((value.value as LiteralValue.NumberValue).value.toString())
             }
             is LiteralValue.BooleanValue -> {
-                printsList.add((value.value as LiteralValue.BooleanValue).value.toString())
-                println((value.value as LiteralValue.BooleanValue).value)
+                printer.print((value.value as LiteralValue.BooleanValue).value.toString())
             }
 
             else -> {
@@ -72,7 +74,12 @@ class InterpreterVisitorV10 : InterpreterVisitor {
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         val variableIdentifier = node.identifier
         val value = node.init.accept(this) as VisitorResult.LiteralValueResult
-        symbolTable[variableIdentifier.name] = value.value
+        val tripleData = VariableTripleData(
+            variableIdentifier.kind,
+            variableIdentifier.dataType,
+            value.value
+        )
+        symbolTable[variableIdentifier.name] = tripleData
         return VisitorResult.MapResult(symbolTable)
     }
 
@@ -81,12 +88,13 @@ class InterpreterVisitorV10 : InterpreterVisitor {
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
-        val value = symbolTable[node.name]
+        val value = symbolTable[node.name]?.literalValue
         if (value != null) {
             return when (value) {
                 is LiteralValue.StringValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.NumberValue -> VisitorResult.LiteralValueResult(value)
                 is LiteralValue.BooleanValue -> VisitorResult.LiteralValueResult(value)
+                is LiteralValue.NullValue -> VisitorResult.LiteralValueResult(value)
                 else -> {
                     throw Exception("Unsupported value type at ${node.location}")
                 }

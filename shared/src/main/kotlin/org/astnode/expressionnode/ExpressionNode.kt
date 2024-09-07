@@ -10,4 +10,5 @@ interface ExpressionNode : ASTNode {
     override val location: Location
     override fun accept(visitor: ASTNodeVisitor): VisitorResult
     fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String
+    override fun toString(): String
 }

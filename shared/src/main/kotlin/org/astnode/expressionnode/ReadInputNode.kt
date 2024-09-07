@@ -16,4 +16,8 @@ class ReadInputNode(
     override fun getType(symbolTable: MutableMap<String, Pair<String, LiteralValue>>): String {
         return message.getType(symbolTable)
     }
+
+    override fun toString(): String {
+        return "readInput($message)"
+    }
 }

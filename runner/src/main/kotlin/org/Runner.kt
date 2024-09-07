@@ -1,11 +1,11 @@
 package org
 
 import kotlinx.serialization.json.JsonObject
+import org.inputers.InputProvider
 
 class Runner(version: String) {
     private val lexer: Lexer
     private val parser: Parser
-    private val interpreter: Interpreter
     private val linter: Linter
     private val formatter: Formatter
 
@@ -14,7 +14,6 @@ class Runner(version: String) {
             "1.0" -> {
                 lexer = LexerFactory.createLexerV10()
                 parser = ParserFactory.createParserV10()
-                interpreter = InterpreterFactory.createInterpreterV10()
                 linter = LinterFactory().createFormatterV10()
                 formatter = Formatter()
             }
@@ -22,7 +21,6 @@ class Runner(version: String) {
             "1.1" -> {
                 lexer = LexerFactory.createLexerV11()
                 parser = ParserFactory.createParserV11()
-                interpreter = InterpreterFactory.createInterpreterV11()
                 linter = LinterFactory().createFormatterV11()
                 formatter = Formatter()
             }
@@ -31,7 +29,8 @@ class Runner(version: String) {
         }
     }
 
-    fun execute(str: String): RunnerResult.Execute {
+    fun execute(str: String, version: String, inputProvider: InputProvider): RunnerResult.Execute {
+        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
