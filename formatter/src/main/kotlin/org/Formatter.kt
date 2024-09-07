@@ -6,6 +6,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import ruleBuilder.NewLineForIfAndBraceBuilder
 import ruleBuilder.NewlineAfterPrintlnBuilder
 import ruleBuilder.NewlineBeforePrintlnBuilder
 import ruleBuilder.NoSpaceAroundEqualsBuilder
@@ -69,7 +70,7 @@ class RulesFactory() {
         return error("Unsupported version")
     }
 
-    fun createRulesForV10(json: JsonObject): List<Rule> {
+    private fun createRulesForV10(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
@@ -81,7 +82,7 @@ class RulesFactory() {
         return createRules(json, rulesMap)
     }
 
-    fun createRulesForV11(json: JsonObject): List<Rule> {
+    private fun createRulesForV11(json: JsonObject): List<Rule> {
         val rulesMap = listOf(
             "space_before_colon" to SpaceBeforeColonBuilder(),
             "space_after_colon" to SpaceAfterColonBuilder(),
@@ -92,6 +93,7 @@ class RulesFactory() {
             "number_of_spaces_indentation" to NumberOfSpacesIndentationBuilder(),
             "same_line_for_if_brace" to SameLineForIfAndBraceBuilder(),
             "same_line_for_else_brace" to SameLineForElseAndBraceBuilder(),
+            "new_line_for_if_brace" to NewLineForIfAndBraceBuilder()
         )
         return createRules(json, rulesMap)
     }
@@ -152,9 +154,9 @@ class RulesParser() {
             "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
             "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
             "line-breaks-after-println" to "line-breaks-after-println",
-            "if-brace-below-line" to "same_line_for_if_brace",
-            "if-brace-same-line" to "same_line_for_else_brace",
-            "indent-inside-if" to "number_of_spaces_indentation"
+            "if-brace-below-line" to "new_line_for_if_brace",
+            "if-brace-same-line" to "same_line_for_if_brace",
+            "indent-inside-if" to "number_of_spaces_indentation",
         )
     }
 

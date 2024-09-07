@@ -1,0 +1,24 @@
+let something: boolean = true;
+if (something) {
+  println("Entered if");
+}
+
+#####
+
+let something: boolean = true;
+if (something)
+{
+  println("Entered if");
+}
+
+#####
+
+True
+
+#####
+{
+  "space_after_colon": true,
+  "space_around_equals": true,
+  "indent-inside-if": 2,
+  "if-brace-below-line": true
+}

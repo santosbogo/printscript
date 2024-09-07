@@ -1,0 +1,27 @@
+let b: boolean = true;
+if (b) {
+  if (b) {
+    println("Entered two ifs");
+  }
+}
+
+#####
+
+let b: boolean = true;
+if (b) {
+    if (b) {
+        println("Entered two ifs");
+    }
+}
+
+#####
+
+True
+
+#####
+
+{
+  "indent-inside-if": 4,
+  "space_after_colon": true,
+  "space_around_equals": true
+}
