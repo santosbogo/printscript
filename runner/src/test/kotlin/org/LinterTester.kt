@@ -2,21 +2,25 @@ package org
 
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
+import org.junit.jupiter.api.Test
 import java.io.File
 
 class LinterTester {
+    @Test
     fun lint() {
-        val filePath = File("src/test/resources/test1/test1.txt")
+        val filePath = File("src/test/resources/examples-v10/lint/examples/valid-no-rules/main.ps")
+        val rulesPath = File("src/test/resources/examples-v10/lint/examples/valid-no-rules/config.json").readText()
 
         val reader = TestReader()
-        val (code, expectedWarnings, shouldSucceed) = reader.readTokens(filePath.path)
+        // val (code, expectedWarnings, shouldSucceed) = reader.readTokens(filePath.path)
+        val code = filePath.readText()
 
-        val rulesPath = "src/test/resources/test1/test1.json"
         val rulesContent = Json.parseToJsonElement(rulesPath).jsonObject
-        {}
-        val runner = Runner("1.1")
+        val runner = Runner("1.0")
         val linterResult = runner.analyze(code, rulesContent)
 
+        val shouldSucceed = true
+        val expectedWarnings = listOf<String>()
         compareResults(code, linterResult, expectedWarnings, shouldSucceed)
     }
 
