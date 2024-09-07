@@ -153,7 +153,7 @@ class RulesParser() {
             "enforce-no-spacing-around-equals" to "no_space_around_equals",
             "enforce-spacing-after-colon-in-declaration" to "space_after_colon",
             "enforce-spacing-before-colon-in-declaration" to "space_before_colon",
-            "line-breaks-after-println" to "line-breaks-after-println",
+            "line-breaks-after-println" to "newline_after_println",
             "if-brace-below-line" to "new_line_for_if_brace",
             "if-brace-same-line" to "same_line_for_if_brace",
             "indent-inside-if" to "number_of_spaces_indentation",
