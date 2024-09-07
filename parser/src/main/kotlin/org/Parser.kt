@@ -73,9 +73,25 @@ class Parser(
         } catch (e: Exception) {
             result.addError("Syntactic error: ${e.message}")
         }
-        val size = buffer.size
+        val size = getBufferSize(buffer)
         buffer.clear()
         return size
+    }
+
+    private fun getBufferSize(tokens: ArrayList<Token>): Int {
+        if (hasSeparator(tokens)) {
+            return tokens.size - 1
+        }
+        return tokens.size
+    }
+
+    private fun hasSeparator(tokens: ArrayList<Token>): Boolean {
+        for (token in tokens) {
+            if (token.type == "Separator") {
+                return true
+            }
+        }
+        return false
     }
 
     private fun checkIfStructureToken(string: String): Boolean {
