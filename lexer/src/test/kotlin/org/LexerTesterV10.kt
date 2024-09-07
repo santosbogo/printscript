@@ -6,6 +6,26 @@ import java.io.File
 
 class LexerTesterV10 {
 
+    private fun collectTokensFromLexer(lexer: Lexer): LexerResult {
+        val tokens = mutableListOf<Token>()
+        val errors = mutableListOf<String>()
+
+        // Collect all tokens from the lexer
+        while (lexer.hasNext()) {
+            try {
+                tokens.add(lexer.next())
+            } catch (e: Exception) {
+                errors.add(e.message ?: "Unknown error")
+            }
+        }
+
+        // Return a LexerResult object based on the collected tokens and errors
+        val result = LexerResult()
+        tokens.forEach { result.addToken(it) }
+        errors.forEach { result.addError(it) }
+        return result
+    }
+
     @Test
     fun testFile() {
         val file = File("src/test/resources/examples-v10/manywhitespaces.txt")
@@ -13,7 +33,7 @@ class LexerTesterV10 {
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val lexerResult = lexer.tokenize(code)
+        val lexerResult = collectTokensFromLexer(lexer)
 
         if (shouldSucceed && lexerResult.hasErrors()) {
             assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }

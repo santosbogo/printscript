@@ -8,76 +8,67 @@ import org.structures.Structure
 class Parser(
     private val astGenerator: ASTGenerator,
     private val semanticAnalyzer: SemanticAnalyzer,
-    private val supportedStructures: List<Structure>
-) {
-    fun parse(tokenIterator: Iterator<Token>): ParserResult {
-        val result = ParserResult()
-
-        val statements = getStatements(tokenIterator, result)
-
-        if (!result.hasErrors()) {
-            result.programNode = ProgramNode(
-                type = "ProgramNode",
-                location = Location(1, 1),
-                statements = statements
-            )
-        }
-
-        return result
-    }
-
-    private fun getStatements(tokenIterator: Iterator<Token> , result: ParserResult): List<ASTNode> {
+    private val supportedStructures: List<Structure>,
+    private val tokenIterator: Iterator<Token>,
+): Iterator<ASTNode> {
+    fun parse(tokenIterator: Iterator<Token>): ASTNode {
         val buffer = ArrayList<Token>()
-        val statements = ArrayList<ASTNode>()
 
         while (tokenIterator.hasNext()) {
             val token = tokenIterator.next()
             buffer.add(token)
             if (checkIfStructureToken(token.type)) {
-                handleStructure(token.type, tokenIterator, buffer, statements, result)
+                return handleStructure(token.type, tokenIterator, buffer)
             } else if (token.type == "SemicolonToken") {
-                handleStatement(buffer, statements, result)
+                return handleStatement(buffer)
             }
         }
 
         // If the buffer is not empty, there was a missing semicolon
         if (buffer.isNotEmpty()) {
-            result.addError("Unexpected end of input. Missing semicolon or brace at the end of the file.")
+            throw Exception("Unexpected end of input. Missing semicolon or brace at the end of the file.")
         }
-
-        return statements
+        // never reaches this point.
+        return ProgramNode("EndOfLine", Location(0, 0), emptyList())
     }
 
     // Simply get all the tokens concerning that structure and handle them
-    private fun handleStructure(type: String, tokenIterator: Iterator<Token>, buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult) {
+    private fun handleStructure(type: String, tokenIterator: Iterator<Token>, buffer: ArrayList<Token>): ASTNode {
         supportedStructures.forEach {
             if (it.type == type) {
                 it.getTokens(tokenIterator, buffer)
             }
         }
-        handleStatement(buffer, statements, result)
+        return handleStatement(buffer)
     }
 
     // If the token is a semicolon, generate an AST node from the buffer and analyze it.
-    private fun handleStatement(buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult) {
+    private fun handleStatement(buffer: ArrayList<Token>): ASTNode {
         try {
             val node: ASTNode = astGenerator.generate(buffer, this)
             try {
                 semanticAnalyzer.analyze(node)
-                statements.add(node)
+                buffer.clear()
+                return node
             } catch (e: Exception) {
-                result.addError("Semantic error: ${e.message}")
+                throw Exception("Semantic error: ${e.message}")
             }
         } catch (e: Exception) {
-            result.addError("Syntactic error: ${e.message}")
+            throw Exception("Syntactic error: ${e.message}")
         }
-        // val size = buffer.size
-        buffer.clear()
-        // return size
     }
 
     private fun checkIfStructureToken(string: String): Boolean {
         val structureTokens = supportedStructures.map { it.type }
         return structureTokens.contains(string)
+    }
+
+    override fun hasNext(): Boolean {
+        return tokenIterator.hasNext()
+    }
+
+    override fun next(): ASTNode {
+        // le pide al lexer tokens hasta que arma un ASTNode.
+        return parse(tokenIterator)
     }
 }

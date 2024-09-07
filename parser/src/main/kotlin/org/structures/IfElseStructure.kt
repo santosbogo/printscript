@@ -65,6 +65,6 @@ class IfElseStructure : Structure {
             }
         }
 
-        return Pair(ifTokens, elseTokens)
+        return Pair(ifTokens.subList(5, ifTokens.size-1), elseTokens)
     }
 }

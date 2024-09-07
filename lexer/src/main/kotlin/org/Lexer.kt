@@ -1,26 +1,15 @@
 package org
 
-class Lexer(private val lexicon: Lexicon): Iterator<Token> {
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.util.LinkedList
+import java.util.Queue
+
+class Lexer(private val lexicon: Lexicon, private val input: InputStream): Iterator<Token> {
     private var currentIndex: Int = 0 // indice en el input string.
-    private var currentTokens: List<Token> = ArrayList() // tokens q tokenize al llamar a next()
-    private var currentTokenIndex: Int = 0 // q token retorne la última vez, y donde quedé parado.
+    private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private var position: Position = Position(1, 1)
-    private var input: String = "" // inizializo para usar desp.
-    private var result = LexerResult()
-
-    /*fun tokenize(input: String): LexerResult {
-        this.input = input
-        val result = LexerResult()
-        val statements = splitStatements(input)
-        val position = Position(1, 1)
-
-        for (statement in statements) {
-            if (statement.isEmpty()) continue
-            tokenizeStatement(statement, position)
-        }
-
-        return result
-    }*/
 
     private fun tokenizeStatement(statement: String, position: Position) {
         val components = splitIgnoringLiterals(statement)
@@ -35,13 +24,11 @@ class Lexer(private val lexicon: Lexicon): Iterator<Token> {
     private fun tokenizeComponent(component: String, position: Position) {
         val subComponents = splitComponent(component)
         for (subComponent in subComponents) {
-            // Try to get a token from the lexicon. If it fails, add an error and a token with type "UnknownToken".
             try {
                 val token = lexicon.getToken(subComponent, Location(position.line, position.column))
-                result.addToken(token)
+                currentTokens.add(token)
             } catch (e: Exception) {
-                result.addError(e.message ?: "Unknown error")
-                result.addToken(Token("UnknownToken", subComponent, Location(position.line, position.column)))
+                throw Exception(e.message ?: "Unknown error")
             }
             position.column += subComponent.length
         }
@@ -79,12 +66,12 @@ class Lexer(private val lexicon: Lexicon): Iterator<Token> {
 
     override fun hasNext(): Boolean {
         // if tokens left in currrent statement
-        if (currentTokenIndex < currentTokens.size) {
+        if (!currentTokens.isEmpty()) {
             return true
         }
 
-        // there are characters in input left.
-        return currentIndex < input.length
+        // there are characters in input left or 0.
+        return input.available() == 0
     }
 
     override fun next(): Token {
@@ -93,41 +80,44 @@ class Lexer(private val lexicon: Lexicon): Iterator<Token> {
         }
 
         // se acabaron los tokens de la statement actual. lexeo el próximo.
-        if (currentTokenIndex >=currentTokens.size) {
+        if (currentTokens.isEmpty()) {
             lexNextStatement()
         }
 
         // return next token from current statement
-        val token = currentTokens[currentTokenIndex]
-        currentTokenIndex++ // Move to the next token
-        return token
+        return currentTokens.remove()
     }
 
     private fun lexNextStatement() {
         val statement = StringBuilder()
 
-        // leo hassta encontrar ";"
-        while (currentIndex < input.length) {
-            val currentChar = input[currentIndex]
+        // leo hassta encontrar ";" con un reader
+        val reader = BufferedReader(InputStreamReader(input))
+
+        var currentCharInt: Int
+        var currentChar: Char
+
+        // Read characters one by one
+        while (reader.read().also { currentCharInt = it } != -1) {
+            currentChar = currentCharInt.toChar()
 
             statement.append(currentChar)
             currentIndex++
 
-            // end of statement
+            // End of statement
             if (currentChar == ';') {
                 break
             }
 
-            //actualizo posición.
+            // Update position
             position = if (currentChar == '\n') {
                 position.copy(line = position.line + 1, column = 0)
             } else {
                 position.copy(column = position.column + 1)
             }
-
-        tokenizeStatement(statement.toString(), position)
-        currentTokens = result.tokens // tokens de la statement tokenizada..
-        currentTokenIndex = 0 // Reset the token index for the new statement
         }
+
+        // Tokens of the tokenized statement -> currentTokens actualizado
+        tokenizeStatement(statement.toString(), position)
     }
 }

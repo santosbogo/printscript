@@ -1,7 +1,6 @@
 package org.astnodebuilder
 
 import org.Parser
-import org.ParserResult
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.BooleanExpressionNode
@@ -18,30 +17,30 @@ class IfNodeBuilder : ASTNodeBuilder {
 
     override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         val ifElseTokens = ifElseStructure.separateIfElse(tokens)
-        val ifTokens = ifElseTokens.first
-        val elseTokens = ifElseTokens.second
+        val ifTokens = ifElseTokens.first.iterator()
+        val elseTokens = getElseTokens(ifElseTokens.second).iterator()
 
-        val ifStatements = checkIfError(parser.parse(ifTokens.subList(5, ifTokens.size - 1)))
-        val booleanExpression = ExpressionNodeBuilder().generate(listOf(ifTokens[2]), parser) as ExpressionNode
+        val ifStatements = iteratorToList(ifTokens, parser)
+        val booleanExpression = ExpressionNodeBuilder().generate(ifTokens.asSequence().toList().subList(2, 3), parser) as ExpressionNode
 
         val ifNode = IfNode(
             type = "IfNode",
-            location = ifTokens[0].location,
-            boolean = BooleanExpressionNode("BooleanExpressionNode", ifTokens[2].location, booleanExpression),
+            location = ifTokens.asSequence().toList()[0].location,
+            boolean = BooleanExpressionNode("BooleanExpressionNode", ifTokens.asSequence().toList()[2].location, booleanExpression),
             ifStatements = ifStatements,
         )
 
-        if (hasElse(elseTokens)) { // If there is an else statement
-            val elseStatements = checkIfError(parser.parse(elseTokens.subList(2, elseTokens.size - 1)))
+        if (elseTokens.hasNext()) { // If there is an else statement
+            val elseStatements = iteratorToList(elseTokens, parser)
 
             val elseNode = ElseNode(
                 type = "ElseNode",
-                location = elseTokens[0].location,
+                location = elseTokens.asSequence().toList()[0].location,
                 elseStatements = elseStatements,
             )
             return CompleteIfNode(
                 type = "CompleteIfNode",
-                location = ifTokens[0].location,
+                location = ifTokens.asSequence().toList()[0].location,
                 ifNode = ifNode,
                 elseNode = elseNode,
             )
@@ -49,8 +48,21 @@ class IfNodeBuilder : ASTNodeBuilder {
         return ifNode
     }
 
-    private fun hasElse(tokens: List<Token>): Boolean {
-        return !tokens.isEmpty()
+    private fun getElseTokens(tokens: List<Token>): List<Token> {
+        if (tokens.isNotEmpty()) {
+            // take out else & {}
+            return tokens.subList(2, tokens.size-1)
+        }
+        return emptyList()
+    }
+
+    private fun iteratorToList(iterator: Iterator<Token>, parser: Parser): List<ASTNode> {
+        val list = mutableListOf<ASTNode>()
+        while (iterator.hasNext()) {
+            list.add(parser.parse(iterator))
+        }
+        return list
+
     }
 
     override fun checkFormula(tokensString: String): Boolean {
@@ -58,10 +70,4 @@ class IfNodeBuilder : ASTNodeBuilder {
         return Regex(pattern).matches(tokensString)
     }
 
-    private fun checkIfError(result: ParserResult): List<ASTNode> {
-        if (result.errors.isNotEmpty()) {
-            throw Exception(result.errors.joinToString("\n"))
-        }
-        return result.programNode!!.statements
-    }
 }
