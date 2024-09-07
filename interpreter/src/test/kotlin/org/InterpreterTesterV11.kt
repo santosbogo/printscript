@@ -173,4 +173,19 @@ class InterpreterTesterV11 {
         val output = interpretAndCaptureOutputV11(input)
         Assertions.assertEquals("HelloWorld", output)
     }
+
+    @Test
+    fun testIfElseNode() {
+        val input = """
+            const booleanResult: boolean = true;
+            if(booleanResult) {
+                println("else statement working correctly");
+            } else {
+                println("else statement not working correctly");
+            }
+            println("outside of conditional");
+        """.trimIndent()
+        val output = interpretAndCaptureOutputV11(input)
+        println(output)
+    }
 }
