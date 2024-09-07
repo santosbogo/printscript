@@ -31,37 +31,12 @@ class Linter(private val version: String) {
 }
 
 class LinterVisitorsFactory {
-    fun createDefaultLinterVisitors(version: String): List<ASTNodeVisitor> {
-        return when (version) {
-            "1.0" -> createAvailableLinterVisitorsV10()
-            "1.1" -> createAvailableLinterVisitorsV11()
-            else -> throw IllegalArgumentException("Unknown version: $version")
-        }
-    }
-
     fun createLinterVisitorsFromJson(version: String, jsonFile: JsonObject): List<ASTNodeVisitor> {
         return when (version) {
             "1.0" -> createLinterVisitorsV10(jsonFile)
             "1.1" -> createLinterVisitorsV11(jsonFile)
             else -> throw IllegalArgumentException("Unknown version: $version")
         }
-    }
-
-    private fun createAvailableLinterVisitorsV10(): List<ASTNodeVisitor> {
-        val visitors = mutableListOf<ASTNodeVisitor>()
-        visitors.add(UnusedVariableCheckVisitor())
-        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
-        visitors.add(PrintUseCheckVisitor(false))
-        return visitors
-    }
-
-    private fun createAvailableLinterVisitorsV11(): List<ASTNodeVisitor> {
-        val visitors = mutableListOf<ASTNodeVisitor>()
-        visitors.add(UnusedVariableCheckVisitor())
-        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
-        visitors.add(PrintUseCheckVisitor(false))
-        visitors.add(ReadInputCheckVisitor(false))
-        return visitors
     }
 
     private fun createLinterVisitorsV10(jsonFile: JsonObject): List<ASTNodeVisitor> {
