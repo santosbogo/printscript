@@ -17,7 +17,8 @@ class Linter(private val version: String) {
     private val warnings = mutableListOf<String>()
 
     fun lint(node: ProgramNode, jsonFile: JsonObject): LinterResult {
-        val checkVisitors: List<ASTNodeVisitor> = LinterVisitorsFactory().createLinterVisitorsFromJson(version, jsonFile)
+        val checkVisitors: List<ASTNodeVisitor> = LinterVisitorsFactory()
+            .createLinterVisitorsFromJson(version, jsonFile)
 
         checkVisitors.forEach { visitor ->
             val result: VisitorResult = visitor.visit(node) // estoy seguro q voy a recibir un listResult.
