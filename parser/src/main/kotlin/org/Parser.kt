@@ -10,10 +10,10 @@ class Parser(
     private val semanticAnalyzer: SemanticAnalyzer,
     private val supportedStructures: List<Structure>
 ) {
-    fun parse(tokens: List<Token>): ParserResult {
+    fun parse(tokenIterator: Iterator<Token>): ParserResult {
         val result = ParserResult()
 
-        val statements = getStatements(tokens, result)
+        val statements = getStatements(tokenIterator, result)
 
         if (!result.hasErrors()) {
             result.programNode = ProgramNode(
@@ -26,21 +26,18 @@ class Parser(
         return result
     }
 
-    private fun getStatements(tokens: List<Token>, result: ParserResult): List<ASTNode> {
+    private fun getStatements(tokenIterator: Iterator<Token> , result: ParserResult): List<ASTNode> {
         val buffer = ArrayList<Token>()
         val statements = ArrayList<ASTNode>()
 
-        var i = 0 // We use indexes to make jumps when a structure is encountered
-        while (i < tokens.size) {
-            val token = tokens[i]
+        while (tokenIterator.hasNext()) {
+            val token = tokenIterator.next()
             buffer.add(token)
             if (checkIfStructureToken(token.type)) {
-                i = handleStructure(token.type, tokens, i, buffer, statements, result)
-                i--
+                handleStructure(token.type, tokenIterator, buffer, statements, result)
             } else if (token.type == "SemicolonToken") {
                 handleStatement(buffer, statements, result)
             }
-            i++
         }
 
         // If the buffer is not empty, there was a missing semicolon
@@ -52,16 +49,17 @@ class Parser(
     }
 
     // Simply get all the tokens concerning that structure and handle them
-    private fun handleStructure(type: String, tokens: List<Token>, i: Int, buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult): Int {
+    private fun handleStructure(type: String, tokenIterator: Iterator<Token>, buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult) {
         supportedStructures.forEach {
-            if (it.type == type) { it.getTokens(tokens, i, buffer) }
+            if (it.type == type) {
+                it.getTokens(tokenIterator, buffer)
+            }
         }
-        val b = handleStatement(buffer, statements, result)
-        return i + b
+        handleStatement(buffer, statements, result)
     }
 
     // If the token is a semicolon, generate an AST node from the buffer and analyze it.
-    private fun handleStatement(buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult): Int {
+    private fun handleStatement(buffer: ArrayList<Token>, statements: ArrayList<ASTNode>, result: ParserResult) {
         try {
             val node: ASTNode = astGenerator.generate(buffer, this)
             try {
@@ -73,9 +71,9 @@ class Parser(
         } catch (e: Exception) {
             result.addError("Syntactic error: ${e.message}")
         }
-        val size = buffer.size
+        // val size = buffer.size
         buffer.clear()
-        return size
+        // return size
     }
 
     private fun checkIfStructureToken(string: String): Boolean {
