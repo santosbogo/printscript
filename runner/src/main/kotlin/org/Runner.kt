@@ -15,22 +15,22 @@ class Runner(version: String, inputStream: InputStream) {
             "1.0" -> {
                 lexer = LexerFactory.createLexerV10(inputStream)
                 parser = ParserFactory.createParserV10(lexer)
-                linter = LinterFactory().createLinterV10()
-                formatter = Formatter()
+                linter = LinterFactory().createLinterV10(parser)
+                formatter = Formatter(parser)
             }
 
             "1.1" -> {
                 lexer = LexerFactory.createLexerV11(inputStream)
                 parser = ParserFactory.createParserV11(lexer)
-                linter = LinterFactory().createLinterV11()
-                formatter = Formatter()
+                linter = LinterFactory().createLinterV11(parser)
+                formatter = Formatter(parser)
             }
 
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
 
-    fun execute(str: String, version: String, inputProvider: InputProvider): RunnerResult.Execute {
+    fun execute(version: String, inputProvider: InputProvider): RunnerResult.Execute {
         val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider, parser)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
@@ -43,7 +43,7 @@ class Runner(version: String, inputStream: InputStream) {
         return RunnerResult.Execute(printList, errorsList)
     }
 
-    fun analyze(str: String, jsonFile: JsonObject): RunnerResult.Analyze {
+    fun analyze(jsonFile: JsonObject): RunnerResult.Analyze {
         val warningsList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
@@ -52,43 +52,11 @@ class Runner(version: String, inputStream: InputStream) {
         return RunnerResult.Analyze(warningsList, errorsList)
     }
 
-    fun validate(str: String): RunnerResult.Validate {
+    fun format(json: String, version: String): RunnerResult.Format {
         val errorsList = mutableListOf<String>()
 
-        val lexerResult = lexer.tokenize(str)
-
-        if (lexerResult.hasErrors()) {
-            lexerResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Validate(errorsList)
-        }
-
-        val parserResult = parser.parse(lexerResult.tokens)
-
-        if (parserResult.programNode == null) {
-            parserResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Validate(errorsList)
-        }
-        return RunnerResult.Validate(errorsList)
-    }
-
-    fun format(str: String, json: String, version: String): RunnerResult.Format {
-        val errorsList = mutableListOf<String>()
-
-        val lexerResult = lexer.tokenize(str)
-
-        if (lexerResult.hasErrors()) {
-            lexerResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Format("", errorsList)
-        }
-
-        val parserResult = parser.parse(lexerResult.tokens)
-
-        if (parserResult.programNode == null) {
-            parserResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Format("", errorsList)
-        }
         val rules = RulesFactory().getRules(json, version)
-        val formatterResult = formatter.format(parserResult.programNode!!, rules)
+        val formatterResult = formatter.format(rules)
         return RunnerResult.Format(formatterResult.code, errorsList)
     }
 }
