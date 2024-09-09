@@ -4,6 +4,7 @@ import TestReader
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileInputStream
+import java.io.StringReader
 
 class LexerTesterV11 {
     private fun collectTokensFromLexer(lexer: Lexer): LexerResult {
@@ -32,9 +33,10 @@ class LexerTesterV11 {
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val inputStream = FileInputStream(code)
-        val lexer = LexerFactory.createLexerV10(inputStream)
+        val lexerReader = StringReader(code)
+        val lexer = Lexer(LexiconFactory().createLexiconV11(), lexerReader)
         val lexerResult = collectTokensFromLexer(lexer)
+
 
         if (shouldSucceed && lexerResult.hasErrors()) {
             assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }
@@ -60,9 +62,10 @@ class LexerTesterV11 {
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val inputStream = FileInputStream(code)
-            val lexer = LexerFactory.createLexerV10(inputStream)
+            val lexerReader = StringReader(code)
+            val lexer = Lexer(LexiconFactory().createLexiconV11(), lexerReader)
             val lexerResult = collectTokensFromLexer(lexer)
+
 
             if (shouldSucceed && lexerResult.hasErrors()) {
                 assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }

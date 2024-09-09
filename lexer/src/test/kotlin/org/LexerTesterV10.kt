@@ -4,6 +4,7 @@ import TestReader
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileInputStream
+import java.io.StringReader
 
 class LexerTesterV10 {
 
@@ -33,8 +34,8 @@ class LexerTesterV10 {
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val inputStream = FileInputStream(code)
-        val lexer = LexerFactory.createLexerV10(inputStream)
+        val lexerReader = StringReader(code)
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
         val lexerResult = collectTokensFromLexer(lexer)
 
         if (shouldSucceed && lexerResult.hasErrors()) {
@@ -61,8 +62,8 @@ class LexerTesterV10 {
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val inputStream = FileInputStream(code)
-            val lexer = LexerFactory.createLexerV10(inputStream)
+            val lexerReader = StringReader(code)
+            val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
             val lexerResult = collectTokensFromLexer(lexer)
 
             if (shouldSucceed && lexerResult.hasErrors()) {

@@ -1,13 +1,14 @@
 package org
 
 import java.io.InputStream
+import java.io.Reader
 
 object LexerFactory {
-    fun createLexerV10(input: InputStream): Lexer {
-        return Lexer(LexiconFactory().createLexiconV10(), input)
+    fun createLexerV10(reader: Reader): Lexer {
+        return Lexer(LexiconFactory().createLexiconV10(), reader)
     }
 
-    fun createLexerV11(input: InputStream): Lexer {
-        return Lexer(LexiconFactory().createLexiconV11(), input)
+    fun createLexerV11(reader: Reader): Lexer {
+        return Lexer(LexiconFactory().createLexiconV11(), reader)
     }
 }

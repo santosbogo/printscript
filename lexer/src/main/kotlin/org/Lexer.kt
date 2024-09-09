@@ -3,10 +3,11 @@ package org
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
+import java.io.Reader
 import java.util.LinkedList
 import java.util.Queue
 
-class Lexer(private val lexicon: Lexicon, private val input: InputStream) : Iterator<Token> {
+class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator<Token> {
     private var currentIndex: Int = 0 // indice en el input string.
     private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private var position: Position = Position(1, 1)
@@ -70,8 +71,8 @@ class Lexer(private val lexicon: Lexicon, private val input: InputStream) : Iter
             return true
         }
 
-        // there are characters in input left or 0.
-        return input.available() == 0
+        // Check if reader has more data
+        return reader.ready()
     }
 
     override fun next(): Token {
@@ -90,15 +91,14 @@ class Lexer(private val lexicon: Lexicon, private val input: InputStream) : Iter
 
     private fun lexNextStatement() {
         val statement = StringBuilder()
-
         // leo hassta encontrar ";" con un reader
-        val reader = BufferedReader(InputStreamReader(input))
+        val bufferedReader = BufferedReader(reader)
 
         var currentCharInt: Int
         var currentChar: Char
 
         // Read characters one by one
-        while (reader.read().also { currentCharInt = it } != -1) {
+        while (bufferedReader.read().also { currentCharInt = it } != -1) {
             currentChar = currentCharInt.toChar()
 
             statement.append(currentChar)
@@ -123,7 +123,7 @@ class Lexer(private val lexicon: Lexicon, private val input: InputStream) : Iter
 
     private fun collectAllTokens(): LexerResult {
         // copy the actual lexer, to simulate collection of tokens
-        val newLexer = Lexer(lexicon, input)
+        val newLexer = Lexer(lexicon, reader)
 
         val tokens = mutableListOf<Token>()
         val errors = mutableListOf<String>()
