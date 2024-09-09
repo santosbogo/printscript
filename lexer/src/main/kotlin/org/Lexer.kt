@@ -6,7 +6,7 @@ import java.io.InputStreamReader
 import java.util.LinkedList
 import java.util.Queue
 
-class Lexer(private val lexicon: Lexicon, private val input: InputStream): Iterator<Token> {
+class Lexer(private val lexicon: Lexicon, private val input: InputStream) : Iterator<Token> {
     private var currentIndex: Int = 0 // indice en el input string.
     private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private var position: Position = Position(1, 1)
@@ -119,5 +119,28 @@ class Lexer(private val lexicon: Lexicon, private val input: InputStream): Itera
 
         // Tokens of the tokenized statement -> currentTokens actualizado
         tokenizeStatement(statement.toString(), position)
+    }
+
+    private fun collectAllTokens(): LexerResult {
+        // copy the actual lexer, to simulate collection of tokens
+        val newLexer = Lexer(lexicon, input)
+
+        val tokens = mutableListOf<Token>()
+        val errors = mutableListOf<String>()
+
+        // Collect all tokens from the lexer
+        while (newLexer.hasNext()) {
+            try {
+                tokens.add(newLexer.next())
+            } catch (e: Exception) {
+                errors.add(e.message ?: "Unknown error")
+            }
+        }
+
+        // Return a LexerResult object based on the collected tokens and errors
+        val result = LexerResult()
+        tokens.forEach { result.addToken(it) }
+        errors.forEach { result.addError(it) }
+        return result
     }
 }

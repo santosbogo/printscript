@@ -34,7 +34,7 @@ class Analyze : CliktCommand() {
         }
 
         echo("Analyzing...\n", trailingNewline = true)
-        val linter = LinterFactory().createFormatterV11()
+        val linter = LinterFactory().createLinterV11()
         val linterResult = linter.lint(parserResult.programNode!!, rules)
         linterResult.getList().forEach { echo(it, true) }
 

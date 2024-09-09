@@ -2,8 +2,9 @@ package org
 
 import kotlinx.serialization.json.JsonObject
 import org.inputers.InputProvider
+import java.io.InputStream
 
-class Runner(version: String) {
+class Runner(version: String, inputStream: InputStream) {
     private val lexer: Lexer
     private val parser: Parser
     private val linter: Linter
@@ -12,16 +13,16 @@ class Runner(version: String) {
     init {
         when (version) {
             "1.0" -> {
-                lexer = LexerFactory.createLexerV10()
-                parser = ParserFactory.createParserV10()
-                linter = LinterFactory().createFormatterV10()
+                lexer = LexerFactory.createLexerV10(inputStream)
+                parser = ParserFactory.createParserV10(lexer)
+                linter = LinterFactory().createLinterV10()
                 formatter = Formatter()
             }
 
             "1.1" -> {
-                lexer = LexerFactory.createLexerV11()
-                parser = ParserFactory.createParserV11()
-                linter = LinterFactory().createFormatterV11()
+                lexer = LexerFactory.createLexerV11(inputStream)
+                parser = ParserFactory.createParserV11(lexer)
+                linter = LinterFactory().createLinterV11()
                 formatter = Formatter()
             }
 
@@ -30,25 +31,11 @@ class Runner(version: String) {
     }
 
     fun execute(str: String, version: String, inputProvider: InputProvider): RunnerResult.Execute {
-        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider)
+        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider, parser)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
-        val lexerResult = lexer.tokenize(str)
-
-        if (lexerResult.hasErrors()) {
-            lexerResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Execute(printList, errorsList)
-        }
-
-        val parserResult = parser.parse(lexerResult.tokens)
-
-        if (parserResult.programNode == null) {
-            parserResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Execute(printList, errorsList)
-        }
-
-        val interpreterResult = interpreter.interpret(parserResult.programNode!!)
+        val interpreterResult = interpreter.interpret()
 
         if (interpreterResult.printsList.isNotEmpty()) {
             interpreterResult.printsList.forEach { printList.add(it) }
@@ -60,21 +47,7 @@ class Runner(version: String) {
         val warningsList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
-        val lexerResult = lexer.tokenize(str)
-
-        if (lexerResult.hasErrors()) {
-            lexerResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Analyze(warningsList, errorsList)
-        }
-
-        val parserResult = parser.parse(lexerResult.tokens)
-
-        if (parserResult.programNode == null) {
-            parserResult.errors.forEach { errorsList.add(it) }
-            return RunnerResult.Analyze(warningsList, errorsList)
-        }
-
-        val linterResult = linter.lint(parserResult.programNode!!, jsonFile)
+        val linterResult = linter.lint(jsonFile)
         linterResult.getList().forEach { warningsList.add(it) }
         return RunnerResult.Analyze(warningsList, errorsList)
     }

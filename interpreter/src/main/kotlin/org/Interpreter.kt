@@ -9,10 +9,9 @@ class Interpreter(private val visitor: InterpreterVisitor, private val nodeItera
             try {
                 val node = nodeIterator.next()
                 visitor.visit(node)
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 throw Exception(e.message)
             }
-
         }
         // el printer dentro del visitor tiene el output. cuando itero lo hago con el mismo visitor.
         return InterpreterResult(visitor.printer.getOutput())

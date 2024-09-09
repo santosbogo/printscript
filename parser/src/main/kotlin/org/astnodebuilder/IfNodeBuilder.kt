@@ -51,7 +51,7 @@ class IfNodeBuilder : ASTNodeBuilder {
     private fun getElseTokens(tokens: List<Token>): List<Token> {
         if (tokens.isNotEmpty()) {
             // take out else & {}
-            return tokens.subList(2, tokens.size-1)
+            return tokens.subList(2, (tokens.size - 1))
         }
         return emptyList()
     }
@@ -62,12 +62,10 @@ class IfNodeBuilder : ASTNodeBuilder {
             list.add(parser.parse(iterator))
         }
         return list
-
     }
 
     override fun checkFormula(tokensString: String): Boolean {
         val pattern = "^IfToken\\s+OpenParenthesisToken\\s+(BooleanToken|IdentifierToken)\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
         return Regex(pattern).matches(tokensString)
     }
-
 }

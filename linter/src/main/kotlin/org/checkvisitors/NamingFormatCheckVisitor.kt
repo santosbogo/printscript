@@ -22,6 +22,7 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
     }
 
     private fun visitProgramNode(node: ProgramNode): VisitorResult {
+        // TODO como no hay mas program node, trackear la lista de warnings fuera.
         val statements = node.statements
         statements.forEach {
             val result = it.accept(this)

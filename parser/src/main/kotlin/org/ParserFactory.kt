@@ -19,19 +19,21 @@ import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import org.structures.IfElseStructure
 
 object ParserFactory {
-    fun createParserV10(): Parser {
+    fun createParserV10(tokenIterator: Iterator<Token>): Parser {
         return Parser(
             astGenerator = createASTGeneratorV10(),
             semanticAnalyzer = createSemanticAnalyzerV10(),
-            supportedStructures = emptyList()
+            supportedStructures = emptyList(),
+            tokenIterator = tokenIterator
         )
     }
 
-    fun createParserV11(): Parser {
+    fun createParserV11(tokenIterator: Iterator<Token>): Parser {
         return Parser(
             astGenerator = createASTGeneratorV11(),
             semanticAnalyzer = createSemanticAnalyzerV11(),
-            supportedStructures = listOf(IfElseStructure())
+            supportedStructures = listOf(IfElseStructure()),
+            tokenIterator = tokenIterator
         )
     }
 

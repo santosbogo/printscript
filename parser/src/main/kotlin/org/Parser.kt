@@ -10,7 +10,7 @@ class Parser(
     private val semanticAnalyzer: SemanticAnalyzer,
     private val supportedStructures: List<Structure>,
     private val tokenIterator: Iterator<Token>,
-): Iterator<ASTNode> {
+) : Iterator<ASTNode> {
     fun parse(tokenIterator: Iterator<Token>): ASTNode {
         val buffer = ArrayList<Token>()
 
@@ -70,5 +70,14 @@ class Parser(
     override fun next(): ASTNode {
         // le pide al lexer tokens hasta que arma un ASTNode.
         return parse(tokenIterator)
+    }
+
+    fun collectAllASTNodes(): List<ASTNode> {
+        val newParser = Parser(astGenerator, semanticAnalyzer, supportedStructures, tokenIterator)
+        val nodes = mutableListOf<ASTNode>()
+        while (newParser.hasNext()) {
+            nodes.add(newParser.next())
+        }
+        return nodes
     }
 }

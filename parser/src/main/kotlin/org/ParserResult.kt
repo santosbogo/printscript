@@ -1,7 +1,6 @@
 package org
 
 import org.astnode.ASTNode
-import org.astnode.ProgramNode
 
 class ParserResult {
     val errors = mutableListOf<String>()

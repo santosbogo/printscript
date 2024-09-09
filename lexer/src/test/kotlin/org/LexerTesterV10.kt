@@ -3,6 +3,7 @@ package org
 import TestReader
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.io.FileInputStream
 
 class LexerTesterV10 {
 
@@ -29,10 +30,11 @@ class LexerTesterV10 {
     @Test
     fun testFile() {
         val file = File("src/test/resources/examples-v10/manywhitespaces.txt")
-        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        val inputStream = FileInputStream(code)
+        val lexer = LexerFactory.createLexerV10(inputStream)
         val lexerResult = collectTokensFromLexer(lexer)
 
         if (shouldSucceed && lexerResult.hasErrors()) {
@@ -54,13 +56,14 @@ class LexerTesterV10 {
 
     @Test
     fun testMultipleFiles() {
-        val lexer = LexerFactory.createLexerV10()
         val reader = TestReader()
         val examplesDir = File("src/test/resources/examples-v10")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val lexerResult = lexer.tokenize(code)
+            val inputStream = FileInputStream(code)
+            val lexer = LexerFactory.createLexerV10(inputStream)
+            val lexerResult = collectTokensFromLexer(lexer)
 
             if (shouldSucceed && lexerResult.hasErrors()) {
                 assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }

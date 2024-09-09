@@ -18,7 +18,7 @@ class IfElseStructure : Structure {
                 "OpenBraceToken" -> stack.add(token)
                 "CloseBraceToken" -> {
                     stack.removeLast()
-                    if (stack.isEmpty()) { //if 'if' block completed. Check if there is an else
+                    if (stack.isEmpty()) { // if 'if' block completed. Check if there is an else
                         if (checkIfElse(tokenIterator)) {
                             buffer.add(Token("Separator", "", Location(0, 0))) // Add a separator to split the if and else
                             getTokens(tokenIterator, buffer) // capture the 'else' block.
@@ -65,6 +65,6 @@ class IfElseStructure : Structure {
             }
         }
 
-        return Pair(ifTokens.subList(5, ifTokens.size-1), elseTokens)
+        return Pair(ifTokens.subList(5, ifTokens.size - 1), elseTokens)
     }
 }

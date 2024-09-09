@@ -26,7 +26,7 @@ class LinterTesterV11 {
         val parserResult = parser.parse(lexerResult.tokens)
         val programNode = parserResult.programNode!!
 
-        val linter = LinterFactory().createFormatterV11()
+        val linter = LinterFactory().createLinterV11()
 
         val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
         val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
@@ -55,7 +55,7 @@ class LinterTesterV11 {
             val parserResult = parser.parse(lexerResult.tokens)
             val programNode = parserResult.programNode!!
 
-            val linter = LinterFactory().createFormatterV11()
+            val linter = LinterFactory().createLinterV11()
 
             val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
             val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
