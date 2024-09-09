@@ -72,7 +72,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         }
 
         // Check if reader has more data
-        return reader.ready()
+        return !reader.ready()
     }
 
     override fun next(): Token {
@@ -80,7 +80,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
             throw NoSuchElementException()
         }
 
-        // se acabaron los tokens de la statement actual. lexeo el próximo.
+        // Se acabaron los tokens de la statement actual. Lexeo el próximo.
         if (currentTokens.isEmpty()) {
             lexNextStatement()
         }
@@ -91,7 +91,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
     private fun lexNextStatement() {
         val statement = StringBuilder()
-        // leo hassta encontrar ";" con un reader
+        // Leo hasta encontrar ";" con un reader
         val bufferedReader = BufferedReader(reader)
 
         var currentCharInt: Int
