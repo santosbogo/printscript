@@ -15,6 +15,9 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         for (component in components) {
             if (component.contains("\n")) {
                 handleNewLine(position)
+            } else if (component == " ") {
+                position.column++
+                continue
             }
             tokenizeComponent(component, position)
         }
@@ -33,7 +36,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
             }
             position.column += subComponent.length
         }
-        position.column++
     }
 
 
@@ -43,7 +45,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
-        val regex = Regex("\"[^\"]*\"|'[^']*'|[^\\s\"']+|\\n")
+        val regex = Regex("[a-zA-Z_][a-zA-Z0-9_]*|:|;|=|[0-9]+(?:\\\\.[0-9]+)?|\\\".*?\\\"|'.*?'|\\\\s+|.")
         return regex.findAll(input).map { it.value }.toList()
     }
 
@@ -96,13 +98,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
             statement.append(currentChar)
             currentIndex++
-
-            // Update position
-            position = if (currentChar == '\n') {
-                position.copy(line = position.line + 1, column = 0)
-            } else {
-                position.copy(column = position.column + 1)
-            }
 
             // End of statement
             if (currentChar == ';') {

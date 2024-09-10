@@ -1,6 +1,7 @@
 package org
 
 import TestReader
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileInputStream
@@ -91,6 +92,37 @@ class LexerTesterV11 {
                 "Mismatch in file $fileName at ${token.location}: " +
                     "expected ${solution[index]}, found ${token.type}"
             }
+        }
+    }
+
+    @Test
+    fun testTokenPositions() {
+        val input = """
+            let a = "hello";
+        """.trimIndent()
+
+        // Lista de posiciones esperadas para cada token en la entrada
+        val expectedPositions = listOf(
+            Location(1, 1),  // "let"
+            Location(1, 5),  // "a"
+            Location(1, 7),  // "="
+            Location(1, 9),  // "10"
+            Location(1, 16), // ";"
+        )
+
+        // Crear el lexer
+        val lexerReader = StringReader(input)
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
+        val lexerResult = collectTokensFromLexer(lexer)
+
+        // Obtener los tokens del lexer
+        val tokens = lexerResult.tokens
+
+        // Comparar solo la posición de cada token con la posición esperada
+        expectedPositions.forEachIndexed { index, expectedLocation ->
+            val token = tokens[index]
+            // Solo comparar la posición (línea y columna)
+            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
         }
     }
 }
