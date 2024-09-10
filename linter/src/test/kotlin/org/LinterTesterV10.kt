@@ -11,7 +11,7 @@ import java.io.StringReader
 class LinterTesterV10 {
     @Test
     fun testSingleWarning() {
-        val file = File("src/test/resources/examples-v10/namingFormatExample2.txt")
+        val file = File("src/test/resources/examples-v10/printUseExample.txt")
 
         val reader = TestReader()
         val (code, expectedWarning, shouldSucceed) = reader.readTokens(file.path)

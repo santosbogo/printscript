@@ -1,8 +1,6 @@
 package org.checkvisitors
 
 import org.astnode.ASTNode
-import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -11,10 +9,10 @@ import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
-class UnusedVariableCheckVisitor : ASTNodeVisitor {
+class UnusedVariableCheckVisitor : CheckVisitors {
     private val declaredVariables = mutableSetOf<String>()
     private val usedVariables = mutableSetOf<String>()
-    private val warnings = mutableListOf<String>()
+    override val warnings = mutableListOf<String>()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
@@ -28,7 +26,7 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
         }
     }
 
-    private fun checkWarnings(): VisitorResult {
+    override fun checkWarnings(): VisitorResult {
         // Agarro las variables que fueron declaradas pero nunca usadas.
         val unusedVariables = declaredVariables - usedVariables
 
@@ -46,31 +44,31 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
 
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         usedVariables.add(node.identifier.name)
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 
     private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         node.value.accept(this)
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         declaredVariables.add(node.identifier.name)
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 
     private fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 
     private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         node.left.accept(this)
         node.right.accept(this)
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         usedVariables.add(node.name)
-        return checkWarnings()
+        return VisitorResult.Empty
     }
 }

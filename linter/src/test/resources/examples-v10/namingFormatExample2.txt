@@ -3,7 +3,7 @@ BaBa = 20;
 
 ##
 
-Location:(line: 1, column: 5), Identifier 'BaBa' does not match the pattern camelCase
+Location:(line: 1, column: 5), Declaration's identifier 'BaBa' does not match the pattern camelCase
 
 ##
 
