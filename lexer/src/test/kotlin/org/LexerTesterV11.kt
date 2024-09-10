@@ -29,7 +29,7 @@ class LexerTesterV11 {
 
     @Test
     fun testFile() {
-        val file = File("src/test/resources/examples-v11/ifstatement.txt")
+        val file = File("src/test/resources/examples-v11/missingsemicolon.txt")
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)

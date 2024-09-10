@@ -145,6 +145,9 @@ class RulesFactory() {
 // This class is intended to parse their name for the variables to our names, so that any TCK may be implemented
 class RulesParser() {
     fun parse(content: String): JsonObject {
+        if (content == "") {
+            return buildJsonObject {}
+        }
         val theirJson: JsonObject = Json.parseToJsonElement(content).jsonObject
         val map = getMapOfTCK()
 

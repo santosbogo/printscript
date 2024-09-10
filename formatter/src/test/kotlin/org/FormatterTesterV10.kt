@@ -9,9 +9,8 @@ import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
-import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
-import java.io.FileInputStream
+import java.io.StringReader
 
 class FormatterTesterV10 {
 
@@ -53,7 +52,7 @@ class FormatterTesterV10 {
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val lexer = LexerFactory.createLexerV10(FileInputStream(code))
+            val lexer = LexerFactory.createLexerV10(StringReader(code))
             val parser = ParserFactory.createParserV10(lexer)
 
             val formatter = Formatter(parser)
@@ -66,9 +65,9 @@ class FormatterTesterV10 {
         val file = File("src/test/resources/examples-v10/manylinebreaks.txt")
 
         val reader = TestReader()
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        val (code) = reader.readTokens(file.path)
 
-        val lexer = LexerFactory.createLexerV10(FileInputStream(code))
+        val lexer = LexerFactory.createLexerV10(StringReader(code))
         val parser = ParserFactory.createParserV10(lexer)
 
         val formatter = Formatter(parser)
@@ -78,7 +77,7 @@ class FormatterTesterV10 {
     @Test
     fun testFormat() {
         val input = "let a: number = 10;"
-        val lexer = LexerFactory.createLexerV10(FileInputStream(input))
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
 
         val formatter = Formatter(parser)
@@ -97,7 +96,7 @@ class FormatterTesterV10 {
         val input = "let b: number = 10;b = 5;println(4);" +
             "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
 
-        val lexer = LexerFactory.createLexerV10(FileInputStream(input))
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
 
         // Get JSON from file
@@ -114,7 +113,7 @@ class FormatterTesterV10 {
     fun testDoubleQuotes() {
         val input = "let a: string = \"hola\";"
 
-        val lexer = LexerFactory.createLexerV10(FileInputStream(input))
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
         val formatter = Formatter(parser)
         val json = getJsonFromFile()

@@ -1,8 +1,6 @@
 package org
 
 import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 import java.io.Reader
 import java.util.LinkedList
 import java.util.Queue
@@ -30,29 +28,18 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
                 currentTokens.add(token)
             } catch (e: Exception) {
                 throw Exception(e.message ?: "Unknown error")
+                currentTokens.add(Token("UnknownToken", subComponent, Location(position.line, position.column)))
+
             }
             position.column += subComponent.length
         }
         position.column++
     }
 
+
     private fun handleNewLine(position: Position) {
         position.line++
         position.column = 0
-    }
-
-    private fun splitStatements(input: String): List<String> {
-        var result: List<String> = ArrayList()
-        var statement = ""
-        for (character in input) {
-            statement += character
-            if (character == ';') {
-                result = ArrayList(result + statement)
-                statement = ""
-            }
-        }
-        result = ArrayList(result + statement)
-        return result
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
@@ -66,14 +53,20 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
     }
 
     override fun hasNext(): Boolean {
-        // if tokens left in currrent statement
-        if (!currentTokens.isEmpty()) {
+        if (!currentTokens.isEmpty()) { // if tokens left in current statement
             return true
         }
-
-        // Check if reader has more data
-        return !reader.ready()
+        return getNextChar() != -1  // Indica que se acabó el reader
     }
+
+    // Esta función existe para poder leer el próximo char sin avanzar el reader.
+    private fun getNextChar(): Int {
+        reader.mark(1)
+        val nextChar = reader.read()
+        reader.reset()
+        return nextChar
+    }
+
 
     override fun next(): Token {
         if (!hasNext()) {
@@ -104,21 +97,27 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
             statement.append(currentChar)
             currentIndex++
 
-            // End of statement
-            if (currentChar == ';') {
-                break
-            }
-
             // Update position
             position = if (currentChar == '\n') {
                 position.copy(line = position.line + 1, column = 0)
             } else {
                 position.copy(column = position.column + 1)
             }
+
+            // End of statement
+            if (currentChar == ';') {
+                // Tokenize the current statement
+                tokenizeStatement(statement.toString(), position)
+
+                // Clear the StringBuilder for the next statement
+                statement.clear()
+            }
         }
 
-        // Tokens of the tokenized statement -> currentTokens actualizado
-        tokenizeStatement(statement.toString(), position)
+        // If there's any remaining part of the statement after the last semicolon, tokenize it
+        if (statement.isNotEmpty()) {
+            tokenizeStatement(statement.toString(), position)
+        }
     }
 
     private fun collectAllTokens(): LexerResult {

@@ -2,9 +2,9 @@ package org
 
 import kotlinx.serialization.json.JsonObject
 import org.inputers.InputProvider
-import java.io.InputStream
+import java.io.StringReader
 
-class Runner(version: String, inputStream: InputStream) {
+class Runner(version: String, reader: StringReader) {
     private val lexer: Lexer
     private val parser: Parser
     private val linter: Linter
@@ -13,14 +13,14 @@ class Runner(version: String, inputStream: InputStream) {
     init {
         when (version) {
             "1.0" -> {
-                lexer = LexerFactory.createLexerV10(inputStream)
+                lexer = LexerFactory.createLexerV10(reader)
                 parser = ParserFactory.createParserV10(lexer)
                 linter = LinterFactory().createLinterV10(parser)
                 formatter = Formatter(parser)
             }
 
             "1.1" -> {
-                lexer = LexerFactory.createLexerV11(inputStream)
+                lexer = LexerFactory.createLexerV11(reader)
                 parser = ParserFactory.createParserV11(lexer)
                 linter = LinterFactory().createLinterV11(parser)
                 formatter = Formatter(parser)

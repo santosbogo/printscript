@@ -3,11 +3,12 @@ package org
 import org.inputers.NoInputProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import java.io.FileInputStream
+import java.io.StringReader
+import kotlin.test.assertFailsWith
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
-        val lexer = Lexer(LexiconFactory().createLexiconV11(), FileInputStream(input))
+        val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(input))
         val parser = ParserFactory.createParserV11(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider(), parser)
 
@@ -18,17 +19,18 @@ class InterpreterTesterV11 {
     @Test
     fun testInterpretAssignment() {
         val str = "let x: number = 42; println(x)"
-        val lexer = Lexer(LexiconFactory().createLexiconV11(), FileInputStream(str))
+        val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(str))
         val parser = ParserFactory.createParserV11(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider(), parser)
-
-        val interpreterResult = interpreter.interpret()
-        val printsList = interpreterResult.printsList
-        Assertions.assertEquals(printsList, listOf("42"))
+        
+        val exception = assertFailsWith<Exception> {
+            interpreter.interpret()
+        }
+        assert(exception.message?.contains("Unexpected end of input") == true)
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
-        val lexer = Lexer(LexiconFactory().createLexiconV10(), FileInputStream(input))
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
 

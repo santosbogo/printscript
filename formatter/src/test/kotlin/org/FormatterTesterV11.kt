@@ -4,9 +4,8 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
 import java.io.File
-import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
-import java.io.FileInputStream
+import java.io.StringReader
 
 class FormatterTesterV11 {
     private fun getJsonFromFile(): JsonObject {
@@ -19,9 +18,10 @@ class FormatterTesterV11 {
         shouldSucceed: Boolean,
         file: File,
         solution: List<String>,
+        json: JsonObject = getJsonFromFile()
     ) {
         try {
-            val rules = RulesFactory().getRules(getJsonFromFile().toString(), "1.1")
+            val rules = RulesFactory().getRules(json.toString(), "1.1")
             val result = formater.format(rules).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
@@ -46,12 +46,12 @@ class FormatterTesterV11 {
         val reader = TestReader()
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
-            val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val lexer = LexerFactory.createLexerV11(FileInputStream(code))
+            val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
+            val lexer = LexerFactory.createLexerV11(StringReader(code))
             val parser = ParserFactory.createParserV11(lexer)
 
             val formatter = Formatter(parser)
-            compareResults(formatter, shouldSucceed, file, solution)
+            compareResults(formatter, shouldSucceed, file, solution, json)
         }
     }
 
@@ -60,11 +60,11 @@ class FormatterTesterV11 {
         val file = File("src/test/resources/examples-v11/ifelsestatement.txt")
 
         val reader = TestReader()
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val lexer = LexerFactory.createLexerV11(FileInputStream(code))
+        val (code, solution, shouldSucceed, json) = reader.readTokens(file.path)
+        val lexer = LexerFactory.createLexerV11(StringReader(code))
         val parser = ParserFactory.createParserV11(lexer)
         val formatter = Formatter(parser)
 
-        compareResults(formatter, shouldSucceed, file, solution)
+        compareResults(formatter, shouldSucceed, file, solution, json)
     }
 }

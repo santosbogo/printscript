@@ -5,6 +5,7 @@ import kotlinx.serialization.json.jsonObject
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.io.FileInputStream
+import java.io.StringReader
 
 class LinterTester {
     @Test
@@ -17,7 +18,7 @@ class LinterTester {
         val code = filePath.readText()
 
         val rulesContent = Json.parseToJsonElement(rulesPath).jsonObject
-        val runner = Runner("1.0", FileInputStream(code))
+        val runner = Runner("1.0", StringReader(code))
         val linterResult = runner.analyze(rulesContent)
 
         val shouldSucceed = true

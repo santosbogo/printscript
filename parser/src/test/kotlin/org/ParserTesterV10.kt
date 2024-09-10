@@ -13,7 +13,7 @@ import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationCheck
 import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import java.io.File
-import java.io.FileInputStream
+import java.io.StringReader
 import kotlin.test.assertFailsWith
 
 class ParserTesterV10 {
@@ -21,11 +21,11 @@ class ParserTesterV10 {
     @Test
     fun testFiles() {
         val reader = TestReader()
-        val examplesDir = File("src/test/resources/examples-v10-v10")
+        val examplesDir = File("src/test/resources/examples-v10")
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val lexer = Lexer(LexiconFactory().createLexiconV10(), FileInputStream(code))
+            val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(code))
             val parser = ParserFactory.createParserV10(lexer)
             val nodes = parser.collectAllASTNodes()
             try {
@@ -51,7 +51,7 @@ class ParserTesterV10 {
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
         val reader = TestReader()
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-        val lexer = Lexer(LexiconFactory().createLexiconV10(), FileInputStream(code))
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(code))
         val parser = ParserFactory.createParserV10(lexer)
         val nodes = parser.collectAllASTNodes()
 
@@ -74,22 +74,23 @@ class ParserTesterV10 {
 
     @Test
     fun testNoMatchingFormula() {
-        val lexer = LexerFactory.createLexerV10(FileInputStream("let let a: number = 10;"))
+        val lexer = LexerFactory.createLexerV10(StringReader("let let a: number = 10;"))
         val parser = ParserFactory.createParserV10(lexer)
-        val parserResult = parser.collectAllASTNodes()
-
-        assert(parserResult.isEmpty())
+        val exception = assertFailsWith<Exception> {
+            parser.collectAllASTNodes()
+        }
+        assert(exception.message?.contains("No formula matches the tokens") == true)
     }
 
     @Test
     fun testMissingSemicolon() {
-        val lexer = LexerFactory.createLexerV10(FileInputStream("let a: number = 10; a = 5"))
+        val lexer = LexerFactory.createLexerV10(StringReader("let a: number = 10; a = 5"))
         val parser = ParserFactory.createParserV10(lexer)
 
-        val parserResult = parser.collectAllASTNodes()
-
-        assert(parserResult.isEmpty())
-        // assert(parserResult.errors[0].contains("Unexpected end of input. Missing semicolon or brace at the end of the file.")) ??
+        val exception = assertFailsWith<Exception> {
+            parser.collectAllASTNodes()
+        }
+        assert(exception.message?.contains("Unexpected end of input") == true)
     }
 
     @Test

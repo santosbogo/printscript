@@ -30,7 +30,7 @@ class LexerTesterV10 {
 
     @Test
     fun testFile() {
-        val file = File("src/test/resources/examples-v10/unrecognizedtoken.txt")
+        val file = File("src/test/resources/examples-v10/multiplevariabledeclaration.txt")
         val reader = TestReader()
 
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
