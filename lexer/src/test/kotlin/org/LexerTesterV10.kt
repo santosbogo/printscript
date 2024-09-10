@@ -140,4 +140,66 @@ class LexerTesterV10 {
             assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
         }
     }
+
+    @Test
+    fun testStringTokenPositions() {
+        val input = """
+            let b = "hello";
+        """.trimIndent()
+
+        // Lista de posiciones esperadas para cada token en la entrada
+        val expectedPositions = listOf(
+            Location(1, 1),  // "let"
+            Location(1, 5),  // "b"
+            Location(1, 7),  // "="
+            Location(1, 9),  // "\"hello\""
+            Location(1, 16), // ";"
+        )
+
+        // Crear el lexer
+        val lexerReader = StringReader(input)
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
+        val lexerResult = collectTokensFromLexer(lexer)
+
+        // Obtener los tokens del lexer
+        val tokens = lexerResult.tokens
+
+        // Comparar solo la posición de cada token con la posición esperada
+        expectedPositions.forEachIndexed { index, expectedLocation ->
+            val token = tokens[index]
+            // Solo comparar la posición (línea y columna)
+            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
+        }
+    }
+
+    @Test
+    fun testNumberTokenPositions() {
+        val input = """
+            let b = 10;
+        """.trimIndent()
+
+        // Lista de posiciones esperadas para cada token en la entrada
+        val expectedPositions = listOf(
+            Location(1, 1),  // "let"
+            Location(1, 5),  // "b"
+            Location(1, 7),  // "="
+            Location(1, 9),  // "\"hello\""
+            Location(1, 11), // ";"
+        )
+
+        // Crear el lexer
+        val lexerReader = StringReader(input)
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
+        val lexerResult = collectTokensFromLexer(lexer)
+
+        // Obtener los tokens del lexer
+        val tokens = lexerResult.tokens
+
+        // Comparar solo la posición de cada token con la posición esperada
+        expectedPositions.forEachIndexed { index, expectedLocation ->
+            val token = tokens[index]
+            // Solo comparar la posición (línea y columna)
+            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
+        }
+    }
 }
