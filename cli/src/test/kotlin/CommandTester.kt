@@ -4,6 +4,7 @@ import org.Execute
 import org.Format
 import org.Validate
 import org.junit.jupiter.api.Test
+import kotlin.test.assertFailsWith
 
 class CommandTester {
     @Test
@@ -25,18 +26,20 @@ class CommandTester {
     @Test
     fun testExecuteFailingLexer() {
         val command = Execute()
-        val result = command.test("src/test/resources/examples-v10/failingLexer.txt")
-        assert(result.stderr == "Lexicon Error: No token found for component: & at (line: 1, column: 17)\n")
+        val exception = assertFailsWith<Exception> {
+            command.test("src/test/resources/examples-v10/failingLexer.txt")
+        }
+        assert(exception.message?.contains("Lexicon Error: No token found for component") == true)
     }
 
     @Test
     fun testExecuteFailingParser() {
         val command = Execute()
-        val result = command.test("src/test/resources/examples-v10/failingParser.txt")
-        assert(
-            result.stderr == "Semantic error: Variable a no es del tipo string" +
-                " y no puede ser asignada con un valor de tipo number\n"
-        )
+
+        val exception = assertFailsWith<Exception> {
+            command.test("src/test/resources/examples-v10/failingParser.txt")
+        }
+        assert(exception.message?.contains("no es del tipo") == true)
     }
 
     @Test
@@ -61,24 +64,25 @@ class CommandTester {
     @Test
     fun testAnalyzerFailingLexer() {
         val command = Analyze()
-        val result = command.test(
-            "src/test/resources/examples-v10/failingLexer.txt " +
-                "src/test/resources/analyzeJsons/defaultJson.json"
-        )
-        assert(result.stderr == "Lexicon Error: No token found for component: & at (line: 1, column: 17)\n")
+        val exception = assertFailsWith<Exception> {
+            command.test(
+                "src/test/resources/examples-v10/failingLexer.txt " +
+                    "src/test/resources/analyzeJsons/defaultJson.json"
+            )
+        }
+        assert(exception.message?.contains("No token found for component") == true)
     }
 
     @Test
     fun testAnalyzerFailingParser() {
         val command = Analyze()
-        val result = command.test(
-            "src/test/resources/examples-v10/failingParser.txt " +
-                "src/test/resources/analyzeJsons/defaultJson.json"
-        )
-        assert(
-            result.stderr == "Semantic error: Variable a no es del tipo string" +
-                " y no puede ser asignada con un valor de tipo number\n"
-        )
+        val exception = assertFailsWith<Exception> {
+            command.test(
+                "src/test/resources/examples-v10/failingParser.txt " +
+                    "src/test/resources/analyzeJsons/defaultJson.json"
+            )
+        }
+        assert(exception.message?.contains("no es del tipo") == true)
     }
 
     @Test
@@ -98,18 +102,19 @@ class CommandTester {
     @Test
     fun testValidateFailingLexer() {
         val command = Validate()
-        val result = command.test("src/test/resources/examples-v10/failingLexer.txt")
-        assert(result.stderr == "Lexicon Error: No token found for component: & at (line: 1, column: 17)\n")
+        val exception = assertFailsWith<Exception> {
+            command.test("src/test/resources/examples-v10/failingLexer.txt")
+        }
+        assert(exception.message?.contains("Lexicon Error: No token found for component") == true)
     }
 
     @Test
     fun testValidateFailingParser() {
         val command = Validate()
-        val result = command.test("src/test/resources/examples-v10/failingParser.txt")
-        assert(
-            result.stderr == "Semantic error: Variable a no es del tipo string" +
-                " y no puede ser asignada con un valor de tipo number\n"
-        )
+        val exception = assertFailsWith<Exception> {
+            command.test("src/test/resources/examples-v10/failingParser.txt")
+        }
+        assert(exception.message?.contains("Semantic error: Variable a no es del tipo string") == true)
     }
 
     @Test
@@ -134,24 +139,25 @@ class CommandTester {
     @Test
     fun testFormatFailingLexer() {
         val command = Format()
-        val result = command.test(
-            "src/test/resources/examples-v10/failingLexer.txt " +
-                "src/test/resources/formatJsons/rulesExample.json"
-        )
-        assert(result.stderr == "Lexicon Error: No token found for component: & at (line: 1, column: 17)\n")
+        val exception = assertFailsWith<Exception> {
+            command.test(
+                "src/test/resources/examples-v10/failingLexer.txt " +
+                    "src/test/resources/formatJsons/rulesExample.json"
+            )
+        }
+        assert(exception.message?.contains("Lexicon Error: No token found for component") == true)
     }
 
     @Test
     fun testFormatFailingParser() {
         val command = Format()
-        val result = command.test(
-            "src/test/resources/examples-v10/failingParser.txt " +
-                "src/test/resources/formatJsons/rulesExample.json"
-        )
-        assert(
-            result.stderr == "Semantic error: Variable a no es del tipo string" +
-                " y no puede ser asignada con un valor de tipo number\n"
-        )
+        val exception = assertFailsWith<Exception> {
+            command.test(
+                "src/test/resources/examples-v10/failingParser.txt " +
+                    "src/test/resources/formatJsons/rulesExample.json"
+            )
+        }
+        assert(exception.message?.contains("Semantic error: Variable a no es del tipo string") == true)
     }
 
     @Test

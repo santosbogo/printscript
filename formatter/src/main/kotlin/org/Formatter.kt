@@ -4,7 +4,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
-import org.astnode.ProgramNode
+import org.astnode.ASTNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import ruleBuilder.NewLineForIfAndBraceBuilder
 import ruleBuilder.NewlineAfterPrintlnBuilder
@@ -24,16 +24,17 @@ import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
 import kotlin.collections.forEach
 
-class Formatter() {
+class Formatter(private val nodeIterator: Iterator<ASTNode>) {
     private val visitor: ASTNodeVisitor = FormatterVisitor()
 
-    fun format(node: ProgramNode, rules: List<Rule>): FormatResult {
+    fun format(rules: List<Rule>): FormatResult {
         val code: MutableList<String> = mutableListOf()
         var result = ""
 
         // Takes each AST and gets its string representation
-        node.statements.forEach {
-            code += visitor.visit(it).toString()
+        while (nodeIterator.hasNext()) {
+            val node = nodeIterator.next()
+            code.add(visitor.visit(node).toString())
         }
 
         // Applies rules to each statement of code
@@ -129,6 +130,9 @@ class RulesFactory() {
 // This class is intended to parse their name for the variables to our names, so that any TCK may be implemented
 class RulesParser() {
     fun parse(content: String): JsonObject {
+        if (content == "") {
+            return buildJsonObject {}
+        }
         val theirJson: JsonObject = Json.parseToJsonElement(content).jsonObject
         val map = getMapOfTCK()
 

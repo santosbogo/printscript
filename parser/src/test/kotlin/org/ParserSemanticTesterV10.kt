@@ -2,20 +2,21 @@ package org
 
 import org.junit.jupiter.api.Test
 import java.io.File
+import java.io.StringReader
 
 class ParserSemanticTesterV10 {
 
     @Test
     fun testSingleFile() {
-        val lexer = Lexer(LexiconFactory().createLexiconV10())
-        val parser = ParserFactory.createParserV10()
         val reader = TestReader()
         val file = File("src/test/resources/examples-v10/variabledeclaration.txt")
-        val (code, nodes, shouldSucceed) = reader.readTokens(file.path)
-        val lexerResult = lexer.tokenize(code)
+
+        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(code))
+        val parser = ParserFactory.createParserV10(lexer)
 
         try {
-            val ast = parser.parse(lexerResult.tokens)
+            val astNodes = parser.collectAllASTNodes()
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }

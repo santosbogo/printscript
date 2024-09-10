@@ -1,0 +1,18 @@
+const a: number = 10; a = 5
+
+#####
+
+DeclarationToken
+IdentifierToken
+ColonToken
+TypeToken
+AssignationToken
+NumberToken
+SemicolonToken
+IdentifierToken
+AssignationToken
+NumberToken
+
+#####
+
+True
