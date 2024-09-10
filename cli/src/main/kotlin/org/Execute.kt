@@ -3,7 +3,6 @@ package org
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.parameters.arguments.argument
 import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
 
 class Execute : CliktCommand() {
