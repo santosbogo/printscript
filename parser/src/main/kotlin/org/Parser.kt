@@ -2,6 +2,7 @@ package org
 
 import org.astnode.ASTNode
 import org.astnode.ProgramNode
+import org.iterator.PrintScriptIterator
 import org.semanticanalysis.SemanticAnalyzer
 import org.structures.Structure
 
@@ -9,13 +10,16 @@ class Parser(
     private val astGenerator: ASTGenerator,
     private val semanticAnalyzer: SemanticAnalyzer,
     private val supportedStructures: List<Structure>,
-    private val tokenIterator: Iterator<Token>,
-) : Iterator<ASTNode> {
-    fun parse(tokenIterator: Iterator<Token>): ASTNode {
+    private var tokenIterator: PrintScriptIterator<Token>,
+) : PrintScriptIterator<ASTNode> {
+
+    override var peekedElement: ASTNode? = null
+
+    fun parse(tokenIterator: PrintScriptIterator<Token>): ASTNode {
         val buffer = ArrayList<Token>()
 
         while (tokenIterator.hasNext()) {
-            val token = tokenIterator.next()
+            val token = tokenIterator.next()!!
             buffer.add(token)
             if (checkIfStructureToken(token.type)) {
                 return handleStructure(token.type, tokenIterator, buffer)
@@ -33,7 +37,7 @@ class Parser(
     }
 
     // Simply get all the tokens concerning that structure and handle them
-    private fun handleStructure(type: String, tokenIterator: Iterator<Token>, buffer: ArrayList<Token>): ASTNode {
+    private fun handleStructure(type: String, tokenIterator: PrintScriptIterator<Token>, buffer: ArrayList<Token>): ASTNode {
         supportedStructures.forEach {
             if (it.type == type) {
                 it.getTokens(tokenIterator, buffer)
@@ -68,8 +72,18 @@ class Parser(
     }
 
     override fun next(): ASTNode {
+        if (peekedElement != null) {
+            return peekedElement!!
+        }
         // le pide al lexer tokens hasta que arma un ASTNode.
         return parse(tokenIterator)
+    }
+
+    override fun peek(): ASTNode? {
+        if (hasNext()) {
+            return next()
+        }
+        return null
     }
 
     fun collectAllASTNodes(): List<ASTNode> {

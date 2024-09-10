@@ -1,6 +1,7 @@
 package org.astnodebuilder
 
 import org.Parser
+import org.iterator.PrintScriptIterator
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.BooleanExpressionNode
@@ -8,6 +9,7 @@ import org.astnode.expressionnode.ExpressionNode
 import org.astnode.statementnode.CompleteIfNode
 import org.astnode.statementnode.ElseNode
 import org.astnode.statementnode.IfNode
+import org.iterator.QueueIterator
 import org.structures.IfElseStructure
 
 class IfNodeBuilder : ASTNodeBuilder {
@@ -23,7 +25,7 @@ class IfNodeBuilder : ASTNodeBuilder {
         val ifTokens = getIfTokens(ifElseTokens.first) // Trim the if (bool) { }
         val elseTokens = getElseTokens(ifElseTokens.second) // Trim the else { }
 
-        val ifStatements = getSubStatements(ifTokens.iterator(), parser)
+        val ifStatements = getSubStatements(QueueIterator(ifTokens), parser)
 
         val booleanExpression = ExpressionNodeBuilder().generate(bool, parser) as ExpressionNode
 
@@ -35,7 +37,7 @@ class IfNodeBuilder : ASTNodeBuilder {
         )
 
         if (elseTokens.isNotEmpty()) { // If there is an else statement
-            val elseStatements = getSubStatements(elseTokens.iterator(), parser)
+            val elseStatements = getSubStatements(QueueIterator(elseTokens), parser)
             val first = getFirstToken(elseTokens)
             val elseNode = ElseNode(
                 type = "ElseNode",
@@ -77,7 +79,7 @@ class IfNodeBuilder : ASTNodeBuilder {
         return tokens.asSequence().toList().subList(2, 3)
     }
 
-    private fun getSubStatements(iterator: Iterator<Token>, parser: Parser): List<ASTNode> {
+    private fun getSubStatements(iterator: PrintScriptIterator<Token>, parser: Parser): List<ASTNode> {
         val list = mutableListOf<ASTNode>()
         while (iterator.hasNext()) {
             list.add(parser.parse(iterator))

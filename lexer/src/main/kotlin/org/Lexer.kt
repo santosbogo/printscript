@@ -1,14 +1,16 @@
 package org
 
+import org.iterator.PrintScriptIterator
 import java.io.BufferedReader
 import java.io.Reader
 import java.util.LinkedList
 import java.util.Queue
 
-class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator<Token> {
+class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScriptIterator<Token> {
     private var currentIndex: Int = 0 // indice en el input string.
     private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private var position: Position = Position(1, 1)
+    override var peekedElement: Token? = null
 
     private fun tokenizeStatement(statement: String, position: Position) {
         val components = splitIgnoringLiterals(statement)
@@ -69,6 +71,12 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
     }
 
     override fun next(): Token {
+        if (peekedElement != null) {
+            val result = peekedElement!!
+            peekedElement = null
+            return result
+        }
+
         if (!hasNext()) {
             throw NoSuchElementException()
         }
@@ -80,6 +88,13 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
         // return next token from current statement
         return currentTokens.remove()
+    }
+
+    override fun peek(): Token? {
+        if (currentTokens.isEmpty()) {
+            peekedElement = next()
+        }
+        return null
     }
 
     private fun lexNextStatement() {

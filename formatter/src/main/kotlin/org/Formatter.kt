@@ -6,6 +6,7 @@ import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.jsonObject
 import org.astnode.ASTNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.iterator.PrintScriptIterator
 import ruleBuilder.NewLineForIfAndBraceBuilder
 import ruleBuilder.NewlineAfterPrintlnBuilder
 import ruleBuilder.NewlineBeforePrintlnBuilder
@@ -24,7 +25,7 @@ import rules.Rule
 import rules.SpaceAfterAndBeforeOperators
 import kotlin.collections.forEach
 
-class Formatter(private val nodeIterator: Iterator<ASTNode>) {
+class Formatter(private val nodeIterator: PrintScriptIterator<ASTNode>) {
     private val visitor: ASTNodeVisitor = FormatterVisitor()
 
     fun format(rules: List<Rule>): FormatResult {
@@ -33,7 +34,7 @@ class Formatter(private val nodeIterator: Iterator<ASTNode>) {
 
         // Takes each AST and gets its string representation
         while (nodeIterator.hasNext()) {
-            val node = nodeIterator.next()
+            val node = nodeIterator.next()!!
             code.add(visitor.visit(node).toString())
         }
 

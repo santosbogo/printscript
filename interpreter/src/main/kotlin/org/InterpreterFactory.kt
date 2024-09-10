@@ -6,11 +6,12 @@ import org.inputers.InputProvider
 import org.inputers.NoInputProvider
 import org.interpretervisitors.InterpreterVisitorV10
 import org.interpretervisitors.InterpreterVisitorV11
+import org.iterator.PrintScriptIterator
 import org.printers.CliPrinter
 import org.printers.TestPrinter
 
 object InterpreterFactory {
-    fun createRunnerInterpreter(version: String, inputProvider: InputProvider, nodeIterator: Iterator<ASTNode>): Interpreter {
+    fun createRunnerInterpreter(version: String, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return when (version) {
             "1.0" -> createTestInterpreterV10(nodeIterator)
             "1.1" -> createTestInterpreterV11(inputProvider, nodeIterator)
@@ -18,7 +19,7 @@ object InterpreterFactory {
         }
     }
 
-    fun createCliInterpreterV10(nodeIterator: Iterator<ASTNode>): Interpreter {
+    fun createCliInterpreterV10(nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV10(
                 inputProvider = CliInputProvider(),
@@ -28,7 +29,7 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV10(nodeIterator: Iterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV10(nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV10(
                 inputProvider = NoInputProvider(),
@@ -38,7 +39,7 @@ object InterpreterFactory {
         )
     }
 
-    fun createCliInterpreterV11(nodeIterator: Iterator<ASTNode>): Interpreter {
+    fun createCliInterpreterV11(nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV11(
                 inputProvider = CliInputProvider(),
@@ -48,7 +49,7 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV11(inputProvider: InputProvider, nodeIterator: Iterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV11(inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV11(
                 inputProvider = inputProvider,
