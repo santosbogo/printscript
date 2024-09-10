@@ -15,6 +15,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         for (component in components) {
             if (component.contains("\n")) {
                 handleNewLine(position)
+                continue
             } else if (component == " ") {
                 position.column++
                 continue
@@ -32,12 +33,10 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
             } catch (e: Exception) {
                 throw Exception(e.message ?: "Unknown error")
                 currentTokens.add(Token("UnknownToken", subComponent, Location(position.line, position.column)))
-
             }
             position.column += subComponent.length
         }
     }
-
 
     private fun handleNewLine(position: Position) {
         position.line++
@@ -45,7 +44,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
-        val regex = Regex("[a-zA-Z_][a-zA-Z0-9_]*|:|;|=|[0-9]+(?:\\\\.[0-9]+)?|\\\".*?\\\"|'.*?'|\\\\s+|.")
+        val regex = Regex("[a-zA-Z_][a-zA-Z0-9_]*|:|;|=|[0-9]+(?:\\.[0-9]+)?|\".*?\"|'.*?'|\\n|\\s+|[^\\s]")
         return regex.findAll(input).map { it.value }.toList()
     }
 
@@ -58,7 +57,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         if (!currentTokens.isEmpty()) { // if tokens left in current statement
             return true
         }
-        return getNextChar() != -1  // Indica que se acabó el reader
+        return getNextChar() != -1 // Indica que se acabó el reader
     }
 
     // Esta función existe para poder leer el próximo char sin avanzar el reader.
@@ -68,7 +67,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         reader.reset()
         return nextChar
     }
-
 
     override fun next(): Token {
         if (!hasNext()) {
@@ -115,7 +113,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
         }
     }
 
-    private fun collectAllTokens(): LexerResult {
+    fun collectAllTokens(): LexerResult {
         // copy the actual lexer, to simulate collection of tokens
         val newLexer = Lexer(lexicon, reader)
 

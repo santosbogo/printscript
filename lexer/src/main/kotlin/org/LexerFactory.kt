@@ -1,6 +1,5 @@
 package org
 
-import java.io.InputStream
 import java.io.Reader
 
 object LexerFactory {

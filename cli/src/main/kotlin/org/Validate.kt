@@ -17,6 +17,7 @@ class Validate : CliktCommand() {
 
         echo("Parsing...\n", trailingNewline = true)
         val parser = ParserFactory.createParserV11(lexer)
+        parser.collectAllASTNodes()
 
         echo("Validation successful")
     }

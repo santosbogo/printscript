@@ -2,7 +2,6 @@ package org
 
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
 
 class ParserSemanticTesterV10 {

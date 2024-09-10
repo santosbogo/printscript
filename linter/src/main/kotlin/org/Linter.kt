@@ -22,7 +22,7 @@ class Linter(private val version: String, private val nodeIterator: Iterator<AST
         while (nodeIterator.hasNext()) {
             val node = nodeIterator.next()
             checkVisitors.forEach { visitor ->
-               visitor.visit(node) // Primero visito todos los nodos
+                visitor.visit(node) // Primero visito todos los nodos
             }
         }
 
@@ -80,17 +80,20 @@ class LinterVisitorsFactory {
                 "UnusedVariableCheck" -> {
                     visitors.add(UnusedVariableCheckVisitor())
                 }
+
                 "NamingFormatCheck" -> {
                     // agarro que naming pattern se quiere usar
                     val namingPatternName = value.jsonObject["namingPatternName"]?.jsonPrimitive?.content ?: ""
                     val pattern = PatternFactory.getNamingFormatPattern(namingPatternName)
                     visitors.add(NamingFormatCheckVisitor(namingPatternName, pattern))
                 }
+
                 "PrintUseCheck" -> {
                     // agarro si esta habilitado o no el check. seteo default a falso.
                     val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(PrintUseCheckVisitor(printlnCheckEnabled))
                 }
+
                 else -> throw IllegalArgumentException("Unknown check: $key")
             }
         }
@@ -107,21 +110,25 @@ class LinterVisitorsFactory {
                 "UnusedVariableCheck" -> {
                     visitors.add(UnusedVariableCheckVisitor())
                 }
+
                 "NamingFormatCheck" -> {
                     // agarro que naming pattern se quiere usar
                     val namingPatternName = value.jsonObject["namingPatternName"]?.jsonPrimitive?.content ?: ""
                     val pattern = PatternFactory.getNamingFormatPattern(namingPatternName)
                     visitors.add(NamingFormatCheckVisitor(namingPatternName, pattern))
                 }
+
                 "PrintUseCheck" -> {
                     // agarro si esta habilitado o no el check. seteo default a falso.
                     val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(PrintUseCheckVisitor(printlnCheckEnabled))
                 }
+
                 "ReadInputCheck" -> {
                     val readInputCheckEnabled = value.jsonObject["readInputCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(ReadInputCheckVisitor(readInputCheckEnabled))
                 }
+
                 else -> throw IllegalArgumentException("Unknown check: $key")
             }
         }

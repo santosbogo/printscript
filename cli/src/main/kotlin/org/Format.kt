@@ -5,7 +5,6 @@ import com.github.ajalt.clikt.parameters.arguments.argument
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
 import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
 
 class Format : CliktCommand() {

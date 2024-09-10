@@ -16,13 +16,13 @@ class InterpreterTesterV11 {
 
         return interpreterResult.printsList.joinToString(separator = "")
     }
+
     @Test
     fun testInterpretAssignment() {
         val str = "let x: number = 42; println(x)"
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(str))
         val parser = ParserFactory.createParserV11(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider(), parser)
-        
         val exception = assertFailsWith<Exception> {
             interpreter.interpret()
         }

@@ -20,7 +20,6 @@ class LinterTesterV11 {
         val parser = ParserFactory.createParserV11(lexer)
         val linter = LinterFactory().createLinterV11(parser)
 
-
         val jsonContent = File("src/test/kotlin/org/jsons/jsonV11.json").readText()
         val jsonObject = Json.parseToJsonElement(jsonContent).jsonObject
 

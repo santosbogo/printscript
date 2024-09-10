@@ -20,9 +20,9 @@ class IfElseStructure : Structure {
                     if (stack.isEmpty()) { // if 'if' block completed. Check if there is an else
                         val (tokenIteratorCopy, tokens) = copyIterator(tokenIterator)
                         if (checkIfElse(tokens)) {
-                                buffer.add(Token("Separator", "", Location(0, 0))) // Add a separator to split the if and else
-                                getTokens(tokenIteratorCopy, buffer)
-                            }
+                            buffer.add(Token("Separator", "", Location(0, 0))) // Add a separator to split the if and else
+                            getTokens(tokenIteratorCopy, buffer)
+                        }
                         return buffer
                     }
                 }

@@ -4,29 +4,9 @@ import TestReader
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
 
 class LexerTesterV11 {
-    private fun collectTokensFromLexer(lexer: Lexer): LexerResult {
-        val tokens = mutableListOf<Token>()
-        val errors = mutableListOf<String>()
-
-        // Collect all tokens from the lexer
-        while (lexer.hasNext()) {
-            try {
-                tokens.add(lexer.next())
-            } catch (e: Exception) {
-                errors.add(e.message ?: "Unknown error")
-            }
-        }
-
-        // Return a LexerResult object based on the collected tokens and errors
-        val result = LexerResult()
-        tokens.forEach { result.addToken(it) }
-        errors.forEach { result.addError(it) }
-        return result
-    }
 
     @Test
     fun testFile() {
@@ -36,8 +16,7 @@ class LexerTesterV11 {
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val lexerReader = StringReader(code)
         val lexer = Lexer(LexiconFactory().createLexiconV11(), lexerReader)
-        val lexerResult = collectTokensFromLexer(lexer)
-
+        val lexerResult = lexer.collectAllTokens()
 
         if (shouldSucceed && lexerResult.hasErrors()) {
             assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }
@@ -65,8 +44,7 @@ class LexerTesterV11 {
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
             val lexerReader = StringReader(code)
             val lexer = Lexer(LexiconFactory().createLexiconV11(), lexerReader)
-            val lexerResult = collectTokensFromLexer(lexer)
-
+            val lexerResult = lexer.collectAllTokens()
 
             if (shouldSucceed && lexerResult.hasErrors()) {
                 assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }
@@ -103,17 +81,17 @@ class LexerTesterV11 {
 
         // Lista de posiciones esperadas para cada token en la entrada
         val expectedPositions = listOf(
-            Location(1, 1),  // "let"
-            Location(1, 5),  // "a"
-            Location(1, 7),  // "="
-            Location(1, 9),  // "10"
+            Location(1, 1), // "let"
+            Location(1, 5), // "a"
+            Location(1, 7), // "="
+            Location(1, 9), // "10"
             Location(1, 16), // ";"
         )
 
         // Crear el lexer
         val lexerReader = StringReader(input)
         val lexer = Lexer(LexiconFactory().createLexiconV10(), lexerReader)
-        val lexerResult = collectTokensFromLexer(lexer)
+        val lexerResult = lexer.collectAllTokens()
 
         // Obtener los tokens del lexer
         val tokens = lexerResult.tokens
