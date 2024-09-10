@@ -20,7 +20,7 @@ class IfElseStructure : Structure {
                     stack.removeLast()
                     if (stack.isEmpty()) { // if 'if' block completed. Check if there is an else
                         var token = tokenIterator.peek() // TODO (NULL POINTER EXCEPTION HERE)
-                        if (checkIfElse(token)) {
+                        if (checkIfElse(token)) { // FIXME ROMPEN LOS TEST DE IF testIfNode DEL INTERPRETER TESTER V11
                             buffer.add(Token("Separator", "", Location(0, 0))) // Add a separator to split the if and else
                             getTokens(tokenIterator, buffer)
                         }
