@@ -41,7 +41,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
     private fun handleNewLine(position: Position) {
         position.line++
-        position.column = 0
+        position.column = 1
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
