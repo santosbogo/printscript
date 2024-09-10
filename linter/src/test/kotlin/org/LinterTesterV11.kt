@@ -4,10 +4,8 @@ import TestReader
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
-import org.astnode.ProgramNode
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.io.FileInputStream
 import java.io.StringReader
 
 class LinterTesterV11 {
