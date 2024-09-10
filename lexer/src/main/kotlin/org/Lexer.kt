@@ -39,7 +39,7 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
     private fun handleNewLine(position: Position) {
         position.line++
-        position.column = 0
+        position.column = 1
     }
 
     private fun splitIgnoringLiterals(input: String): List<String> {
@@ -96,13 +96,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : Iterator
 
             statement.append(currentChar)
             currentIndex++
-
-            // Update position
-            position = if (currentChar == '\n') {
-                position.copy(line = position.line + 1, column = 0)
-            } else {
-                position.copy(column = position.column + 1)
-            }
 
             // End of statement
             if (currentChar == ';') {
