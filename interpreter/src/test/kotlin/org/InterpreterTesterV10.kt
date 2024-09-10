@@ -3,7 +3,6 @@ package org
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import java.io.StringReader
-import kotlin.test.assertFailsWith
 
 class InterpreterTesterV10 {
 
@@ -13,11 +12,8 @@ class InterpreterTesterV10 {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(str))
         val parser = ParserFactory.createParserV10(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
-
-        val exception = assertFailsWith<Exception> {
-            interpreter.interpret()
-        }
-        assert(exception.message?.contains("Unexpected end of input") == true)
+        val result = interpreter.interpret()
+        assert(result.errors.isNotEmpty())
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {

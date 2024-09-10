@@ -37,6 +37,10 @@ class Runner(version: String, reader: StringReader) {
 
         val interpreterResult = interpreter.interpret()
 
+        if (interpreterResult.errors.isNotEmpty()) {
+            interpreterResult.errors.forEach { errorsList.add(it) }
+        }
+
         if (interpreterResult.printsList.isNotEmpty()) {
             interpreterResult.printsList.forEach { printList.add(it) }
         }

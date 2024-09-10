@@ -20,7 +20,11 @@ class Execute : CliktCommand() {
 
         echo("Executing...\n", trailingNewline = true)
         val interpreter = InterpreterFactory.createCliInterpreterV11(parser)
-        val interpreterResult = interpreter.interpret()
+        val result = interpreter.interpret().errors
+
+        if (result.isNotEmpty()) {
+            throw Exception(result.joinToString("\n"))
+        }
 
         echo("Execution successful")
     }
