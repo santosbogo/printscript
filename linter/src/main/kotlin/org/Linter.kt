@@ -24,7 +24,7 @@ class Linter(private val version: String, private val nodeIterator: Iterator<AST
             checkVisitors.forEach { visitor ->
                 val result: VisitorResult = visitor.visit(node) // estoy seguro q voy a recibir un listResult.
 
-                if (result is VisitorResult.ListResult) {
+                if (result is VisitorResult.ListResult && result.value.isNotEmpty()) {
                     warnings.addAll(result.value) // voy agregando los warnings q cada visitor da.
                 }
             }

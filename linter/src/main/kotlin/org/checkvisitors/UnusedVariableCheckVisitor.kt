@@ -18,7 +18,6 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
-            is ProgramNode -> visitProgramNode(node)
             is AssignmentNode -> visitAssignmentNode(node)
             is PrintStatementNode -> visitPrintStatementNode(node)
             is VariableDeclarationNode -> visitVariableDeclarationNode(node)
@@ -29,10 +28,7 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
         }
     }
 
-    private fun visitProgramNode(node: ProgramNode): VisitorResult {
-        val statements = node.statements
-        statements.forEach { visit(it) }
-
+    private fun checkWarnings(): VisitorResult {
         // Agarro las variables que fueron declaradas pero nunca usadas.
         val unusedVariables = declaredVariables - usedVariables
 
@@ -50,31 +46,31 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
 
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
         usedVariables.add(node.identifier.name)
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 
     private fun visitPrintStatementNode(node: PrintStatementNode): VisitorResult {
         node.value.accept(this)
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
         declaredVariables.add(node.identifier.name)
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 
     private fun visitLiteralNode(node: LiteralNode): VisitorResult {
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 
     private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
         node.left.accept(this)
         node.right.accept(this)
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 
     private fun visitIdentifierNode(node: IdentifierNode): VisitorResult {
         usedVariables.add(node.name)
-        return VisitorResult.Empty
+        return checkWarnings()
     }
 }
