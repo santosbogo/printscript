@@ -1,13 +1,11 @@
 package org
 
 import org.iterator.PrintScriptIterator
-import java.io.BufferedReader
 import java.io.Reader
 import java.util.LinkedList
 import java.util.Queue
 
 class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScriptIterator<Token> {
-    private var currentIndex: Int = 0 // indice en el input string.
     private val currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private val position: Position = Position(1, 1)
 
@@ -57,7 +55,12 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
         if (!currentTokens.isEmpty()) { // if tokens left in current statement
             return true
         }
-        return getNextChar() != -1 // Indica que se acabó el reader
+
+        if (getNextChar() != -1) {
+            lexNextStatement()
+            return !currentTokens.isEmpty()
+        }
+        return false
     }
 
     // Esta función existe para poder leer el próximo char sin avanzar el reader.
@@ -91,30 +94,17 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
 
     private fun lexNextStatement() {
         val statement = StringBuilder()
-        // Leo hasta encontrar ";" con un reader
-        val bufferedReader = BufferedReader(reader)
+        var intChar = reader.read()
 
-        var currentCharInt: Int
-        var currentChar: Char
-
-        // Read characters one by one
-        while (bufferedReader.read().also { currentCharInt = it } != -1) {
-            currentChar = currentCharInt.toChar()
-
-            statement.append(currentChar)
-            currentIndex++
-
-            // End of statement
-            if (currentChar == ';') {
-                // Tokenize the current statement
-                tokenizeStatement(statement.toString(), position)
-
-                // Clear the StringBuilder for the next statement
-                statement.clear()
+        while (intChar != -1) {
+            val char = intChar.toChar()
+            statement.append(char)
+            if (char == ';') {
+                break
             }
+            intChar = reader.read()
         }
 
-        // If there's any remaining part of the statement after the last semicolon, tokenize it
         if (statement.isNotEmpty()) {
             tokenizeStatement(statement.toString(), position)
         }
@@ -128,12 +118,12 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
         val errors = mutableListOf<String>()
 
         // Collect all tokens from the lexer
-        while (newLexer.hasNext()) {
-            try {
+        try {
+            while (newLexer.hasNext()) {
                 tokens.add(newLexer.next())
-            } catch (e: Exception) {
-                errors.add(e.message ?: "Unknown error")
             }
+        } catch (e: Exception) {
+            errors.add(e.message ?: "Unknown error")
         }
 
         // Return a LexerResult object based on the collected tokens and errors
