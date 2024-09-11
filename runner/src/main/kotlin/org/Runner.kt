@@ -36,15 +36,18 @@ class Runner(version: String, reader: StringReader) {
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 
-        val interpreterResult = interpreter.interpret()
+        try {
+            val interpreterResult = interpreter.interpret()
 
-        if (interpreterResult.errors.isNotEmpty()) {
-            interpreterResult.errors.forEach { errorsList.add(it) }
+            if (interpreterResult.errors.isNotEmpty()) {
+                interpreterResult.errors.forEach { errorsList.add(it) }
+            }
+
+            interpreterResult.printer.getOutput().forEach { printList.add(it) }
+        } catch (e: Exception) {
+            errorsList.add(e.message ?: "Unknown error")
         }
 
-        if (interpreterResult.printsList.isNotEmpty()) {
-            interpreterResult.printsList.forEach { printList.add(it) }
-        }
         return RunnerResult.Execute(printList, errorsList)
     }
 

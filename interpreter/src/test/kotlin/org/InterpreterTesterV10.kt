@@ -25,7 +25,7 @@ class InterpreterTesterV10 {
 
         val interpreterResult = interpreter.interpret()
 
-        return interpreterResult.printsList.joinToString(separator = "")
+        return interpreterResult.printer.getOutput().joinToString(separator = "")
     }
 
     @Test

@@ -11,9 +11,9 @@ class Interpreter(private val visitor: InterpreterVisitor, private var nodeItera
                 val node = nodeIterator.next()!!
                 visitor.visit(node)
             } catch (e: Exception) {
-                return InterpreterResult(emptyList(), listOf(e.message ?: "Unknown error"))
+                return InterpreterResult(visitor.printer, listOf(e.message ?: "Unknown error"))
             }
         }
-        return InterpreterResult(visitor.printer.getOutput(), emptyList())
+        return InterpreterResult(visitor.printer, emptyList())
     }
 }

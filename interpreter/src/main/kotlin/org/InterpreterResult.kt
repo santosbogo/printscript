@@ -1,3 +1,5 @@
 package org
 
-class InterpreterResult(val printsList: List<String>, val errors: List<String>)
+import org.printers.Printer
+
+class InterpreterResult(val printer: Printer, val errors: List<String>)
