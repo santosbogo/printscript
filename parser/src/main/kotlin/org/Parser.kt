@@ -10,7 +10,7 @@ class Parser(
     private val astGenerator: ASTGenerator,
     private val semanticAnalyzer: SemanticAnalyzer,
     private val supportedStructures: List<Structure>,
-    private var tokenIterator: PrintScriptIterator<Token>,
+    private val tokenIterator: PrintScriptIterator<Token>,
 ) : PrintScriptIterator<ASTNode> {
 
     private var peekedElement: ASTNode? = null

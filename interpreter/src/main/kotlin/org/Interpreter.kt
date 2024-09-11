@@ -6,11 +6,11 @@ import org.iterator.PrintScriptIterator
 
 class Interpreter(
     private val visitor: InterpreterVisitor,
-    private val nodeIterator: PrintScriptIterator<ASTNode>
+    private val parser: PrintScriptIterator<ASTNode>
 ) {
     fun interpret() {
-        while (nodeIterator.hasNext()) {
-            val node = nodeIterator.next()!!
+        while (parser.hasNext()) {
+            val node = parser.next()!!
             visitor.visit(node)
         }
     }

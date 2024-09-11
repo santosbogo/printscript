@@ -8,8 +8,8 @@ import java.util.Queue
 
 class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScriptIterator<Token> {
     private var currentIndex: Int = 0 // indice en el input string.
-    private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
-    private var position: Position = Position(1, 1)
+    private val currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
+    private val position: Position = Position(1, 1)
 
     private fun tokenizeStatement(statement: String, position: Position) {
         val components = splitIgnoringLiterals(statement)

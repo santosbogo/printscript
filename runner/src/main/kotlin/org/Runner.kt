@@ -32,7 +32,12 @@ class Runner(version: String, reader: Reader) {
     }
 
     fun execute(version: String, printer: Printer, inputProvider: InputProvider) {
-        val interpreter = InterpreterFactory.createRunnerInterpreter(version, printer, inputProvider, parser)
+        val interpreter = InterpreterFactory.createRunnerInterpreter(
+            version,
+            printer,
+            inputProvider,
+            parser
+        )
         interpreter.interpret()
     }
 

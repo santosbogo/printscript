@@ -4,8 +4,7 @@ import org.Token
 import java.util.LinkedList
 
 class QueueIterator(list: List<Token>) : PrintScriptIterator<Token> {
-    private var peekedElement: Token? = null
-    var queue = LinkedList<Token>(list)
+    private val queue = LinkedList(list)
 
     override fun hasNext(): Boolean {
         return queue.isNotEmpty()
