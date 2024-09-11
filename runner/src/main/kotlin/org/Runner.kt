@@ -3,9 +3,9 @@ package org
 import kotlinx.serialization.json.JsonObject
 import org.inputers.InputProvider
 import org.printers.Printer
-import java.io.StringReader
+import java.io.Reader
 
-class Runner(version: String, reader: StringReader) {
+class Runner(version: String, reader: Reader) {
     private val lexer: Lexer
     private val parser: Parser
     private val linter: Linter
