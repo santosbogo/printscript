@@ -31,24 +31,9 @@ class Runner(version: String, reader: Reader) {
         }
     }
 
-    fun execute(version: String, printer: Printer, inputProvider: InputProvider): RunnerResult.Execute {
+    fun execute(version: String, printer: Printer, inputProvider: InputProvider) {
         val interpreter = InterpreterFactory.createRunnerInterpreter(version, printer, inputProvider, parser)
-        val printList = mutableListOf<String>()
-        val errorsList = mutableListOf<String>()
-
-        try {
-            val interpreterResult = interpreter.interpret()
-
-            if (interpreterResult.errors.isNotEmpty()) {
-                interpreterResult.errors.forEach { errorsList.add(it) }
-            }
-
-            interpreterResult.printer.getOutput().forEach { printList.add(it) }
-        } catch (e: Exception) {
-            errorsList.add(e.message ?: "Unknown error")
-        }
-
-        return RunnerResult.Execute(printList, errorsList)
+        interpreter.interpret()
     }
 
     fun analyze(jsonFile: JsonObject): RunnerResult.Analyze {

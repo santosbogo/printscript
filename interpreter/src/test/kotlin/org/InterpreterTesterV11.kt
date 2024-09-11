@@ -5,16 +5,18 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.printers.TestPrinter
 import java.io.StringReader
+import kotlin.test.assertEquals
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(input))
         val parser = ParserFactory.createParserV11(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV11(TestPrinter(), NoInputProvider(), parser)
+        val printer = TestPrinter()
+        val interpreter = InterpreterFactory.createTestInterpreterV11(printer, NoInputProvider(), parser)
 
-        val interpreterResult = interpreter.interpret()
+        interpreter.interpret()
 
-        return interpreterResult.printer.getOutput().joinToString(separator = "")
+        return printer.printsList.joinToString(separator = "")
     }
 
     @Test
@@ -23,19 +25,26 @@ class InterpreterTesterV11 {
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(str))
         val parser = ParserFactory.createParserV11(lexer)
         val interpreter = InterpreterFactory.createTestInterpreterV11(TestPrinter(), NoInputProvider(), parser)
-        val exception = interpreter.interpret()
 
-        assert(exception.errors.isNotEmpty())
+        val exception = Assertions.assertThrows(Exception::class.java) {
+            interpreter.interpret()
+        }
+
+        assertEquals(
+            "Unexpected end of input. Missing semicolon or brace at the end of the file.",
+            exception.message
+        )
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
+        val printer = TestPrinter()
+        val interpreter = InterpreterFactory.createTestInterpreterV10(printer, NoInputProvider(), parser)
 
-        val interpreterResult = interpreter.interpret()
+        interpreter.interpret()
 
-        return interpreterResult.printer.getOutput().joinToString(separator = "")
+        return printer.printsList.joinToString(separator = "")
     }
 
     @Test

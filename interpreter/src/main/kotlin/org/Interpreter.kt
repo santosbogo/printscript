@@ -4,16 +4,14 @@ import org.astnode.ASTNode
 import org.interpretervisitors.InterpreterVisitor
 import org.iterator.PrintScriptIterator
 
-class Interpreter(private val visitor: InterpreterVisitor, private var nodeIterator: PrintScriptIterator<ASTNode>) {
-    fun interpret(): InterpreterResult {
+class Interpreter(
+    private val visitor: InterpreterVisitor,
+    private val nodeIterator: PrintScriptIterator<ASTNode>
+) {
+    fun interpret() {
         while (nodeIterator.hasNext()) {
-            try {
-                val node = nodeIterator.next()!!
-                visitor.visit(node)
-            } catch (e: Exception) {
-                return InterpreterResult(visitor.printer, listOf(e.message ?: "Unknown error"))
-            }
+            val node = nodeIterator.next()!!
+            visitor.visit(node)
         }
-        return InterpreterResult(visitor.printer, emptyList())
     }
 }

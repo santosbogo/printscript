@@ -1,6 +1,7 @@
 package org
 
 import org.inputers.NoInputProvider
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.printers.TestPrinter
@@ -13,19 +14,28 @@ class InterpreterTesterV10 {
         val str = "let x: number = 42; println(x)"
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(str))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
-        val result = interpreter.interpret()
-        assert(result.errors.isNotEmpty())
+        val printer = TestPrinter()
+        val interpreter = InterpreterFactory.createTestInterpreterV10(printer, NoInputProvider(), parser)
+
+        val exception = Assertions.assertThrows(Exception::class.java) {
+            interpreter.interpret()
+        }
+
+        assertEquals(
+            "Unexpected end of input. Missing semicolon or brace at the end of the file.",
+            exception.message
+        )
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
+        val printer = TestPrinter()
+        val interpreter = InterpreterFactory.createTestInterpreterV10(printer, NoInputProvider(), parser)
 
         val interpreterResult = interpreter.interpret()
 
-        return interpreterResult.printer.getOutput().joinToString(separator = "")
+        return printer.printsList.joinToString(separator = "")
     }
 
     @Test
