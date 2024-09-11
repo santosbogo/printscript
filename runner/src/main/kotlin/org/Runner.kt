@@ -2,6 +2,7 @@ package org
 
 import kotlinx.serialization.json.JsonObject
 import org.inputers.InputProvider
+import org.printers.Printer
 import java.io.StringReader
 
 class Runner(version: String, reader: StringReader) {
@@ -30,8 +31,8 @@ class Runner(version: String, reader: StringReader) {
         }
     }
 
-    fun execute(version: String, inputProvider: InputProvider): RunnerResult.Execute {
-        val interpreter = InterpreterFactory.createRunnerInterpreter(version, inputProvider, parser)
+    fun execute(version: String, printer: Printer, inputProvider: InputProvider): RunnerResult.Execute {
+        val interpreter = InterpreterFactory.createRunnerInterpreter(version, printer, inputProvider, parser)
         val printList = mutableListOf<String>()
         val errorsList = mutableListOf<String>()
 

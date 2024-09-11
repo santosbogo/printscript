@@ -35,8 +35,8 @@ jobs:
 
             #buildeo para chequear q se esté aplicando la CI.
             #Si cd se hace luego de ci, no haría falta.
-            -   name: Run Build
-                run: ./gradlew build
+            #-   name: Run Build
+            #    run: ./gradlew build
 
             # en build.gradle se define a donde se va a publicar.
             -   name: Publish package

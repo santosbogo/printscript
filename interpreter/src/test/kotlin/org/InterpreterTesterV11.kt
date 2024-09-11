@@ -3,13 +3,14 @@ package org
 import org.inputers.NoInputProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import org.printers.TestPrinter
 import java.io.StringReader
 
 class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV11(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(input))
         val parser = ParserFactory.createParserV11(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider(), parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV11(TestPrinter(), NoInputProvider(), parser)
 
         val interpreterResult = interpreter.interpret()
 
@@ -21,7 +22,7 @@ class InterpreterTesterV11 {
         val str = "let x: number = 42; println(x)"
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(str))
         val parser = ParserFactory.createParserV11(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV11(NoInputProvider(), parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV11(TestPrinter(), NoInputProvider(), parser)
         val exception = interpreter.interpret()
 
         assert(exception.errors.isNotEmpty())
@@ -30,7 +31,7 @@ class InterpreterTesterV11 {
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
 
         val interpreterResult = interpreter.interpret()
 

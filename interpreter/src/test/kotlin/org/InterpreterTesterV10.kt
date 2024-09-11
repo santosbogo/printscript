@@ -1,7 +1,9 @@
 package org
 
+import org.inputers.NoInputProvider
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.printers.TestPrinter
 import java.io.StringReader
 
 class InterpreterTesterV10 {
@@ -11,7 +13,7 @@ class InterpreterTesterV10 {
         val str = "let x: number = 42; println(x)"
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(str))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
         val result = interpreter.interpret()
         assert(result.errors.isNotEmpty())
     }
@@ -19,7 +21,7 @@ class InterpreterTesterV10 {
     private fun interpretAndCaptureOutputV10(input: String): String {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(TestPrinter(), NoInputProvider(), parser)
 
         val interpreterResult = interpreter.interpret()
 

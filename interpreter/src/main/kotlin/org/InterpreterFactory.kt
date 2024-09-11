@@ -3,18 +3,17 @@ package org
 import org.astnode.ASTNode
 import org.inputers.CliInputProvider
 import org.inputers.InputProvider
-import org.inputers.NoInputProvider
 import org.interpretervisitors.InterpreterVisitorV10
 import org.interpretervisitors.InterpreterVisitorV11
 import org.iterator.PrintScriptIterator
 import org.printers.CliPrinter
-import org.printers.TestPrinter
+import org.printers.Printer
 
 object InterpreterFactory {
-    fun createRunnerInterpreter(version: String, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createRunnerInterpreter(version: String, printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return when (version) {
-            "1.0" -> createTestInterpreterV10(nodeIterator)
-            "1.1" -> createTestInterpreterV11(inputProvider, nodeIterator)
+            "1.0" -> createTestInterpreterV10(printer, inputProvider, nodeIterator)
+            "1.1" -> createTestInterpreterV11(printer, inputProvider, nodeIterator)
             else -> throw IllegalArgumentException("Unsupported version: $version")
         }
     }
@@ -29,11 +28,11 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV10(nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV10(printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV10(
-                inputProvider = NoInputProvider(),
-                printer = TestPrinter()
+                inputProvider = inputProvider,
+                printer = printer
             ),
             nodeIterator
         )
@@ -49,11 +48,11 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV11(inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV11(printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
         return Interpreter(
             InterpreterVisitorV11(
                 inputProvider = inputProvider,
-                printer = TestPrinter()
+                printer = printer
             ),
             nodeIterator,
         )
