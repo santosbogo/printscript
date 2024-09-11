@@ -10,7 +10,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
     private var currentIndex: Int = 0 // indice en el input string.
     private var currentTokens: Queue<Token> = LinkedList() // tokens q tokenize al llamar a next()
     private var position: Position = Position(1, 1)
-    override var peekedElement: Token? = null
 
     private fun tokenizeStatement(statement: String, position: Position) {
         val components = splitIgnoringLiterals(statement)
@@ -71,12 +70,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
     }
 
     override fun next(): Token {
-        if (peekedElement != null) {
-            val result = peekedElement!!
-            peekedElement = null
-            return result
-        }
-
         if (!hasNext()) {
             throw NoSuchElementException()
         }
@@ -92,9 +85,9 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
 
     override fun peek(): Token? {
         if (currentTokens.isEmpty()) {
-            peekedElement = next()
+            lexNextStatement()
         }
-        return null
+        return currentTokens.peek()
     }
 
     private fun lexNextStatement() {

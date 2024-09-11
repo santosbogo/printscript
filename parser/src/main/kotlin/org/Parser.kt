@@ -13,7 +13,7 @@ class Parser(
     private var tokenIterator: PrintScriptIterator<Token>,
 ) : PrintScriptIterator<ASTNode> {
 
-    override var peekedElement: ASTNode? = null
+    private var peekedElement: ASTNode? = null
 
     fun parse(tokenIterator: PrintScriptIterator<Token>): ASTNode {
         val buffer = ArrayList<Token>()
@@ -73,7 +73,9 @@ class Parser(
 
     override fun next(): ASTNode {
         if (peekedElement != null) {
-            return peekedElement!!
+            val temp = peekedElement!!
+            peekedElement = null
+            return temp
         }
         // le pide al lexer tokens hasta que arma un ASTNode.
         return parse(tokenIterator)
@@ -81,7 +83,8 @@ class Parser(
 
     override fun peek(): ASTNode? {
         if (hasNext()) {
-            return next()
+            peekedElement = next()
+            return peekedElement
         }
         return null
     }
