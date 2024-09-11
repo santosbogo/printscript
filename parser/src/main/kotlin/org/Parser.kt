@@ -68,6 +68,9 @@ class Parser(
     }
 
     override fun hasNext(): Boolean {
+        if (peekedElement != null) {
+            return true
+        }
         return tokenIterator.hasNext()
     }
 
@@ -83,6 +86,9 @@ class Parser(
 
     override fun peek(): ASTNode? {
         if (hasNext()) {
+            if (peekedElement != null) {
+                return peekedElement
+            }
             peekedElement = next()
             return peekedElement
         }

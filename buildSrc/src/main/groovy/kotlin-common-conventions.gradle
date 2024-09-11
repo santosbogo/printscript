@@ -31,7 +31,7 @@ java {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            from components.java // includes java and kotlin.
+            from components.java
         }
     }
 

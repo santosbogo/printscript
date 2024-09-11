@@ -33,7 +33,6 @@ class Lexer(private val lexicon: Lexicon, private val reader: Reader) : PrintScr
                 currentTokens.add(token)
             } catch (e: Exception) {
                 throw Exception(e.message ?: "Unknown error")
-                currentTokens.add(Token("UnknownToken", subComponent, Location(position.line, position.column)))
             }
             position.column += subComponent.length
         }
