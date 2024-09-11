@@ -1,4 +1,4 @@
-let ho_la: string = "Hola Mundo";
+let hola: string = "Hola Mundo";
 println(hola);
 
 let a: number = 1;

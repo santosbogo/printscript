@@ -1,7 +1,6 @@
 package org.astnodebuilder
 
 import org.Parser
-import org.ParserResult
 import org.Token
 import org.astnode.ASTNode
 import org.astnode.expressionnode.BooleanExpressionNode
@@ -18,30 +17,34 @@ class IfNodeBuilder : ASTNodeBuilder {
 
     override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         val ifElseTokens = ifElseStructure.separateIfElse(tokens)
-        val ifTokens = ifElseTokens.first
-        val elseTokens = ifElseTokens.second
+        val first = getFirstToken(ifElseTokens.first) // To save the location
+        val bool = getBoolean(ifElseTokens.first)
 
-        val ifStatements = checkIfError(parser.parse(ifTokens.subList(5, ifTokens.size - 1)))
-        val booleanExpression = ExpressionNodeBuilder().generate(listOf(ifTokens[2]), parser) as ExpressionNode
+        val ifTokens = getIfTokens(ifElseTokens.first) // Trim the if (bool) { }
+        val elseTokens = getElseTokens(ifElseTokens.second) // Trim the else { }
+
+        val ifStatements = getSubStatements(ifTokens.iterator(), parser)
+
+        val booleanExpression = ExpressionNodeBuilder().generate(bool, parser) as ExpressionNode
 
         val ifNode = IfNode(
             type = "IfNode",
-            location = ifTokens[0].location,
-            boolean = BooleanExpressionNode("BooleanExpressionNode", ifTokens[2].location, booleanExpression),
+            location = first.location,
+            boolean = BooleanExpressionNode("BooleanExpressionNode", bool[0].location, booleanExpression),
             ifStatements = ifStatements,
         )
 
-        if (hasElse(elseTokens)) { // If there is an else statement
-            val elseStatements = checkIfError(parser.parse(elseTokens.subList(2, elseTokens.size - 1)))
-
+        if (elseTokens.isNotEmpty()) { // If there is an else statement
+            val elseStatements = getSubStatements(elseTokens.iterator(), parser)
+            val first = getFirstToken(elseTokens)
             val elseNode = ElseNode(
                 type = "ElseNode",
-                location = elseTokens[0].location,
+                location = first.location,
                 elseStatements = elseStatements,
             )
             return CompleteIfNode(
                 type = "CompleteIfNode",
-                location = ifTokens[0].location,
+                location = first.location,
                 ifNode = ifNode,
                 elseNode = elseNode,
             )
@@ -49,19 +52,41 @@ class IfNodeBuilder : ASTNodeBuilder {
         return ifNode
     }
 
-    private fun hasElse(tokens: List<Token>): Boolean {
-        return !tokens.isEmpty()
+    private fun getFirstToken(tokens: List<Token>): Token {
+        if (tokens.isNotEmpty()) {
+            return tokens[0]
+        }
+        throw Exception("No statements inside if")
+    }
+
+    private fun getIfTokens(tokens: List<Token>): List<Token> {
+        if (tokens.isNotEmpty()) {
+            return tokens.subList(5, tokens.size - 1)
+        }
+        return emptyList()
+    }
+
+    private fun getElseTokens(tokens: List<Token>): List<Token> {
+        if (tokens.isNotEmpty()) {
+            return tokens.subList(2, (tokens.size - 1))
+        }
+        return emptyList()
+    }
+
+    private fun getBoolean(tokens: List<Token>): List<Token> {
+        return tokens.asSequence().toList().subList(2, 3)
+    }
+
+    private fun getSubStatements(iterator: Iterator<Token>, parser: Parser): List<ASTNode> {
+        val list = mutableListOf<ASTNode>()
+        while (iterator.hasNext()) {
+            list.add(parser.parse(iterator))
+        }
+        return list
     }
 
     override fun checkFormula(tokensString: String): Boolean {
         val pattern = "^IfToken\\s+OpenParenthesisToken\\s+(BooleanToken|IdentifierToken)\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
         return Regex(pattern).matches(tokensString)
-    }
-
-    private fun checkIfError(result: ParserResult): List<ASTNode> {
-        if (result.errors.isNotEmpty()) {
-            throw Exception(result.errors.joinToString("\n"))
-        }
-        return result.programNode!!.statements
     }
 }

@@ -9,8 +9,8 @@ import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
 import org.astnode.expressionnode.LiteralNode
 import org.astnode.expressionnode.LiteralValue
-import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Test
+import java.io.StringReader
 
 class FormatterTesterV10 {
 
@@ -20,7 +20,6 @@ class FormatterTesterV10 {
     }
 
     private fun compareResults(
-        node: ProgramNode,
         formater: Formatter,
         shouldSucceed: Boolean,
         file: File,
@@ -28,7 +27,7 @@ class FormatterTesterV10 {
     ) {
         try {
             val rules = RulesFactory().getRules(getJsonFromFile().toString(), "1.0")
-            val result = formater.format(node, rules).toString().split("\n")
+            val result = formater.format(rules).toString().split("\n")
             if (!shouldSucceed) {
                 assert(false) { "Expected an error but test passed for file ${file.name}" }
             }
@@ -50,16 +49,14 @@ class FormatterTesterV10 {
     fun testFiles() {
         val examplesDir = File("src/test/resources/rulesExample.json")
         val reader = TestReader()
-        val lexer = LexerFactory.createLexerV10()
-        val parser = ParserFactory.createParserV10()
 
         examplesDir.listFiles { file -> file.isFile && file.extension == "txt" }?.forEach { file ->
             val (code, solution, shouldSucceed) = reader.readTokens(file.path)
-            val lexerResult = lexer.tokenize(code)
-            val parserResult = parser.parse(lexerResult.tokens)
-            val programNode = parserResult.programNode!!
-            val formatter = Formatter()
-            compareResults(programNode, formatter, shouldSucceed, file, solution)
+            val lexer = LexerFactory.createLexerV10(StringReader(code))
+            val parser = ParserFactory.createParserV10(lexer)
+
+            val formatter = Formatter(parser)
+            compareResults(formatter, shouldSucceed, file, solution)
         }
     }
 
@@ -68,76 +65,60 @@ class FormatterTesterV10 {
         val file = File("src/test/resources/examples-v10/manylinebreaks.txt")
 
         val reader = TestReader()
-        val (code, solution, shouldSucceed) = reader.readTokens(file.path)
+        val (code) = reader.readTokens(file.path)
 
-        val lexer = LexerFactory.createLexerV10()
-        val lexerResult = lexer.tokenize(code)
+        val lexer = LexerFactory.createLexerV10(StringReader(code))
+        val parser = ParserFactory.createParserV10(lexer)
 
-        val parser = ParserFactory.createParserV10()
-        val parserResult = parser.parse(lexerResult.tokens)
-        val programNode = parserResult.programNode!!
-
-        val formatter = Formatter()
+        val formatter = Formatter(parser)
         val rules = RulesFactory().getRules(getJsonFromFile().toString(), "1.0")
-        println(formatter.format(programNode, rules))
+        println(formatter.format(rules))
     }
     @Test
     fun testFormat() {
-        val variableDeclarationNode = VariableDeclarationNode(
-            "VariableDeclarationNode",
-            Location(1, 1),
-            IdentifierNode("IdentifierNode", Location(1, 1), "a", "number", "let"),
-            LiteralNode("Literal", Location(1, 17), LiteralValue.NumberValue(10)),
-            "let"
-        )
+        val input = "let a: number = 10;"
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
+        val parser = ParserFactory.createParserV10(lexer)
 
-        val programNode = ProgramNode("ProgramNode", Location(1, 1), listOf(variableDeclarationNode))
+        val formatter = Formatter(parser)
 
         // Get JSON from file
         val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
-        val formatter = Formatter()
         val rules = RulesFactory().getRules(json.toString(), "1.0")
-        println(formatter.format(programNode, rules))
+        println(formatter.format(rules))
     }
 
     @Test
     fun testWholeProgram() {
-        val lexer = LexerFactory.createLexerV10()
-        val parser = ParserFactory.createParserV10()
         val input = "let b: number = 10;b = 5;println(4);" +
             "let a: string = \"hola\";println(a);println(1 + 4);println(a + b);"
 
-        val lexerResult = lexer.tokenize(input)
-        val parserResult = parser.parse(lexerResult.tokens)
-        val programNode = parserResult.programNode!!
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
+        val parser = ParserFactory.createParserV10(lexer)
+
         // Get JSON from file
         val filePath = "src/test/resources/rulesExample.json"
         val jsonContent = File(filePath).readText()
         val json = Json.parseToJsonElement(jsonContent).jsonObject
 
-        val formatter = Formatter()
+        val formatter = Formatter(parser)
         val rules = RulesFactory().getRules(json.toString(), "1.0")
-        println(formatter.format(programNode, rules))
+        println(formatter.format(rules))
     }
 
     @Test
     fun testDoubleQuotes() {
-        val lexer = LexerFactory.createLexerV10()
-        val parser = ParserFactory.createParserV10()
         val input = "let a: string = \"hola\";"
 
-        val lexerResult = lexer.tokenize(input)
-        val parserResult = parser.parse(lexerResult.tokens)
-        val programNode = parserResult.programNode!!
-
+        val lexer = LexerFactory.createLexerV10(StringReader(input))
+        val parser = ParserFactory.createParserV10(lexer)
+        val formatter = Formatter(parser)
         val json = getJsonFromFile()
-
-        val formatter = Formatter()
         val rules = RulesFactory().getRules(json.toString(), "1.0")
-        println(formatter.format(programNode, rules))
+        println(formatter.format(rules))
     }
 
     @Test

@@ -23,6 +23,7 @@ True
   "space_after_colon": true,
   "space_around_equals": true,
   "newline_before_println": 0,
+  "newline_after_println": 0,
   "same_line_for_if_brace": true,
   "same_line_for_else_brace": true,
   "number_of_spaces_indentation": 4

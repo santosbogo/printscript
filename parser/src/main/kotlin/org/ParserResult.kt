@@ -1,10 +1,10 @@
 package org
 
-import org.astnode.ProgramNode
+import org.astnode.ASTNode
 
 class ParserResult {
     val errors = mutableListOf<String>()
-    var programNode: ProgramNode? = null
+    var node: ASTNode? = null
 
     fun addError(message: String) {
         errors.add(message)

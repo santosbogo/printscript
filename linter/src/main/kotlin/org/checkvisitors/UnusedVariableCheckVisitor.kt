@@ -1,8 +1,6 @@
 package org.checkvisitors
 
 import org.astnode.ASTNode
-import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
 import org.astnode.expressionnode.IdentifierNode
@@ -11,14 +9,13 @@ import org.astnode.statementnode.AssignmentNode
 import org.astnode.statementnode.PrintStatementNode
 import org.astnode.statementnode.VariableDeclarationNode
 
-class UnusedVariableCheckVisitor : ASTNodeVisitor {
+class UnusedVariableCheckVisitor : CheckVisitors {
     private val declaredVariables = mutableSetOf<String>()
     private val usedVariables = mutableSetOf<String>()
-    private val warnings = mutableListOf<String>()
+    override val warnings = mutableListOf<String>()
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
-            is ProgramNode -> visitProgramNode(node)
             is AssignmentNode -> visitAssignmentNode(node)
             is PrintStatementNode -> visitPrintStatementNode(node)
             is VariableDeclarationNode -> visitVariableDeclarationNode(node)
@@ -29,10 +26,7 @@ class UnusedVariableCheckVisitor : ASTNodeVisitor {
         }
     }
 
-    private fun visitProgramNode(node: ProgramNode): VisitorResult {
-        val statements = node.statements
-        statements.forEach { visit(it) }
-
+    override fun checkWarnings(): VisitorResult {
         // Agarro las variables que fueron declaradas pero nunca usadas.
         val unusedVariables = declaredVariables - usedVariables
 

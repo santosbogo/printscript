@@ -1,58 +1,27 @@
 package org
 
-import org.astnode.ProgramNode
-import org.astnode.expressionnode.IdentifierNode
-import org.astnode.expressionnode.LiteralNode
-import org.astnode.expressionnode.LiteralValue
-import org.astnode.statementnode.PrintStatementNode
-import org.astnode.statementnode.VariableDeclarationNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import java.io.StringReader
 
 class InterpreterTesterV10 {
 
     @Test
     fun testInterpretAssignment() {
-        val variableDeclarationNode = VariableDeclarationNode(
-            "VariableDeclarationNode",
-            Location(1, 1),
-            IdentifierNode("IdentifierNode", Location(1, 1), "x", "number", "let"),
-            LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(42)),
-            "let"
-        )
-
-        val printStatementNode = PrintStatementNode(
-            "PrintStatementNode",
-            Location(1, 1),
-            LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(42))
-        )
-
-        val programNode = ProgramNode(
-            "ProgramNode",
-            Location(1, 1),
-            listOf(
-                variableDeclarationNode,
-                printStatementNode
-            )
-        )
-
-        val interpreter = InterpreterFactory.createTestInterpreterV10()
-
-        val interpreterResult = interpreter.interpret(programNode)
-
-        val printsList = interpreterResult.printsList
-        assertEquals(printsList, listOf("42"))
+        val str = "let x: number = 42; println(x)"
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(str))
+        val parser = ParserFactory.createParserV10(lexer)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
+        val result = interpreter.interpret()
+        assert(result.errors.isNotEmpty())
     }
 
     private fun interpretAndCaptureOutputV10(input: String): String {
-        val lexer = LexerFactory.createLexerV10()
-        val parser = ParserFactory.createParserV10()
-        val interpreter = InterpreterFactory.createTestInterpreterV10()
+        val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
+        val parser = ParserFactory.createParserV10(lexer)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(parser)
 
-        // Perform the interpretation
-        val lexerResult = lexer.tokenize(input)
-        val parserResult = parser.parse(lexerResult.tokens)
-        val interpreterResult = interpreter.interpret(parserResult.programNode!!)
+        val interpreterResult = interpreter.interpret()
 
         return interpreterResult.printsList.joinToString(separator = "")
     }

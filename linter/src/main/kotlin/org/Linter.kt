@@ -4,27 +4,33 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
-import org.astnode.ProgramNode
-import org.astnode.astnodevisitor.ASTNodeVisitor
+import org.astnode.ASTNode
 import org.astnode.astnodevisitor.VisitorResult
+import org.checkvisitors.CheckVisitors
 import org.checkvisitors.NamingFormatCheckVisitor
 import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.ReadInputCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor
 import org.expressionfactory.PatternFactory
 
-class Linter(private val version: String) {
+class Linter(private val version: String, private val nodeIterator: Iterator<ASTNode>) {
     private val warnings = mutableListOf<String>()
 
-    fun lint(node: ProgramNode, jsonFile: JsonObject): LinterResult {
-        val checkVisitors: List<ASTNodeVisitor> = LinterVisitorsFactory()
-            .createLinterVisitorsFromJson(version, jsonFile)
+    fun lint(jsonFile: JsonObject): LinterResult {
+        val checkVisitors: List<CheckVisitors> = LinterVisitorsFactory().createLinterVisitorsFromJson(version, jsonFile)
 
-        checkVisitors.forEach { visitor ->
-            val result: VisitorResult = visitor.visit(node) // estoy seguro q voy a recibir un listResult.
+        while (nodeIterator.hasNext()) {
+            val node = nodeIterator.next()
+            checkVisitors.forEach { visitor ->
+                visitor.visit(node) // Primero visito todos los nodos
+            }
+        }
 
-            if (result is VisitorResult.ListResult) {
-                warnings.addAll(result.value) // voy agregando los warnings q cada visitor da.
+        checkVisitors.forEach { visitor -> // Luego chequeo los warnings y los agrego
+            val result: VisitorResult = visitor.checkWarnings()
+
+            if (result is VisitorResult.ListResult && result.value.isNotEmpty()) {
+                warnings.addAll(result.value)
             }
         }
         return LinterResult(warnings) // devuelvo el reporte con todos los warnings.
@@ -32,7 +38,15 @@ class Linter(private val version: String) {
 }
 
 class LinterVisitorsFactory {
-    fun createLinterVisitorsFromJson(version: String, jsonFile: JsonObject): List<ASTNodeVisitor> {
+    fun createLinterVisitorsDefault(version: String): List<CheckVisitors> {
+        return when (version) {
+            "1.0" -> createAvailableLinterVisitorsV10()
+            "1.1" -> createAvailableLinterVisitorsV11()
+            else -> throw IllegalArgumentException("Unknown version: $version")
+        }
+    }
+
+    fun createLinterVisitorsFromJson(version: String, jsonFile: JsonObject): List<CheckVisitors> {
         return when (version) {
             "1.0" -> createLinterVisitorsV10(jsonFile)
             "1.1" -> createLinterVisitorsV11(jsonFile)
@@ -40,8 +54,25 @@ class LinterVisitorsFactory {
         }
     }
 
-    private fun createLinterVisitorsV10(jsonFile: JsonObject): List<ASTNodeVisitor> {
-        val visitors = mutableListOf<ASTNodeVisitor>()
+    private fun createAvailableLinterVisitorsV10(): List<CheckVisitors> {
+        val visitors = mutableListOf<CheckVisitors>()
+        visitors.add(UnusedVariableCheckVisitor())
+        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
+        visitors.add(PrintUseCheckVisitor(false))
+        return visitors
+    }
+
+    private fun createAvailableLinterVisitorsV11(): List<CheckVisitors> {
+        val visitors = mutableListOf<CheckVisitors>()
+        visitors.add(UnusedVariableCheckVisitor())
+        visitors.add(NamingFormatCheckVisitor("camelCase", PatternFactory.getNamingFormatPattern("camelCase")))
+        visitors.add(PrintUseCheckVisitor(false))
+        visitors.add(ReadInputCheckVisitor(false))
+        return visitors
+    }
+
+    private fun createLinterVisitorsV10(jsonFile: JsonObject): List<CheckVisitors> {
+        val visitors = mutableListOf<CheckVisitors>()
 
         // pass jsonObject to string
         for ((key, value) in jsonFile) {
@@ -49,17 +80,20 @@ class LinterVisitorsFactory {
                 "UnusedVariableCheck" -> {
                     visitors.add(UnusedVariableCheckVisitor())
                 }
+
                 "NamingFormatCheck" -> {
                     // agarro que naming pattern se quiere usar
                     val namingPatternName = value.jsonObject["namingPatternName"]?.jsonPrimitive?.content ?: ""
                     val pattern = PatternFactory.getNamingFormatPattern(namingPatternName)
                     visitors.add(NamingFormatCheckVisitor(namingPatternName, pattern))
                 }
+
                 "PrintUseCheck" -> {
                     // agarro si esta habilitado o no el check. seteo default a falso.
-                    val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean ?: false
+                    val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(PrintUseCheckVisitor(printlnCheckEnabled))
                 }
+
                 else -> throw IllegalArgumentException("Unknown check: $key")
             }
         }
@@ -67,8 +101,8 @@ class LinterVisitorsFactory {
         return visitors
     }
 
-    private fun createLinterVisitorsV11(jsonFile: JsonObject): List<ASTNodeVisitor> {
-        val visitors = mutableListOf<ASTNodeVisitor>()
+    private fun createLinterVisitorsV11(jsonFile: JsonObject): List<CheckVisitors> {
+        val visitors = mutableListOf<CheckVisitors>()
 
         // pass jsonObject to string
         for ((key, value) in jsonFile) {
@@ -76,21 +110,25 @@ class LinterVisitorsFactory {
                 "UnusedVariableCheck" -> {
                     visitors.add(UnusedVariableCheckVisitor())
                 }
+
                 "NamingFormatCheck" -> {
                     // agarro que naming pattern se quiere usar
                     val namingPatternName = value.jsonObject["namingPatternName"]?.jsonPrimitive?.content ?: ""
                     val pattern = PatternFactory.getNamingFormatPattern(namingPatternName)
                     visitors.add(NamingFormatCheckVisitor(namingPatternName, pattern))
                 }
+
                 "PrintUseCheck" -> {
                     // agarro si esta habilitado o no el check. seteo default a falso.
-                    val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean ?: false
+                    val printlnCheckEnabled = value.jsonObject["printlnCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(PrintUseCheckVisitor(printlnCheckEnabled))
                 }
+
                 "ReadInputCheck" -> {
-                    val readInputCheckEnabled = value.jsonObject["readInputCheckEnabled"]?.jsonPrimitive?.boolean ?: false
+                    val readInputCheckEnabled = value.jsonObject["readInputCheckEnabled"]?.jsonPrimitive?.boolean == true
                     visitors.add(ReadInputCheckVisitor(readInputCheckEnabled))
                 }
+
                 else -> throw IllegalArgumentException("Unknown check: $key")
             }
         }
@@ -101,11 +139,11 @@ class LinterVisitorsFactory {
 
 class LinterFactory() {
 
-    fun createFormatterV10(): Linter {
-        return Linter("1.0")
+    fun createLinterV10(nodeIterator: Iterator<ASTNode>): Linter {
+        return Linter("1.0", nodeIterator)
     }
 
-    fun createFormatterV11(): Linter {
-        return Linter("1.1")
+    fun createLinterV11(nodeIterator: Iterator<ASTNode>): Linter {
+        return Linter("1.1", nodeIterator)
     }
 }
