@@ -7,6 +7,7 @@ import org.astnodebuilder.ExpressionNodeBuilder
 import org.astnodebuilder.IdentifierNodeBuilder
 import org.astnodebuilder.IfNodeBuilder
 import org.astnodebuilder.expressions.ExpressionsNodeBuilderFactory
+import org.iterator.PrintScriptIterator
 import org.semanticanalysis.SemanticAnalyzer
 import org.semanticanalysis.semanticchecks.AssignmentKindCheck
 import org.semanticanalysis.semanticchecks.AssignmentTypeCheck
@@ -19,7 +20,7 @@ import org.semanticanalysis.semanticchecks.VariableDeclarationTypeCheck
 import org.structures.IfElseStructure
 
 object ParserFactory {
-    fun createParserV10(tokenIterator: Iterator<Token>): Parser {
+    fun createParserV10(tokenIterator: PrintScriptIterator<Token>): Parser {
         return Parser(
             astGenerator = createASTGeneratorV10(),
             semanticAnalyzer = createSemanticAnalyzerV10(),
@@ -28,7 +29,7 @@ object ParserFactory {
         )
     }
 
-    fun createParserV11(tokenIterator: Iterator<Token>): Parser {
+    fun createParserV11(tokenIterator: PrintScriptIterator<Token>): Parser {
         return Parser(
             astGenerator = createASTGeneratorV11(),
             semanticAnalyzer = createSemanticAnalyzerV11(),

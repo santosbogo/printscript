@@ -35,7 +35,7 @@ class ParserTesterV11 {
 
     @Test
     fun testSingleFile() {
-        val file = File("src/test/resources/examples-v11/operateWithUndeclaredVariable.txt")
+        val file = File("src/test/resources/examples-v11/ifWithIdentifier.txt")
         val reader = TestReader()
         val (code, solution, shouldSucceed) = reader.readTokens(file.path)
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(code))

@@ -12,15 +12,16 @@ import org.checkvisitors.PrintUseCheckVisitor
 import org.checkvisitors.ReadInputCheckVisitor
 import org.checkvisitors.UnusedVariableCheckVisitor
 import org.expressionfactory.PatternFactory
+import org.iterator.PrintScriptIterator
 
-class Linter(private val version: String, private val nodeIterator: Iterator<ASTNode>) {
+class Linter(private val version: String, private val nodeIterator: PrintScriptIterator<ASTNode>) {
     private val warnings = mutableListOf<String>()
 
     fun lint(jsonFile: JsonObject): LinterResult {
         val checkVisitors: List<CheckVisitors> = LinterVisitorsFactory().createLinterVisitorsFromJson(version, jsonFile)
 
         while (nodeIterator.hasNext()) {
-            val node = nodeIterator.next()
+            val node = nodeIterator.next()!!
             checkVisitors.forEach { visitor ->
                 visitor.visit(node) // Primero visito todos los nodos
             }
@@ -139,11 +140,11 @@ class LinterVisitorsFactory {
 
 class LinterFactory() {
 
-    fun createLinterV10(nodeIterator: Iterator<ASTNode>): Linter {
+    fun createLinterV10(nodeIterator: PrintScriptIterator<ASTNode>): Linter {
         return Linter("1.0", nodeIterator)
     }
 
-    fun createLinterV11(nodeIterator: Iterator<ASTNode>): Linter {
+    fun createLinterV11(nodeIterator: PrintScriptIterator<ASTNode>): Linter {
         return Linter("1.1", nodeIterator)
     }
 }
