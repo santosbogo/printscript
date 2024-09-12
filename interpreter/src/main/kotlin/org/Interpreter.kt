@@ -1,11 +1,11 @@
 package org
 
 import org.astnode.ASTNode
-import org.interpretervisitors.InterpreterVisitor
+import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.iterator.PrintScriptIterator
 
 class Interpreter(
-    private val visitor: InterpreterVisitor,
+    private val visitor: ASTNodeVisitor,
     private val parser: PrintScriptIterator<ASTNode>
 ) {
     fun interpret() {
