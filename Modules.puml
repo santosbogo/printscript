@@ -1,0 +1,90 @@
+@startuml
+
+interface PrintScriptIterator<T> {
+    + hasNext(): boolean
+    + next(): T?
+    + peek(): T?
+}
+
+class Lexer implements PrintScriptIterator<Token> {
+    - reader: Reader
+    - lexicon: Lexicon
+    + hasNext(): boolean
+    + next(): Token?
+    + peek(): Token?
+}
+
+class Parser implements PrintScriptIterator<ASTNode> {
+    - astGenerator: ASTGenerator
+    - semanticAnalyzer: SemanticAnalyzer
+    - supportedStructures: List<Structure>
+    - lexer: PrintScriptIterator<Token>
+    + hasNext(): boolean
+    + next(): ASTNode?
+    + peek(): ASTNode?
+}
+
+class Interpreter {
+    - visitor: InterpreterVisitor
+    - parser: PrintScriptIterator<ASTNode>
+    + interpret(): void
+}
+
+class Formatter {
+    - parser: PrintScriptIterator<ASTNode>
+    - visitor: FormatterVisitor
+    + format(rules: List<Rule>): FormatResult
+}
+
+class Linter {
+    - version: String
+    - parser: PrintScriptIterator<ASTNode>
+    - warnings: List<String>
+    + lint(jsonFile: JsonObject): LinterResult
+}
+
+class Runner {
+    - version: String
+    - reader: Reader
+    - lexer: PrintScriptIterator<Token>
+    - parser: PrintScriptIterator<ASTNode>
+    - linter: Linter
+    - formatter: Formatter
+
+    + execute(version: String, printer: Printer, inputProvider: InputProvider)
+    + analyze(jsonFile: JsonObject): RunnerResult.Analyze
+    format(json: String, version: String): RunnerResult.Format
+}
+
+class ASTNode {
+    - type: String
+    - location: Location
+    + accept(visitor: ASTNodeVisitor): VisitorResult
+}
+
+class Token {
+    - type: String
+    - value: String
+    - location: Location
+}
+
+Lexer --o Token
+Parser --o Token
+
+Parser --o ASTNode
+Interpreter --o ASTNode
+Formatter --o ASTNode
+Linter --o ASTNode
+
+Parser --o Lexer
+Interpreter --o Parser
+Formatter --o Parser
+Linter --o Parser
+
+Runner --o Lexer
+Runner --o Parser
+Runner --o Linter
+Runner --o Formatter
+Runner --o Interpreter
+
+@enduml

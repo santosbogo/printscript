@@ -56,7 +56,7 @@ class Formatter(private val nodeIterator: PrintScriptIterator<ASTNode>) {
 }
 
 // This class creates from the JSON the rules that will be applied to the code
-class RulesFactory() {
+class RulesFactory {
 
     fun getRules(content: String, version: String): List<Rule> {
         val json = RulesParser().parse(content)
