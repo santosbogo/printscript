@@ -74,7 +74,8 @@ class BinaryExpressionNodeBuilder : ASTNodeBuilder {
             } else {
                 stack.addLast(
                     when (token.type) {
-                        "IdentifierToken" -> IdentifierNodeBuilder().generate(listOf(token), parser) as IdentifierNode
+                        "IdentifierToken" -> IdentifierNodeBuilder()
+                            .generate(listOf(token), parser) as IdentifierNode
                         "StringToken" -> LiteralNode(
                             type = "Literal",
                             location = token.location,

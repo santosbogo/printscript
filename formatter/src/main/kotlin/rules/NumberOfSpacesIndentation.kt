@@ -19,20 +19,29 @@ class NumberOfSpacesIndentation(private val indentation: Int) : Rule {
 
             when (char) {
                 '{' -> {
-                    result.append(" ".repeat(indentation * stack.size) + buffer.toString().trimEnd())
+                    result.append(
+                        " ".repeat(indentation * stack.size) +
+                            buffer.toString().trimEnd()
+                    )
 
                     stack.addLast('{')
                     buffer.clear()
                 }
 
                 '}' -> {
-                    result.append(" ".repeat(indentation * (stack.size - 1)) + buffer.toString().trimEnd())
+                    result.append(
+                        " ".repeat(indentation * (stack.size - 1)) +
+                            buffer.toString().trimEnd()
+                    )
                     stack.removeLast()
                     buffer.clear()
                 }
 
                 ';' -> {
-                    result.append(" ".repeat(indentation * stack.size) + buffer.toString().trimEnd())
+                    result.append(
+                        " ".repeat(indentation * stack.size) +
+                            buffer.toString().trimEnd()
+                    )
                     buffer.clear()
                 }
 

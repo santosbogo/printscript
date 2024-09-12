@@ -80,7 +80,8 @@ class SemanticVisitor : ASTNodeVisitor {
         val leftValue = leftResult.value
         val rightValue = rightResult.value
 
-        val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(leftValue, rightValue, node.operator)
+        val resultLiteralValue: LiteralValue = VisitorHelper()
+            .evaluateBinaryExpression(leftValue, rightValue, node.operator)
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
     }

@@ -36,12 +36,14 @@ class FormatterVisitor : ASTNodeVisitor {
     private fun visitCompleteIfNode(node: CompleteIfNode): VisitorResult {
         val ifNode = node.ifNode
         val elseNode = node.elseNode
-        val result = visitIfNode(ifNode).toString() + elseNode?.let { visitElseNode(it) }.toString()
+        val result = visitIfNode(ifNode).toString() +
+            elseNode?.let { visitElseNode(it) }.toString()
         return VisitorResult.StringResult(result)
     }
 
     private fun visitIfNode(node: IfNode): VisitorResult {
-        val result = "if (${getExpression(node.boolean)}) {" + getStatements(node.ifStatements) + "}"
+        val result = "if (${getExpression(node.boolean)})" +
+            " {" + getStatements(node.ifStatements) + "}"
         return VisitorResult.StringResult(result)
     }
 
@@ -61,7 +63,8 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     private fun visitVariableDeclarationNode(node: VariableDeclarationNode): VisitorResult {
-        val result: String = node.kind + " " + node.identifier.name + ":" + node.identifier.dataType +
+        val result: String = node.kind + " " + node.identifier.name +
+            ":" + node.identifier.dataType +
             "=" + getExpression(node.init) + ";"
         return VisitorResult.StringResult(result)
     }
@@ -71,7 +74,8 @@ class FormatterVisitor : ASTNodeVisitor {
     }
 
     private fun visitBinaryExpressionNode(node: BinaryExpressionNode): VisitorResult {
-        val result: String = "${getExpression(node.left)} ${node.operator} ${getExpression(node.right)}" + ";"
+        val result: String = "${getExpression(node.left)} " +
+            "${node.operator} ${getExpression(node.right)}" + ";"
         return VisitorResult.StringResult(result)
     }
 
@@ -88,7 +92,8 @@ class FormatterVisitor : ASTNodeVisitor {
                     init.value.toString()
                 }
             }
-            is BinaryExpressionNode -> "${getExpression(init.left)} ${init.operator} ${getExpression(init.right)}"
+            is BinaryExpressionNode -> "${getExpression(init.left)} " +
+                "${init.operator} ${getExpression(init.right)}"
             is IdentifierNode -> init.name
             is BooleanExpressionNode -> getExpression(init.bool)
             else -> throw Exception("Unsupported expression")

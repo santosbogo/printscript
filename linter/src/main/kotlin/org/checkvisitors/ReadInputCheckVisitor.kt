@@ -60,7 +60,8 @@ class ReadInputCheckVisitor(private val enabled: Boolean) : CheckVisitors {
     private fun visitReadInputNode(node: ReadInputNode): VisitorResult {
         // Si está activado, debe ser un literal o un identificador la expresión dentro de readInput.
         if (enabled) {
-            val isLiteralOrIdentifier = node.message is LiteralNode || node.message is IdentifierNode
+            val isLiteralOrIdentifier =
+                node.message is LiteralNode || node.message is IdentifierNode
             if (!isLiteralOrIdentifier) {
                 warnings.add(
                     "Location:${node.location}, readInput message must be a variable or literal"

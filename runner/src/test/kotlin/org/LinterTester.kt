@@ -9,8 +9,12 @@ import java.io.StringReader
 class LinterTester {
     @Test
     fun lint() {
-        val filePath = File("src/test/resources/examples-v10/lint/examples/valid-no-rules/main.ps")
-        val rulesPath = File("src/test/resources/examples-v10/lint/examples/valid-no-rules/config.json").readText()
+        val filePath = File(
+            "src/test/resources/examples-v10/lint/examples/valid-no-rules/main.ps"
+        )
+        val rulesPath = File(
+            "src/test/resources/examples-v10/lint/examples/valid-no-rules/config.json"
+        ).readText()
 
         val reader = TestReader()
         // val (code, expectedWarnings, shouldSucceed) = reader.readTokens(filePath.path)
@@ -43,7 +47,8 @@ class LinterTester {
         expectedWarnings.forEachIndexed() {
             index, expectedWarning ->
             assert(warnings[index] == expectedWarning) {
-                "Mismatch in code \"$code\": expected \"$expectedWarning\", found \"${warnings[index]}\""
+                "Mismatch in code \"$code\": " +
+                    "expected \"$expectedWarning\", found \"${warnings[index]}\""
             }
         }
     }

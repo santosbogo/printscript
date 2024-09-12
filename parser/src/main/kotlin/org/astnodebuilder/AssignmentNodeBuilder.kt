@@ -15,14 +15,17 @@ class AssignmentNodeBuilder : ASTNodeBuilder {
         return AssignmentNode(
             type = "AssignmentNode",
             location = tokens[0].location,
-            value = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 1), parser) as ExpressionNode,
-            identifier = IdentifierNodeBuilder().generate(tokens.subList(0, 1), parser) as IdentifierNode
+            value = ExpressionNodeBuilder()
+                .generate(tokens.subList(2, tokens.size - 1), parser) as ExpressionNode,
+            identifier = IdentifierNodeBuilder()
+                .generate(tokens.subList(0, 1), parser) as IdentifierNode
         )
     }
 
     override fun checkFormula(tokensString: String): Boolean {
         val expressionPattern = PatternFactory.getExpressionPattern()
-        val pattern = "^IdentifierToken\\s*AssignationToken\\s*$expressionPattern\\s*SemicolonToken$"
+        val pattern = "^IdentifierToken\\s*AssignationToken\\s*" +
+            "$expressionPattern\\s*SemicolonToken$"
         return Regex(pattern).matches(tokensString)
     }
 }

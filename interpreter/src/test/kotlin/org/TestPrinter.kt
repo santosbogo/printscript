@@ -1,4 +1,6 @@
-package org.printers
+package org
+
+import org.printers.Printer
 
 class TestPrinter : Printer {
     val printsList = mutableListOf<String>()

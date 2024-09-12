@@ -14,7 +14,9 @@ class BooleanExpressionNodeBuilder : ASTNodeBuilder {
 
     override fun generate(tokens: List<Token>, parser: Parser): ASTNode {
         if (tokens.size != 1) {
-            throw IllegalArgumentException("Not supporting boolean expressions with more than one token")
+            throw IllegalArgumentException(
+                "Not supporting boolean expressions with more than one token"
+            )
         }
 
         return when (tokens[0].type) {

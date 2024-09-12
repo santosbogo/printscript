@@ -1,0 +1,67 @@
+@startuml
+
+interface PrintScriptIterator {
+    + hasNext(): Boolean
+    + next(): Object
+    + peek(): Object?
+  }
+
+class Parser {
+    - ASTGenerator
+    - SemanticAnalyzer
+    - List<Structure> supportedStructures
+    - PrintScriptIterator<Token> tokenIterator
+    + parse(tokenIterator: PrintScriptIterator<Token>): ASTNode
+    + next(): ASTNode
+    + hasNext(): Boolean
+    + peek(): Token?
+}
+
+interface ASTNodeBuilder {
+   + val formula: String
+   + generate(tokens: List<Token>, parser: Parser): ASTNode
+   + checkFormula(tokensString: String): Boolean
+}
+
+interface SemanticCheck {
+    + check(node: ASTNode, symbolTable: MutableMap<String, Pair<String, LiteralValue>>)
+}
+
+class SemanticAnalyzer {
+    - List<SemanticCheck> checks
+    - SemanticVisitor
+    + analyze(node: ASTNode)
+}
+
+class ASTGenerator {
+    - List<ASTNodeBuilder> builders
+    + generate(tokens: List<Token>, parser: Parser): ASTNode
+}
+
+interface ASTNode {
+    - val type: String
+    - val location: Location
+    + fun accept(visitor: ASTNodeVisitor): VisitorResult
+}
+
+interface ASTNodeVisitor {
+    + visit(node: ASTNode): VisitorResult
+}
+
+interface Structure {
+    + val type: String
+    + getTokens(tokenIterator: PrintScriptIterator<Token>, buffer: ArrayList<Token>): ArrayList<Token>
+    + checkStructure(str: String): Boolean
+  }
+
+Parser <|.. PrintScriptIterator
+Parser ..> ASTGenerator
+ASTGenerator ..> ASTNodeBuilder
+Parser ..> SemanticAnalyzer
+Parser ..> Structure
+ASTGenerator --> ASTNode
+SemanticAnalyzer -- ASTNodeVisitor
+ASTNodeVisitor ..> SemanticVisitor
+SemanticAnalyzer -- SemanticCheck
+
+@enduml
