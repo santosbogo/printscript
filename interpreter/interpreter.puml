@@ -1,0 +1,46 @@
+@startuml
+class Interpreter {
+    - visitor: InterpreterVisitor,
+    - parser: PrintScriptIterator<ASTNode>
+    + interpret(): void
+}
+
+interface InterpreterVisitor {
+    - symbolTable: MutableMap<String, VariableTripleData>
+    - printer: Printer
+    - inputProvider: InputProvider
+    + visit(node: ASTNode): void
+}
+
+class InterpreterVisitorV10 implements InterpreterVisitor {
+    - symbolTable: MutableMap<String, VariableTripleData>
+    - printer: Printer
+    - inputProvider: InputProvider
+    + visit(node: ASTNode): void
+}
+
+class InterpreterVisitorV11 implements InterpreterVisitor {
+    - symbolTable: MutableMap<String, VariableTripleData>
+    - printer: Printer
+    - inputProvider: InputProvider
+    + visit(node: ASTNode): void
+}
+
+class VariableTripleData {
+    - kind: String,
+    - dataType: String,
+    - literalValue: LiteralValue
+}
+
+interface Printer {
+    fun print(message: String)
+}
+
+interface InputProvider {
+    fun input(): String
+}
+
+Printer --> InterpreterVisitor: used to print by
+InputProvider --> InterpreterVisitor: used to provide input by
+Interpreter --> InterpreterVisitor: visits
+@enduml
