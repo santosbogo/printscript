@@ -9,7 +9,9 @@ class SharedTests {
 
     @Test
     fun testShared() {
-        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(5)))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf(
+            "x" to Pair("let", LiteralValue.NumberValue(5))
+        )
         val identifierNode = IdentifierNode(
             "IdentifierNode",
             Location(1, 2),

@@ -64,7 +64,8 @@ class LinterTesterV10 {
         expectedWarnings.forEachIndexed {
             index, expectedWarning ->
             assert(reportList[index] == expectedWarning) {
-                "Mismatch in code \"$code\": expected \"$expectedWarning\", found \"${reportList[index]}\""
+                "Mismatch in code \"$code\": " +
+                    "expected \"$expectedWarning\", found \"${reportList[index]}\""
             }
         }
     }

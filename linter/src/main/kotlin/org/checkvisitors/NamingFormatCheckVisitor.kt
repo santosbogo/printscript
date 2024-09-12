@@ -4,7 +4,10 @@ import org.astnode.ASTNode
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.statementnode.VariableDeclarationNode
 
-class NamingFormatCheckVisitor(private val patternName: String, private val pattern: String) : CheckVisitors {
+class NamingFormatCheckVisitor(
+    private val patternName: String,
+    private val pattern: String
+) : CheckVisitors {
     override val warnings: MutableList<String> = mutableListOf()
 
     override fun visit(node: ASTNode): VisitorResult {
@@ -20,7 +23,8 @@ class NamingFormatCheckVisitor(private val patternName: String, private val patt
         if (!patternMatch) {
             warnings.add(
                 "Location:${node.identifier.location}," +
-                    " Declaration's identifier '${node.identifier.name}' does not match the pattern $patternName"
+                    " Declaration's identifier '${node.identifier.name}'" +
+                    " does not match the pattern $patternName"
             )
         }
         return VisitorResult.Empty

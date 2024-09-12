@@ -30,7 +30,9 @@ class ParserTesterV10 {
             val nodes = parser.collectAllASTNodes()
             try {
                 if (!shouldSucceed) {
-                    assert(false) { "Expected an error but test passed for file ${file.name}" }
+                    assert(false) {
+                        "Expected an error but test passed for file ${file.name}"
+                    }
                 }
                 for (i in nodes.indices) {
                     assert(nodes[i].type == solution[i]) {
@@ -96,11 +98,21 @@ class ParserTesterV10 {
     @Test
     fun testSemanticVisitor() {
         val semanticVisitor = SemanticVisitor()
-        val left = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(10))
-        val right = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(5))
-        val minusExpression = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), left, right, "-")
-        val divisionExpression = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), left, right, "/")
-        val multiplyExpression = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), left, right, "*")
+        val left = LiteralNode(
+            "LiteralNode", Location(1, 1), LiteralValue.NumberValue(10)
+        )
+        val right = LiteralNode(
+            "LiteralNode", Location(1, 1), LiteralValue.NumberValue(5)
+        )
+        val minusExpression = BinaryExpressionNode(
+            "BinaryExpressionNode", Location(1, 1), left, right, "-"
+        )
+        val divisionExpression = BinaryExpressionNode(
+            "BinaryExpressionNode", Location(1, 1), left, right, "/"
+        )
+        val multiplyExpression = BinaryExpressionNode(
+            "BinaryExpressionNode", Location(1, 1), left, right, "*"
+        )
         val nodes = listOf(minusExpression, divisionExpression, multiplyExpression)
         val programNode = ProgramNode("ProgramNode", Location(1, 1), nodes)
         programNode.accept(semanticVisitor)
@@ -111,9 +123,15 @@ class ParserTesterV10 {
 
     @Test
     fun testDivisionByZero() {
-        val left = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(10))
-        val right = LiteralNode("LiteralNode", Location(1, 1), LiteralValue.NumberValue(0))
-        val divisionByZero = BinaryExpressionNode("BinaryExpressionNode", Location(1, 1), left, right, "/")
+        val left = LiteralNode(
+            "LiteralNode", Location(1, 1), LiteralValue.NumberValue(10)
+        )
+        val right = LiteralNode(
+            "LiteralNode", Location(1, 1), LiteralValue.NumberValue(0)
+        )
+        val divisionByZero = BinaryExpressionNode(
+            "BinaryExpressionNode", Location(1, 1), left, right, "/"
+        )
         val semanticVisitor = SemanticVisitor()
         val exception = assertFailsWith<Exception> {
             divisionByZero.accept(semanticVisitor)
@@ -123,12 +141,22 @@ class ParserTesterV10 {
 
     @Test
     fun testBreakAssignmentTypeCheck() {
-        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf(
+            "x" to Pair("let", LiteralValue.NumberValue(10))
+        )
         val assignmentNode = AssignmentNode(
             "AssignmentNode",
             Location(0, 0),
-            LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let")
+            LiteralNode(
+                "Literal", Location(0, 0), LiteralValue.StringValue("Hi")
+            ),
+            IdentifierNode(
+                "IdentifierNode",
+                Location(0, 0),
+                "x",
+                "number",
+                "let"
+            )
         )
         val exception = assertFailsWith<Exception> {
             AssignmentTypeCheck().check(assignmentNode, symbolTable)
@@ -138,12 +166,22 @@ class ParserTesterV10 {
 
     @Test
     fun testBreakVariableDeclarationTypeCheck() {
-        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf(
+            "x" to Pair("let", LiteralValue.NumberValue(10))
+        )
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(0, 0),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let"),
-            LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
+            IdentifierNode(
+                "IdentifierNode",
+                Location(0, 0),
+                "x",
+                "number",
+                "let"
+            ),
+            LiteralNode(
+                "Literal", Location(0, 0), LiteralValue.StringValue("Hi")
+            ),
             "let"
         )
         val exception = assertFailsWith<Exception> {
@@ -154,12 +192,22 @@ class ParserTesterV10 {
 
     @Test
     fun testBreakVariableDeclarationCheck() {
-        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf("x" to Pair("let", LiteralValue.NumberValue(10)))
+        val symbolTable: MutableMap<String, Pair<String, LiteralValue>> = mutableMapOf(
+            "x" to Pair("let", LiteralValue.NumberValue(10))
+        )
         val variableDeclarationNode = VariableDeclarationNode(
             "VariableDeclarationNode",
             Location(0, 0),
-            IdentifierNode("IdentifierNode", Location(0, 0), "x", "number", "let"),
-            LiteralNode("Literal", Location(0, 0), LiteralValue.StringValue("Hi")),
+            IdentifierNode(
+                "IdentifierNode",
+                Location(0, 0),
+                "x",
+                "number",
+                "let"
+            ),
+            LiteralNode(
+                "Literal", Location(0, 0), LiteralValue.StringValue("Hi")
+            ),
             "let"
         )
         val exception = assertFailsWith<Exception> {

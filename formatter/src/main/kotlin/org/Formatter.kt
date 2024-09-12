@@ -101,7 +101,10 @@ class RulesFactory() {
     }
 
     // Get Rules from JSON
-    private fun createRules(json: JsonObject, rulesMap: List<Pair<String, RuleBuilder>>): List<Rule> {
+    private fun createRules(
+        json: JsonObject,
+        rulesMap: List<Pair<String, RuleBuilder>>
+    ): List<Rule> {
         val rules = mutableListOf<Rule>()
 
         // Add non configurable rules

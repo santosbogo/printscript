@@ -8,7 +8,10 @@ import org.expressionfactory.PatternFactory
 class IfElseStructure : Structure {
     override val type = "IfToken"
 
-    override fun getTokens(tokenIterator: PrintScriptIterator<Token>, buffer: ArrayList<Token>): ArrayList<Token> {
+    override fun getTokens(
+        tokenIterator: PrintScriptIterator<Token>,
+        buffer: ArrayList<Token>
+    ): ArrayList<Token> {
         val stack = ArrayDeque<Token>()
         while (tokenIterator.hasNext()) {
             val token = tokenIterator.next()
@@ -21,8 +24,12 @@ class IfElseStructure : Structure {
                     if (stack.isEmpty()) { // if 'if' block completed. Check if there is an else
                         if (tokenIterator.hasNext()) {
                             val token = tokenIterator.peek()
-                            if (checkIfElse(token)) { // FIXME ROMPEN LOS TEST DE IF testIfNode DEL INTERPRETER TESTER V11
-                                buffer.add(Token("Separator", "", Location(0, 0))) // Add a separator to split the if and else
+                            if (checkIfElse(token)) {
+                                buffer.add(
+                                    Token(
+                                        "Separator", "", Location(0, 0)
+                                    )
+                                ) // Add a separator to split the if and else
                                 getTokens(tokenIterator, buffer)
                             }
                         }

@@ -10,7 +10,12 @@ import org.printers.CliPrinter
 import org.printers.Printer
 
 object InterpreterFactory {
-    fun createRunnerInterpreter(version: String, printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createRunnerInterpreter(
+        version: String,
+        printer: Printer,
+        inputProvider: InputProvider,
+        nodeIterator: PrintScriptIterator<ASTNode>
+    ): Interpreter {
         return when (version) {
             "1.0" -> createTestInterpreterV10(printer, inputProvider, nodeIterator)
             "1.1" -> createTestInterpreterV11(printer, inputProvider, nodeIterator)
@@ -28,7 +33,11 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV10(printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV10(
+        printer: Printer,
+        inputProvider: InputProvider,
+        nodeIterator: PrintScriptIterator<ASTNode>
+    ): Interpreter {
         return Interpreter(
             InterpreterVisitorV10(
                 inputProvider = inputProvider,
@@ -48,7 +57,11 @@ object InterpreterFactory {
         )
     }
 
-    fun createTestInterpreterV11(printer: Printer, inputProvider: InputProvider, nodeIterator: PrintScriptIterator<ASTNode>): Interpreter {
+    fun createTestInterpreterV11(
+        printer: Printer,
+        inputProvider: InputProvider,
+        nodeIterator: PrintScriptIterator<ASTNode>
+    ): Interpreter {
         return Interpreter(
             InterpreterVisitorV11(
                 inputProvider = inputProvider,

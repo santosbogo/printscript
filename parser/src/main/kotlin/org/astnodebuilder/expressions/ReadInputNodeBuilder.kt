@@ -18,7 +18,8 @@ class ReadInputNodeBuilder : ASTNodeBuilder {
         return ReadInputNode(
             type = "ReadInput",
             location = tokens[0].location,
-            message = ExpressionNodeBuilder().generate(tokens.subList(2, tokens.size - 1), parser) as ExpressionNode,
+            message = ExpressionNodeBuilder()
+                .generate(tokens.subList(2, tokens.size - 1), parser) as ExpressionNode,
         )
     }
 

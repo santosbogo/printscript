@@ -114,7 +114,11 @@ class CommandTester {
         val exception = assertFailsWith<Exception> {
             command.test("src/test/resources/examples-v10/failingParser.txt")
         }
-        assert(exception.message?.contains("Semantic error: Variable a no es del tipo string") == true)
+        assert(
+            exception.message?.contains(
+                "Semantic error: Variable a no es del tipo string"
+            ) == true
+        )
     }
 
     @Test
@@ -157,7 +161,11 @@ class CommandTester {
                     "src/test/resources/formatJsons/rulesExample.json"
             )
         }
-        assert(exception.message?.contains("Semantic error: Variable a no es del tipo string") == true)
+        assert(
+            exception.message?.contains(
+                "Semantic error: Variable a no es del tipo string"
+            ) == true
+        )
     }
 
     @Test

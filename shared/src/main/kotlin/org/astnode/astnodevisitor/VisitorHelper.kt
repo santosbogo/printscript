@@ -17,7 +17,11 @@ class VisitorHelper {
         }
     }
 
-    private fun handleNumberCase(left: Double, right: Double, operator: (Double, Double) -> Double): Number {
+    private fun handleNumberCase(
+        left: Double,
+        right: Double,
+        operator: (Double, Double) -> Double
+    ): Number {
         return if (left % 1 == 0.0 && right % 1 == 0.0) operator(left, right).toInt()
         else operator(left, right)
     }
@@ -29,7 +33,10 @@ class VisitorHelper {
 
             leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                 LiteralValue.NumberValue(
-                    handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a + b }
+                    handleNumberCase(
+                        leftValue.value.toDouble(),
+                        rightValue.value.toDouble()
+                    ) { a, b -> a + b }
                 )
 
             else -> throw UnsupportedOperationException("Unsupported types for +")
@@ -40,18 +47,27 @@ class VisitorHelper {
         return when {
             leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                 LiteralValue.NumberValue(
-                    handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a - b }
+                    handleNumberCase(
+                        leftValue.value.toDouble(),
+                        rightValue.value.toDouble()
+                    ) { a, b -> a - b }
                 )
 
             else -> throw UnsupportedOperationException("Unsupported types for -")
         }
     }
 
-    private fun handleMultiplication(leftValue: LiteralValue, rightValue: LiteralValue): LiteralValue {
+    private fun handleMultiplication(
+        leftValue: LiteralValue,
+        rightValue: LiteralValue
+    ): LiteralValue {
         return when {
             leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                 LiteralValue.NumberValue(
-                    handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a * b }
+                    handleNumberCase(
+                        leftValue.value.toDouble(),
+                        rightValue.value.toDouble()
+                    ) { a, b -> a * b }
                 )
 
             else -> throw UnsupportedOperationException("Unsupported types for *")
@@ -65,7 +81,10 @@ class VisitorHelper {
 
             leftValue is LiteralValue.NumberValue && rightValue is LiteralValue.NumberValue ->
                 LiteralValue.NumberValue(
-                    handleNumberCase(leftValue.value.toDouble(), rightValue.value.toDouble()) { a, b -> a / b }
+                    handleNumberCase(
+                        leftValue.value.toDouble(),
+                        rightValue.value.toDouble()
+                    ) { a, b -> a / b }
                 )
 
             else -> throw UnsupportedOperationException("Unsupported types for /")

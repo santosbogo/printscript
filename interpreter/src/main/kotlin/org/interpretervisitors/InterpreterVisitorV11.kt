@@ -62,7 +62,10 @@ class InterpreterVisitorV11(
             symbolTable[variableIdentifier.name] = symbolTable[variableIdentifier.name]!!
                 .changeValue(castValueAsExpected(dataType, value))
         } catch (e: Exception) {
-            throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
+            throw Exception(
+                "Value ${value.value} " +
+                    "cannot be casted to ${variableIdentifier.dataType}"
+            )
         }
 
         return VisitorResult.MapResult(symbolTable)
@@ -103,7 +106,10 @@ class InterpreterVisitorV11(
             )
             symbolTable[variableIdentifier.name] = tripleData
         } catch (e: Exception) {
-            throw Exception("Value ${value.value} cannot be casted to ${variableIdentifier.dataType}")
+            throw Exception(
+                "Value ${value.value} " +
+                    "cannot be casted to ${variableIdentifier.dataType}"
+            )
         }
 
         return VisitorResult.MapResult(symbolTable)
@@ -160,7 +166,11 @@ class InterpreterVisitorV11(
         val leftValue = leftResult.value
         val rightValue = rightResult.value
 
-        val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(leftValue, rightValue, node.operator)
+        val resultLiteralValue: LiteralValue = VisitorHelper().evaluateBinaryExpression(
+            leftValue,
+            rightValue,
+            node.operator
+        )
 
         return VisitorResult.LiteralValueResult(resultLiteralValue)
     }

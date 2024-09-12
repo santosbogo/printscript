@@ -3,7 +3,6 @@ package org
 import org.inputers.NoInputProvider
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.printers.TestPrinter
 import java.io.StringReader
 import kotlin.test.assertEquals
 
@@ -12,7 +11,11 @@ class InterpreterTesterV11 {
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(input))
         val parser = ParserFactory.createParserV11(lexer)
         val printer = TestPrinter()
-        val interpreter = InterpreterFactory.createTestInterpreterV11(printer, NoInputProvider(), parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV11(
+            printer,
+            NoInputProvider(),
+            parser
+        )
 
         interpreter.interpret()
 
@@ -24,7 +27,11 @@ class InterpreterTesterV11 {
         val str = "let x: number = 42; println(x)"
         val lexer = Lexer(LexiconFactory().createLexiconV11(), StringReader(str))
         val parser = ParserFactory.createParserV11(lexer)
-        val interpreter = InterpreterFactory.createTestInterpreterV11(TestPrinter(), NoInputProvider(), parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV11(
+            TestPrinter(),
+            NoInputProvider(),
+            parser
+        )
 
         val exception = Assertions.assertThrows(Exception::class.java) {
             interpreter.interpret()
@@ -40,7 +47,11 @@ class InterpreterTesterV11 {
         val lexer = Lexer(LexiconFactory().createLexiconV10(), StringReader(input))
         val parser = ParserFactory.createParserV10(lexer)
         val printer = TestPrinter()
-        val interpreter = InterpreterFactory.createTestInterpreterV10(printer, NoInputProvider(), parser)
+        val interpreter = InterpreterFactory.createTestInterpreterV10(
+            printer,
+            NoInputProvider(),
+            parser
+        )
 
         interpreter.interpret()
 

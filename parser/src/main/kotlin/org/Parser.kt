@@ -12,7 +12,6 @@ class Parser(
     private val supportedStructures: List<Structure>,
     private val tokenIterator: PrintScriptIterator<Token>,
 ) : PrintScriptIterator<ASTNode> {
-
     private var peekedElement: ASTNode? = null
 
     fun parse(tokenIterator: PrintScriptIterator<Token>): ASTNode {
@@ -30,14 +29,20 @@ class Parser(
 
         // If the buffer is not empty, there was a missing semicolon
         if (buffer.isNotEmpty()) {
-            throw Exception("Unexpected end of input. Missing semicolon or brace at the end of the file.")
+            throw Exception(
+                "Unexpected end of input. Missing semicolon or brace at the end of the file."
+            )
         }
         // never reaches this point.
         return ProgramNode("EndOfLine", Location(0, 0), emptyList())
     }
 
     // Simply get all the tokens concerning that structure and handle them
-    private fun handleStructure(type: String, tokenIterator: PrintScriptIterator<Token>, buffer: ArrayList<Token>): ASTNode {
+    private fun handleStructure(
+        type: String,
+        tokenIterator: PrintScriptIterator<Token>,
+        buffer: ArrayList<Token>
+    ): ASTNode {
         supportedStructures.forEach {
             if (it.type == type) {
                 it.getTokens(tokenIterator, buffer)

@@ -13,7 +13,8 @@ import org.iterator.QueueIterator
 import org.structures.IfElseStructure
 
 class IfNodeBuilder : ASTNodeBuilder {
-    override val formula: String = "IfToken OpenParenthesisToken BooleanToken CloseParenthesisToken OpenBraceToken ExpressionNode CloseBraceToken " +
+    override val formula: String = "IfToken OpenParenthesisToken BooleanToken " +
+        "CloseParenthesisToken OpenBraceToken ExpressionNode CloseBraceToken " +
         "ElseToken OpenBraceToken ExpressionNode CloseBraceToken"
     private val ifElseStructure = IfElseStructure()
 
@@ -32,7 +33,11 @@ class IfNodeBuilder : ASTNodeBuilder {
         val ifNode = IfNode(
             type = "IfNode",
             location = first.location,
-            boolean = BooleanExpressionNode("BooleanExpressionNode", bool[0].location, booleanExpression),
+            boolean = BooleanExpressionNode(
+                "BooleanExpressionNode",
+                bool[0].location,
+                booleanExpression
+            ),
             ifStatements = ifStatements,
         )
 
@@ -79,7 +84,10 @@ class IfNodeBuilder : ASTNodeBuilder {
         return tokens.asSequence().toList().subList(2, 3)
     }
 
-    private fun getSubStatements(iterator: PrintScriptIterator<Token>, parser: Parser): List<ASTNode> {
+    private fun getSubStatements(
+        iterator: PrintScriptIterator<Token>,
+        parser: Parser
+    ): List<ASTNode> {
         val list = mutableListOf<ASTNode>()
         while (iterator.hasNext()) {
             list.add(parser.parse(iterator))
@@ -88,7 +96,8 @@ class IfNodeBuilder : ASTNodeBuilder {
     }
 
     override fun checkFormula(tokensString: String): Boolean {
-        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+(BooleanToken|IdentifierToken)\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
+        val pattern = "^IfToken\\s+OpenParenthesisToken\\s+(BooleanToken|IdentifierToken)" +
+            "\\s+CloseParenthesisToken\\s+OpenBraceToken\\s+.*\\s+CloseBraceToken$"
         return Regex(pattern).matches(tokensString)
     }
 }

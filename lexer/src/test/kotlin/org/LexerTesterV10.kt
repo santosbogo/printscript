@@ -47,7 +47,9 @@ class LexerTesterV10 {
             val lexerResult = lexer.collectAllTokens()
 
             if (shouldSucceed && lexerResult.hasErrors()) {
-                assert(false) { "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}" }
+                assert(false) {
+                    "Unexpected error in file ${file.name}: ${lexerResult.errors.first()}"
+                }
                 return@forEach
             }
 
@@ -117,7 +119,11 @@ class LexerTesterV10 {
         expectedPositions.forEachIndexed { index, expectedLocation ->
             val token = tokens[index]
             // Solo comparar la posición (línea y columna)
-            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
+            assertEquals(
+                expectedLocation.toString(),
+                token.location.toString(),
+                "Token location mismatch at index $index"
+            )
         }
     }
 
@@ -148,7 +154,11 @@ class LexerTesterV10 {
         expectedPositions.forEachIndexed { index, expectedLocation ->
             val token = tokens[index]
             // Solo comparar la posición (línea y columna)
-            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
+            assertEquals(
+                expectedLocation.toString(),
+                token.location.toString(),
+                "Token location mismatch at index $index"
+            )
         }
     }
 
@@ -179,7 +189,11 @@ class LexerTesterV10 {
         expectedPositions.forEachIndexed { index, expectedLocation ->
             val token = tokens[index]
             // Solo comparar la posición (línea y columna)
-            assertEquals(expectedLocation.toString(), token.location.toString(), "Token location mismatch at index $index")
+            assertEquals(
+                expectedLocation.toString(),
+                token.location.toString(),
+                "Token location mismatch at index $index"
+            )
         }
     }
 }

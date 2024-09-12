@@ -6,7 +6,8 @@ import org.astnode.ASTNode
 import org.astnodebuilder.expressions.ExpressionsNodeBuilderFactory
 
 class ExpressionNodeBuilder(
-    private val expressionsBuilders: List<ASTNodeBuilder> = ExpressionsNodeBuilderFactory().createV11()
+    private val expressionsBuilders: List<ASTNodeBuilder> = ExpressionsNodeBuilderFactory()
+        .createV11()
 ) : ASTNodeBuilder {
     override val formula: String = ""
 
