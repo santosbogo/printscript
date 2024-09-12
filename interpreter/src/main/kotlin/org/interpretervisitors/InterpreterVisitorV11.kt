@@ -1,7 +1,6 @@
 package org.interpretervisitors
 
 import org.astnode.ASTNode
-import org.astnode.ProgramNode
 import org.astnode.astnodevisitor.VisitorHelper
 import org.astnode.astnodevisitor.VisitorResult
 import org.astnode.expressionnode.BinaryExpressionNode
@@ -31,7 +30,6 @@ class InterpreterVisitorV11(
 
     override fun visit(node: ASTNode): VisitorResult {
         return when (node) {
-            is ProgramNode -> visitProgramNode(node)
             is AssignmentNode -> visitAssignmentNode(node)
             is PrintStatementNode -> visitPrintStatementNode(node)
             is VariableDeclarationNode -> visitVariableDeclarationNode(node)
@@ -45,12 +43,6 @@ class InterpreterVisitorV11(
             is ReadEnvNode -> visitReadEnvNode(node)
             else -> throw UnsupportedOperationException("Unsupported node: ${node::class}")
         }
-    }
-
-    private fun visitProgramNode(node: ProgramNode): VisitorResult {
-        val statements = node.statements
-        statements.forEach { it.accept(this) }
-        return VisitorResult.MapResult(symbolTable)
     }
 
     private fun visitAssignmentNode(node: AssignmentNode): VisitorResult {
