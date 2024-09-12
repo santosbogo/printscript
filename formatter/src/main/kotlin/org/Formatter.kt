@@ -1,28 +1,9 @@
 package org
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonObject
 import org.astnode.ASTNode
 import org.astnode.astnodevisitor.ASTNodeVisitor
 import org.iterator.PrintScriptIterator
-import ruleBuilder.NewLineForIfAndBraceBuilder
-import ruleBuilder.NewlineAfterPrintlnBuilder
-import ruleBuilder.NewlineBeforePrintlnBuilder
-import ruleBuilder.NoSpaceAroundEqualsBuilder
-import ruleBuilder.NumberOfSpacesIndentationBuilder
-import ruleBuilder.RuleBuilder
-import ruleBuilder.SameLineForElseAndBraceBuilder
-import ruleBuilder.SameLineForIfAndBraceBuilder
-import ruleBuilder.SpaceAfterColonBuilder
-import ruleBuilder.SpaceAroundEqualsBuilder
-import ruleBuilder.SpaceBeforeColonBuilder
-import rules.NewLineAfterBrace
-import rules.NewLineAfterSemiColon
-import rules.OnlyOneSpacePermited
 import rules.Rule
-import rules.SpaceAfterAndBeforeOperators
 import kotlin.collections.forEach
 
 class Formatter(private val nodeIterator: PrintScriptIterator<ASTNode>) {
