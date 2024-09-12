@@ -53,7 +53,12 @@ class Runner {
 
     + execute(version: String, printer: Printer, inputProvider: InputProvider)
     + analyze(jsonFile: JsonObject): RunnerResult.Analyze
-    format(json: String, version: String): RunnerResult.Format
+    + format(json: String, version: String): RunnerResult.Format
+}
+
+class Cli {
+    - commands: List<Command>
+    + run()
 }
 
 class ASTNode {
@@ -86,5 +91,11 @@ Runner --o Parser
 Runner --o Linter
 Runner --o Formatter
 Runner --o Interpreter
+
+Cli --o Lexer
+Cli --o Parser
+Cli --o Linter
+Cli --o Formatter
+Cli --o Interpreter
 
 @enduml

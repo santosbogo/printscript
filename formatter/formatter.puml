@@ -1,14 +1,15 @@
 @startuml
 class Formatter {
-    + format(input: String): String
+    - iterator: PrintScriptIterator
+    + format(rules: List<Rule>): FormatResult
 }
 
 class FormatterVisitor {
-    + visit(node: ProgramNode)
+    visit(node: ASTNode): VisitorResult
 }
 
 class RulesFactory {
-    + createRules(json: Json): List<Rule>
+    + createRules(config: JsonObject, version: String): List<Rule>
 }
 
 interface Rule {
@@ -21,8 +22,9 @@ interface RuleBuilder {
 
 Formatter --> FormatterVisitor : uses
 RulesFactory --> Formatter : creates rules
-
+RulesFactory --> RuleBuilder : has builders
 RuleBuilder --> Rule : builds
-FormatterVisitor --> Rule: applies
+FormatterVisitor --> Formatter: constructs strings
+Formatter --> Rule : applies rules
 
 @enduml

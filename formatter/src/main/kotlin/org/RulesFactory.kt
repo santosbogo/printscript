@@ -16,9 +16,15 @@ import rules.NewLineAfterBrace
 import rules.NewLineAfterSemiColon
 import rules.OnlyOneSpacePermited
 import rules.Rule
+import rules.RulesParser
 import rules.SpaceAfterAndBeforeOperators
+import kotlin.collections.component1
+import kotlin.collections.component2
+import kotlin.collections.iterator
 
-class RulesFactory {
+// This class creates from the JSON the rules that will be applied to the code
+class RulesFactory() {
+
     fun getRules(content: String, version: String): List<Rule> {
         val json = RulesParser().parse(content)
         when (version) {
