@@ -1,0 +1,29 @@
+@startuml
+
+class Linter {
+    - String version
+    - PrintScriptIterator<ASTNode> nodeIterator
+    - List<String> warnings
+    + lint(jsonFile: JsonObject): LinterResult
+}
+
+class PrintScriptIterator {
+    + hasNext(): Boolean
+    + next(): Object
+    + peek(): Object
+}
+
+interface CheckVisitors {
+    + visit(node: ASTNode): VisitorResult
+    + checkWarnings(): VisitorResult
+    + warnings: MutableList<String>
+}
+
+Linter <|.. PrintScriptIterator
+Linter --> CheckVisitors
+CheckVisitors <|.. NamingFormatCheckVisitor
+CheckVisitors <|.. PrintUseCheckVisitor
+CheckVisitors <|.. ReadInputCheckVisitor
+CheckVisitors <|.. UnusedVariableCheckVisitor
+
+@enduml
