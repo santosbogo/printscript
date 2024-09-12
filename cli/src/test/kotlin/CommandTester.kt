@@ -12,13 +12,7 @@ class CommandTester {
         val command = Execute()
         val result = command.test("src/test/resources/examples-v10/test1.txt")
         assert(
-            result.stdout == "Lexing...\n" +
-                "\n" +
-                "Parsing...\n" +
-                "\n" +
-                "Executing...\n" +
-                "\n" +
-                "Execution successful\n"
+            result.stdout == "Execution successful\n"
         )
         assert(result.statusCode == 0)
     }
