@@ -7,9 +7,9 @@ import org.iterator.PrintScriptIterator
 class Interpreter(private val visitor: InterpreterVisitor, private var nodeIterator: PrintScriptIterator<ASTNode>) {
     fun interpret(): InterpreterResult {
         while (nodeIterator.hasNext()) {
-            try {
+            try {gg
                 val node = nodeIterator.next()!!
-                visitor.visit(node)
+                visitor.visit(node)dsgr
             } catch (e: Exception) {
                 return InterpreterResult(emptyList(), listOf(e.message ?: "Unknown error"))
             }
