@@ -1,0 +1,55 @@
+@startuml
+
+interface PrintScriptIterator<T> {
+    + hasNext(): boolean
+    + next(): T?
+    + peek(): T?
+}
+
+class Lexer implements PrintScriptIterator<Token> {
+    - reader: Reader
+    - lexicon: Lexicon
+    + hasNext(): boolean
+    + next(): Token?
+    + peek(): Token?
+}
+
+class Lexicon {
+    - tokenMap: List<Pair<String, String>>
+    + getToken(component: String, location: Location): Token
+}
+
+class LexiconFactory {
+    + createLexiconV10(): Lexicon
+    + createLexiconV11(): Lexicon
+}
+
+class LexerFactory {
+    + createLexerV10(reader: Reader): Lexer
+    + createLexerV11(reader: Reader): Lexer
+}
+
+class Token {
+    - type: String
+    - value: String
+    - location: Location
+}
+
+class Position {
+    - line: Int
+    - column: Int
+}
+
+class Location {
+    - line: Position
+    - column: Position
+}
+
+LexerFactory --> Lexer : creates
+Lexer --o Lexicon
+LexiconFactory --> Lexicon : creates
+Lexer --o Position
+Token --o Location
+Lexer -> Token : creates
+
+@enduml
