@@ -57,4 +57,16 @@ class Runner(version: String, reader: Reader) {
         val formatterResult = formatter.format(rules)
         return RunnerResult.Format(formatterResult.code, errorsList)
     }
+
+    fun validate(): RunnerResult.Validate {
+        val errorsList = mutableListOf<String>()
+        while (parser.hasNext()) {
+            try {
+                parser.next()
+            } catch (e: Exception) {
+                errorsList.add(e.message ?: "Unknown error")
+            }
+        }
+        return RunnerResult.Validate(errorsList)
+    }
 }
